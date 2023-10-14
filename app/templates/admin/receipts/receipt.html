@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link rel="stylesheet" href="{{ url_for('static', filename='receipt/style.css')}}">
+        <title>Receipt Sympha Fresh</title>
+    </head>
+    <body>
+      <div class="ticket">
+            <img src="{{ url_for('static', filename='img/logo-navbar.png')}}" alt="smpha logo">
+            <ul class="centered">
+              <li>
+                <span class="desc">{{ organization['location'] }}</span>
+              </li>
+              <li>
+                <span class="desc"> {{ organization['mobile'] }} - Office
+                  <br> {{ organization['mobile'] }} - Mobile
+                </span>
+              </li>
+              <li>
+                <span class="desc">{{ organization['email'] }}</span>
+              </li>
+            </ul>
+            <table>
+              <p class="centered">CASHIER'S RECEIPT</p>
+                <thead>
+                    <tr>
+                        <th class="quantity">Q.</th>
+                        <th class="description">Description</th>
+                        <th class="price">$$</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="quantity">1.00</td>
+                        <td class="description">ARDUINO UNO R3</td>
+                        <td class="price">$25.00</td>
+                    </tr>
+                    <tr>
+                        <td class="quantity">2.00</td>
+                        <td class="description">JAVASCRIPT BOOK</td>
+                        <td class="price">$10.00</td>
+                    </tr>
+                    <tr>
+                        <td class="quantity">1.00</td>
+                        <td class="description">STICKER PACK</td>
+                        <td class="price">$10.00</td>
+                    </tr>
+                    <tr>
+                        <td class="quantity"></td>
+                        <td class="description">TOTAL</td>
+                        <td class="price">$55.00</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p class="centered">Thanks for your purchase!
+                <br>{{time}}</p>
+        </div>
+        <button id="btnPrint" class="hidden-print">Print</button>
+        <script src="{{ url_for('static', filename='receipt/script.js')}}" ></script>
+    </body>
+</html>

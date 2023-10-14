@@ -1,0 +1,54 @@
+{% if current_user.has_role('SuperUser') %}
+{% extends 'superuser/superuser_templates/base_superuser_template.html' %}
+{% elif current_user.has_role('Admin') %}
+{% extends 'admin/admin_templates/base_admin_template.html' %}
+{% else %}
+{% extends 'cashier/cashier_templates/base_cashier_template.html' %}
+{% endif %}
+
+{% block head %}
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Dashboard <span style="font-size: 18px;">/Sales </span><span
+                style="font-size: 15px;">/Cancelled Orders</span></h1>
+        <h6 class="text-gray-600" style="margin-left: 500px;">Time: <span id="time"></span></h6>
+    </div>
+    {% endblock %}
+
+    {% block body %}
+    <div class="row">
+        <div class="col-md-4">
+            <a href="/cashier/sales" class="btn btn-primary btn-md active " role="button" aria-pressed="true"><i
+                    class="fa fa-arrow-left"></i>&ensp;Back</a>
+        </div>
+    </div><br>
+    <table class="table table-striped table-hover paginate" style="display:block;overflow-y:scroll;text-align: center;">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col" width="5%">#</th>
+                <th scope="col" width="15%">Customer Name</th>
+                <th scope="col" width="10%">Order Type</th>
+                <th scope="col" width="10%">Order Status</th>
+                <th scope="col" width="10%">Total Cost (Ksh.)</th>
+                <th scope="col" width="15%">Total Discount (Ksh.)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cancellation in cancellations %}
+            <tr>
+                <th scope="row" class="uneditable" id="id{{ loop.index }}">{{ cancellation.id }}</th>
+                <td class="uneditable" id="name{{ loop.index }}">{{ cancellation.first_name+' '+cancellation.last_name }}</td>
+                <td class="uneditable" id="qty_purchased{{ loop.index }}">{{ cancellation.order_type }}</td>
+                <td class="uneditable" id="name{{ loop.index }}">{{ cancellation.order_status }}</td>
+                <td class="uneditable" id="total_qty_damaged{{ loop.index }}">{{ cancellation.order_cost }}</td>
+                <td class="uneditable" id="total_qty_damaged{{ loop.index }}">{{ cancellation.total_discount }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Scroll to Top Button-->
+    {% endblock %}

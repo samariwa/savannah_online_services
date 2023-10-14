@@ -1,0 +1,48 @@
+{% extends 'superuser/superuser_templates/base_superuser_template.html' %}
+
+{% block head %}
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Dashboard <span style="font-size: 18px;">/System Backup/Restore</span></h1>
+        <h6 class="h6 mb-0 text-gray-600 mr-3">Time: <span id="time"></span></h6>
+    </div>
+    {% endblock %}
+
+    {% block body %}
+    <br>
+    <div class="row">
+        <div class="col-6 d-flex justify-content-center">
+            <a href="" class="btn btn-success btn-lg-block active" id="runInstantBackup">
+                <i class="fa fa-floppy-o" aria-hidden="true"></i>&ensp;Run Instant Backup Job</a>
+        </div>
+        <div class="col-6 d-flex justify-content-center">
+            <a href="" class="btn btn-danger btn-lg-block active verify_delivery" id="">
+                <i class="fa fa-repeat" aria-hidden="true"></i>&ensp;Run Restoration Job</a>
+        </div>
+    </div>
+    <br>
+    <h3 class="d-flex justify-content-center">Available Backups</h3>
+    <div class="d-flex justify-content-center align-items-center">
+        <ul style="list-style-type: none;">
+        {% if backup_count > 0 %}
+        {% for backup in backups %}
+                <li style="align-items: center; display: flex;"><p class="mt-3"><i class="fa fa-file-o" aria-hidden="true"></i>&ensp;{{ backup['Name'] }}</p>
+                    &ensp;&ensp;&ensp;<p class="mt-3">{{ backup['Size'] }} MB</p>
+                <button id="{{ backup['Name'] }}" data_id="{{ backup['Name'] }}" class="btn btn-dark btn-sm active downloadBackup ml-5" role="button"
+                aria-pressed="true"><i class="fa fa-cloud-download" aria-hidden="true"></i>&ensp;Download</button>
+                <button id="{{ backup['Name'] }}" data_id="{{ backup['Name'] }}" class="btn btn-danger btn-sm active deleteBackup ml-5" role="button"
+                aria-pressed="true"><i class="fa fa-trash"></i>&ensp;Delete</button></li>
+        {% endfor %}
+        {% else %}
+            
+               <h5 class="d-flex justify-content-center mt-5 mb-5">No backups available</h5>
+        {% endif %}
+        <div id="backup_loader"></div>
+        </ul>
+    </div>
+  
+    <!-- Scroll to Top Button-->
+    {% endblock %}

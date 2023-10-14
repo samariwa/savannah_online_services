@@ -1,0 +1,12 @@
+#!/bin/bash
+# A script that deploys the app on heroku cloud server
+./heroku_config.sh
+
+git add .
+git commit -am "App Deployment"
+git push heroku main
+
+
+echo "initializing background processes..."
+python start_scheduler.py
+

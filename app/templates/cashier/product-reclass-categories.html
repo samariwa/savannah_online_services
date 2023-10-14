@@ -1,0 +1,38 @@
+{% if current_user.has_role('SuperUser') %}
+{% extends 'superuser/superuser_templates/base_superuser_template.html' %}
+{% elif current_user.has_role('Admin') %}
+{% extends 'admin/admin_templates/base_admin_template.html' %}
+{% else %}
+{% extends 'cashier/cashier_templates/base_cashier_template.html' %}
+{% endif %}
+
+{% block head %}
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Dashboard <span style="font-size: 18px;">/Stock </span><span
+            style="font-size: 15px;">/Product Reclass Categories</span></h1>
+        <h6 class="text-gray-600" style="margin-left: 500px;">Time: <span id="time"></span></h6>
+    </div>
+    {% endblock %}
+
+    {% block body %}
+    <div class="row">
+        <div class="col-6">
+            <a href="/cashier/stock" class="btn btn-primary btn-md active " role="button" aria-pressed="true"><i
+                    class="fa fa-arrow-left"></i>&ensp;Back</a>
+        </div>
+        {% if current_user.has_role('SuperUser') or current_user.has_role('Admin') %}
+        <div class="col-6">
+            <a href="/admin/product-reclass-categories-list" class="btn btn-info btn-md active offset-8" role="button"
+                aria-pressed="true">Reclass Categories</a>
+        </div>
+        {% endif %}
+    </div><br><br>
+    {% for reclass_category in reclass_categories %}
+    <a href="/cashier/product-reclass-details?reclass-category-id={{ reclass_category.id }}" type="button" class="btn btn-secondary btn-lg btn-block">{{ reclass_category.reclass_category_name }}</a>
+    {% endfor %}
+    <!-- Scroll to Top Button-->
+    {% endblock %}

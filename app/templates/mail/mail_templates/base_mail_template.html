@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <script async src="https://cdn.ampproject.org/v0.js"></script>
+    <style type="text/css">
+/* Fonts */
+.title {
+    font: Bold 28px Arial;
+    color: #212121
+}
+
+.subtitle {
+    font: Normal 16px Arial;
+    color: #444444
+}
+
+.note {
+    font: Bold 16px Arial;
+    color: #444444
+}
+
+.header-1 {
+    font: Bold 20px Arial;
+    color: #444444
+}
+
+.header-2 {
+    font: Bold 14px Arial;
+    color: #212121
+}
+
+.normal {
+    font: Normal 14px Arial;
+    color: #666666
+}
+
+.normal-2 {
+    font: Normal 14px Arial;
+    color: #444444
+}
+
+.error {
+    font: Bold 14px Arial;
+    color: #f86567
+}
+
+.hyperlink {
+    font: Bold 14px Arial;
+    color: #2E6EDF;
+    text-decoration: none
+}
+
+/* Frames */
+.outer-frame {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 600px;
+    background-color: #ffffff;
+    border: 1px solid #eeeeee;
+    border-radius: 4px
+}
+
+.inner-frame {
+    padding: 40px 40px
+}
+
+/* Form */
+.card-body {
+    border: 1px solid #cccccc;
+    border-radius: 4px
+}
+
+.card-container {
+    cursor: pointer;
+    display: table;
+    margin: 13px
+}
+
+.card-radio-wrapper {
+    display: table-cell;
+    vertical-align: middle;
+    width: 52px
+}
+
+.card-content-wrapper {
+    display: table-cell;
+    vertical-align: middle
+}
+
+.option-container {
+    cursor: pointer;
+    display: table
+}
+
+.option-radio-wrapper {
+    display: table-cell;
+    vertical-align: middle;
+    width: 36px
+}
+
+.option-content-wrapper {
+    display: table-cell;
+    vertical-align: middle
+}
+
+.checkmark {
+    height: 20px;
+    width: 20px;
+    border-radius: 50%
+}
+
+.submit-wrapper {
+    height: 48px;
+    position: relative;
+}
+
+.submit-button {
+    padding: 14px 28px;
+    height: 48px;
+    border-radius: 4px;
+    border: 0px;
+    background-color: #333333;
+    font: Bold 18px Arial;
+    color: #ffffff;
+    cursor: pointer;
+    position: absolute;
+    z-index: 1
+}
+
+.success-msg {
+    background: #f9fdfa;
+    width: 100%;
+    border-radius: 4px;
+    position: absolute;
+    border-left: 4px solid #66cc80;
+    z-index: 2
+}
+
+.success-msg-container {
+    display: table;
+    margin: 10px 15px 10px 15px;
+}
+
+.success-msg-check {
+    display: table-cell;
+    vertical-align: middle;
+    width: 36px
+}
+
+.success-msg-text {
+    display: table-cell;
+    vertical-align: middle
+}
+
+.error-msg {
+    background: #fff9f9;
+    width: 100%;
+    border-radius: 4px;
+    border-left: 4px solid #f86567;
+    z-index: 2;
+    padding: 1px;
+}
+
+.error-msg-container {
+    display: table;
+    margin: 8px 15px 8px 15px;
+}
+
+.error-msg-check {
+    display: table-cell;
+    vertical-align: middle;
+    width: 36px
+}
+
+.error-msg-text {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+/* Footer */
+.footer {
+    border-top: 1px solid #EEEEEE;
+    padding: 32px 0px;
+    max-width: 500px;
+    margin: 0 auto;
+    box-sizing: border-box;
+    margin-top: 40px;
+}
+
+.footer-item {
+    width: 33%;
+    text-align: center
+}
+
+.footer-item>a {
+    white-space: nowrap;
+    font: Normal 12px/14px Arial;
+    color: #AAAAAA;
+    letter-spacing: 0;
+    text-decoration: none
+}
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 24px;
+    color: #AAAAAA;
+    font: Normal 12px/20px Arial;
+}
+    </style>
+    <script async custom-element="amp-form" src="https://cdn.ampproject.org/v0/amp-form-0.1.js"></script>
+</head>
+
+<body>
+    <div class="outer-frame">
+        <div class="inner-frame">
+            <!-- Header -->
+            <div>
+                <span>
+                    <img src="http://127.0.0.1:8000/static/img/mail-header.jpg" width="540px" height="210px"
+                        alt="cifor-icraf-logo"></img>
+                </span>
+                {% block body %}{% endblock %}
+ <!-- Footer -->
+ <div class="footer">
+    <table style="width: 100%;">
+        <tr>
+            <td class="footer-item">
+                <a
+                    href="http://127.0.0.1:8000/privacy-policy">Privacy
+                    Policy</a>
+            </td>
+            <td class="footer-item">
+                <a
+                    href="#">Unsubscribe</a>
+            </td>
+            <td class="footer-item">
+                <a href="#"
+                    style="margin: 0">Terms of Service</a>
+            </td>
+        </tr>
+    </table>
+    <div class="footer-bottom">
+        © <script>document.write(/\d{4}/.exec(Date())[0])</script> Sympha Fresh Limited <br />{{organization['location']}}
+    </div>
+</div>
+</body>
+
+</html>

@@ -1,0 +1,161 @@
+{% if current_user.has_role('SuperUser') %}
+{% extends 'superuser/superuser_templates/base_superuser_template.html' %}
+{% else %}
+{% extends 'admin/admin_templates/base_admin_template.html' %}
+{% endif %}
+
+{% block head %}
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+  <!-- Page Heading -->
+  <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Dashboard <span style="font-size: 18px;">/Analytics</span></h1>
+    <h6 class="text-gray-600" style="margin-left: 500px;">Time: <span id="time"></span></h6>
+  </div>
+  {% endblock %}
+
+  {% block body %}
+  <div class="container expense-categories">
+    <div class="row">
+      <div class="col-6">
+        <div class="jumbotron jumbotron-fluid">
+          <a href="/admin/analytics-customers-view">
+            <div class="container">
+              <h2> Customers</h2>
+              <p class="lead">General view of all customer related insights based on real time records <i class="fa fa-line-chart" aria-hidden="true"></i></p>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="jumbotron jumbotron-fluid">
+          <a href="/admin/analytics-stock-view">
+            <div class="container">
+              <h2>Stock</h2>
+              <p class="lead">Get an analysis of stock performance and stock movement on the go <i class="fa fa-line-chart" aria-hidden="true"></i></p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-6">
+        <div class="jumbotron jumbotron-fluid">
+          <a href="/admin/analytics-sales-view">
+            <div class="container">
+              <h2>Sales</h2>
+              <p class="lead">Comprehensive reports on sales performance for various reporting periods <i class="fa fa-line-chart" aria-hidden="true"></i></p>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="jumbotron jumbotron-fluid">
+          <a href="/admin/analytics-expenditure-view">
+            <div class="container">
+              <h2>Expenses</h2>
+              <p class="lead">Get an insight of the organization's expenditure and comparisons between various periods <i class="fa fa-line-chart" aria-hidden="true"></i></p>
+            </div>
+          </a>
+        </div>
+      </div>   
+    </div>
+
+    <div class="row">
+      <div class="col-6">
+        <div class="jumbotron jumbotron-fluid">
+          <a href="/admin/analytics-sales-view">
+            <div class="container">
+              <h2>Transactions</h2>
+              <p class="lead">View real time transactions of different types (Cash, M-Pesa, PDQ) <i class="fa fa-line-chart" aria-hidden="true"></i></p>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="jumbotron jumbotron-fluid">
+          <a href="/admin/analytics-expenditure-view">
+            <div class="container">
+              <h2>M-Pesa</h2>
+              <p class="lead">View real time M-Pesa transactions and all their corresponding details <i class="fa fa-line-chart" aria-hidden="true"></i></p>
+            </div>
+          </a>
+        </div>
+      </div>   
+    </div>
+
+    <div class="row">
+      <div class="col-6">
+        <div class="jumbotron jumbotron-fluid">
+          <a href="/admin/analytics-sales-view">
+            <div class="container">
+              <h2>Cash</h2>
+              <p class="lead">View all cash transactions and their details through various periods <i class="fa fa-line-chart" aria-hidden="true"></i></p>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="jumbotron jumbotron-fluid">
+          <a href="/admin/analytics-expenditure-view">
+            <div class="container">
+              <h2>Tax</h2>
+              <p class="lead">Keep check on tax compliance through various accounting periods<i class="fa fa-line-chart" aria-hidden="true"></i></p>
+            </div>
+          </a>
+        </div>
+      </div>   
+    </div>
+
+    <div class="row">
+      <div class="col-6">
+        <div class="jumbotron jumbotron-fluid">
+          <a href="/admin/analytics-sales-view">
+            <div class="container">
+              <h2>Accounts</h2>
+              <p class="lead">Have a view of the books of accounts for various accounting periods <i class="fa fa-line-chart" aria-hidden="true"></i></p>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="jumbotron jumbotron-fluid">
+          <a href="/admin/analytics-expenditure-view">
+            <div class="container">
+              <h2>Staff</h2>
+              <p class="lead">Have a general overview of the organization's staffing <i class="fa fa-line-chart" aria-hidden="true"></i></p>
+            </div>
+          </a>
+        </div>
+      </div>   
+    </div>
+
+    <div class="row">
+      <div class="col-6">
+        <div class="jumbotron jumbotron-fluid">
+          <a href="/admin/analytics-sales-view">
+            <div class="container">
+              <h2>Assets</h2>
+              <p class="lead">Keep track of the various organizational assets and their valuation <i class="fa fa-line-chart" aria-hidden="true"></i></p>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="jumbotron jumbotron-fluid">
+          <a href="/admin/analytics-expenditure-view">
+            <div class="container">
+              <h2>Overall Performance</h2>
+              <p class="lead">Get the latest performance metrics of the organization for various periods <i class="fa fa-line-chart" aria-hidden="true"></i></p>
+            </div>
+          </a>
+        </div>
+      </div>   
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="{{ url_for('static', filename='js/charts.js') }}"></script>
+  <!-- Scroll to Top Button-->
+  {% endblock %}

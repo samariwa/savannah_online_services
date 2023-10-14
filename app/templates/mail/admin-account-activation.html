@@ -1,0 +1,36 @@
+{% extends 'mail/mail_templates/base_mail_template.html' %}
+
+{% block body %}
+                <div class="subtitle" style="margin-top:40px">Hi {{ firstname }},</div>
+                <div class="subtitle" style="margin-top:40px">
+                Welcome to CIFOR-ICRAF Events services. We are glad to have you here. To start off, we are going to verify and activate your account after which you will need to reset your password to a memorable yet secure one. We hereby kindly ask you to verify your email address below:     
+                </div>
+                <div class="subtitle" style="margin-top:30px">
+                    <div class="submit-wrapper">
+                        <a href="http://127.0.0.1:8000/auth/admin/activation?verification_code={{ verification_code }}" class="btn btn-dark btn-lg" style="background-color:black; text-decoration: none;font-size: 20px ;padding: 15px 25px;
+                        color: white;text-align: center;border-radius: 10px;">Verify
+                      </a>
+                      <!--<a href="http://127.0.0.1:8000/auth/admin/activation?verification_code={{ verification_code }}" class="btn btn-dark btn-lg" style="background-color:black; text-decoration: none;font-size: 20px ;padding: 15px 25px;
+                        color: white;text-align: center;border-radius: 10px;">Verify
+                      </a>-->
+                      <!--<a href="http://127.0.0.1:8000/auth/admin/activation?verification_code={{ verification_code }}" class="btn btn-dark btn-lg" style="background-color:black; text-decoration: none;font-size: 20px ;padding: 15px 25px;
+                        color: white;text-align: center;border-radius: 10px;">Verify
+                      </a>-->
+                    </div>
+                </div>
+                <div class="subtitle" style="margin-top:40px">
+                    You will be forwarded to a password reset page where you will be required to set a new password.<br>
+                    The link expires in 5 minutes. After that, you will be required to submit a new request to verify your account.<br>
+                    If you fail to reset your password after activation, you will be use the <b>forgot password</b> link (on the login page)
+                    for a fresh password reset.<br>      
+                </div>
+                <div class="subtitle" style="margin-top:40px">
+                    Incase of any queries or challenges, please don't hesitate to <a href="mailto:{{organization['email']}}" style='color: #57b846;text-decoration: none;'>contact us</a>
+                </div>
+                <div class="subtitle" style="margin-top:40px">
+                     Thanks! - The ICT team
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}

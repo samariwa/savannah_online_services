@@ -1,0 +1,123 @@
+{% if current_user.has_role('SuperUser') %}
+{% extends 'superuser/superuser_templates/base_superuser_template.html' %}
+{% elif current_user.has_role('Admin') %}
+{% extends 'admin/admin_templates/base_admin_template.html' %}
+{% else %}
+{% extends 'cashier/cashier_templates/base_cashier_template.html' %}
+{% endif %}
+
+{% block head %}
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Dashboard <span style="font-size: 18px;">/Customers </span><span
+                style="font-size: 15px;"> /Customer Accounts</span></h1>
+        <h6 class="text-gray-600" style="margin-left: 390px;">Time: <span id="time"></span></h6>
+        <button class="btn btn-light btn-md active printCustomers mr-3" role="button" aria-pressed="true"><i
+                class="fa fa-print"></i>&ensp;Print</button>
+    </div>
+    {% endblock %}
+
+    {% block body %}
+    {% if current_user.has_role('Cashier') %}
+    <div class="row"></div>
+    <div class="col-4">
+        <a href="/cashier/customers" class="btn btn-primary btn-md active" role="button" aria-pressed="true"><i
+                class="fa fa-arrow-left"></i>&ensp;Back</a>
+    </div>
+    <div class="col-4">
+        <h6 class="offset-4">Total Number: {{ customer_accounts_count }}</h6>
+    </div>
+    <div class="col-4">
+        <a href="/cashier/customer-refunds" class="btn btn-light btn-md active offset-6" role="button"
+            aria-pressed="true">Customer Refunds</a>
+    </div>
+</div>
+{% else %}
+<div class="row">
+    <div class="col-4">
+        <a href="/cashier/customers" class="btn btn-primary btn-md active" role="button" aria-pressed="true"><i
+                class="fa fa-arrow-left"></i>&ensp;Back</a>
+    </div>
+    <div class="col-4">
+        <a href="/cashier/customer-account-transactions" class="btn btn-info btn-md active offset-2" role="button"
+            aria-pressed="true">Customer Account Transactions</a>
+    </div>
+    <div class="col-4">
+        <a href="/cashier/customer-refunds" class="btn btn-light btn-md active offset-6" role="button"
+            aria-pressed="true">Customer Refunds</a>
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="col-12">
+        <h6 class="offset-5">Total Number: {{ customer_accounts_count }}</h6>
+    </div>
+</div>
+{% endif %}
+<br>
+<table id="customersEditable" class="table table-striped table-hover paginate"
+    style="display:block;overflow-y:scroll;text-align: center;">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col" width="3%">#</th>
+            <th scope="col" width="5%">Customer</th>
+            <th scope="col" width="13%">Account Balance</th>
+            <th scope="col" width="12%">Customer Debt</th>
+            <th scope="col" width="8%"></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for customer_account in customer_accounts %}
+        <tr>
+            <th scope="row" class="uneditable" id="id{{ loop.index }}">{{ customer_account.id }}</th>
+            <td class="editable" id="name{{ loop.index }}">{{ customer_account.first_name+'
+                '+customer_account.last_name }}</td>
+            <td class="editable" id="balance{{ loop.index }}">{{ customer_account.account_balance }}</td>
+            <td class="editable" id="debt{{ loop.index }}">{{ customer_account.total_debt }}</td>
+            <td>
+                <button data-toggle="modal" data-target="#exampleModalScrollable{{ customer_account.id }}"
+                    id="{{ customer_account.id }}" data_id="{{ customer_account.id }}"
+                    class="btn btn-dark btn-sm active" role="button" aria-pressed="true"><i class="fa fa-arrow-left"
+                        aria-hidden="true"></i>&ensp;Refund</button>
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModalScrollable{{ customer_account.id }}" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalScrollableTitle">Customer Refund</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form method="POST" id="form_add_refund{{ customer_account.id }}">
+                                    {{ add_refund_form.hidden_tag() }}
+                                    <input type="hidden" name='account_id'
+                                        id="{{ 'current_balance'+customer_account.id|string}}"
+                                        value="{{ customer_account.id }}">
+                                    <input type="hidden" name='current_balance'
+                                        id="{{ 'current_balance'+customer_account.id|string}}"
+                                        value="{{ customer_account.account_balance }}">
+                                    <div class="row">
+                                        {{ add_refund_form.refund_amount }}
+                                    </div>
+                            </div>
+                            <div class="modal-footer">
+                                {{ add_refund_form.submit(id=customer_account.id ) }}
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- Scroll to Top Button-->
+{% endblock %}

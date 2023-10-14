@@ -1,0 +1,4 @@
+#!/bin/bash
+# SCript to start up the flask shell environment
+flask --app=run.py shell
+from app import db

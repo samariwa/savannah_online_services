@@ -1,0 +1,49 @@
+{% if current_user.has_role('SuperUser') %}
+{% extends 'superuser/superuser_templates/base_superuser_template.html' %}
+{% else %}
+{% extends 'admin/admin_templates/base_admin_template.html' %}
+{% endif %}
+
+{% block head %}
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+      <h1 class="h3 mb-0 text-gray-800">Dashboard <span style="font-size: 18px;">/Liabilities</span></h1>
+     <h6 class="h6 mb-0 text-gray-600 mr-3">Time: <span id="time"></span></h6>
+    </div>
+    {% endblock %}
+
+    {% block body %}
+    <div class="row">
+        <div class="col-md-2 offset-5">
+          <h6>Total Number: {{ liabilities_count }}</h6>
+        </div>
+     </div><br>
+    
+            <table  class="table table-striped table-hover paginate" style="display:block;overflow-y:scroll;text-align: center;">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col" width="3%">#</th>
+          <th scope="col" width="25%">Expense Name</th>
+          <th scope="col" width="20%">Party Name</th>
+          <th scope="col" width="11%">Due Amount</th>
+          <th scope="col" width="13%">Payment Date</th>
+        </tr>
+      </thead>
+      <tbody >
+       {% for liability in liabilities %}
+        <tr>
+          <th scope="row" id="id{{ loop.index }}">{{ liability.id }}</th>
+          <td id="description{{ loop.index }}">{{ liability.expense_description }}</td>
+          <td id="party{{ loop.index }}">{{ liability.party }}</td>
+          <td id="amount{{ loop.index }}">{{ liability.total_owed_amount - liability.total_paid_amount }}</td>
+          <td id="date{{ loop.index }}">{{ liability.expense_date }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>       
+    
+      <!-- Scroll to Top Button-->
+    {% endblock %}

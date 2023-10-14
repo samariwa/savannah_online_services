@@ -1,0 +1,46 @@
+{% extends 'cashier/cashier_templates/add_order_template.html' %}
+{% block order_section %}
+<h2 class="d-flex justify-content-center">Mode:&ensp;<span class="badge badge-pill badge-secondary">Hybrid Entry</span></h2>
+<br>
+<table id="productOrderSearch" class="table table-striped table-hover"
+    style="display:block;overflow-y:scroll;text-align: center;">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col" width="5%">#</th>
+            <th scope="col" width="15%">Category</th>
+            <th scope="col" width="18%">Stock Name</th>
+            <th scope="col" width="13%">Selling Price (Ksh.)</th>
+            <th scope="col" width="9%">Discount (Ksh.)</th>
+            <th scope="col" width="17%">Quantity Available</th>
+            <th scope="col" width="18%"></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for product in products %}
+        <tr>
+            <th scope="row" id="id{{ product }}">{{ product }}</th>
+            <td id="category{{ product  }}">{{ products[product]['category'] }}</td>
+            <td id="name{{ product  }}">{{ products[product]['product_name'] }}</td>
+            <td id="sp{{ product  }}">{{ products[product]['selling_price'] }}</td>
+            <td id="Discount{{ product  }}">{{ products[product]['discount'] }}</td>
+            <td id="qty{{ product  }}">{{ products[product]['quantity_available'] }}</td>
+            <td>
+            {% if products[product]['quantity_available'] > 0 %}
+              <button type="button" class="btn btn-warning addToCart" name="{{ product }}" onclick="cartArray(name, 1)" id="add_product{{ product }}" data_id="{{ product }}"><i class="fa fa-cart-plus"></i>&emsp;Add To Cart</button>
+              {% else %}
+              <button type="button" class="btn btn-warning addToCart" name="{{ product }}" onclick="cartArray(name, 1)" id="add_product{{ product }}" data_id="{{ product }}" disabled><i class="fa fa-cart-plus"></i>&emsp;Add To Cart</button>
+            {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table><br>
+{% for product in products %}
+    <input type="hidden" id="scanned_id{{ product }}" value="{{ product }}">
+    <input type="hidden" id="scanned_name{{ product }}" value="{{ products[product]['product_name'] }}">
+    <input type="hidden" id="scanned_sp{{ product }}" value="{{ products[product]['selling_price'] }}">
+    <input type="hidden" id="scanned_Discount{{ product }}" value="{{ products[product]['discount'] }}">
+    <input type="hidden" id="scanned_qty{{ product }}" value="{{ products[product]['quantity_available'] }}">
+{% endfor %}
+<!-- Scroll to Top Button-->
+{% endblock %}

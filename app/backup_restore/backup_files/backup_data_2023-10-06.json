@@ -1,0 +1,647 @@
+{
+    "department_data": [
+        {
+            "id": 1,
+            "department": "ICT",
+            "db_status": "active",
+            "created_at": "2023-10-06 15:13:49",
+            "updated_at": null
+        },
+        {
+            "id": 2,
+            "department": "sales",
+            "db_status": "active",
+            "created_at": "2023-10-06 15:13:49",
+            "updated_at": null
+        },
+        {
+            "id": 3,
+            "department": "logistics",
+            "db_status": "active",
+            "created_at": "2023-10-06 15:13:49",
+            "updated_at": null
+        },
+        {
+            "id": 4,
+            "department": "administration",
+            "db_status": "active",
+            "created_at": "2023-10-06 15:13:49",
+            "updated_at": null
+        }
+    ],
+    "staf_role_data": [
+        {
+            "id": 1,
+            "department_id": 1,
+            "role": "SuperUser",
+            "db_status": "active",
+            "created_at": "2023-10-06 15:13:49",
+            "updated_at": null
+        },
+        {
+            "id": 2,
+            "department_id": 2,
+            "role": "Admin",
+            "db_status": "active",
+            "created_at": "2023-10-06 15:13:49",
+            "updated_at": null
+        },
+        {
+            "id": 3,
+            "department_id": 3,
+            "role": "Delivery",
+            "db_status": "active",
+            "created_at": "2023-10-06 15:13:49",
+            "updated_at": null
+        },
+        {
+            "id": 4,
+            "department_id": 4,
+            "role": "Cashier",
+            "db_status": "active",
+            "created_at": "2023-10-06 15:13:49",
+            "updated_at": null
+        }
+    ],
+    "staff_data": [
+        {
+            "id": 1,
+            "role_id": 1,
+            "first_name": "Sympha",
+            "last_name": "Fresh",
+            "id_number": "00000000",
+            "yob": 2022,
+            "gender": "male",
+            "nssf_number": "00000000",
+            "nhif_number": "00000000",
+            "db_status": "active",
+            "created_at": "2023-10-06 15:13:49",
+            "updated_at": null
+        },
+        {
+            "id": 2,
+            "role_id": 2,
+            "first_name": "Mariwa",
+            "last_name": "Administrators",
+            "id_number": "100237",
+            "yob": 1994,
+            "gender": "male",
+            "nssf_number": "254125100",
+            "nhif_number": "254100",
+            "db_status": "active",
+            "created_at": "2023-10-06 15:13:49",
+            "updated_at": null
+        },
+        {
+            "id": 3,
+            "role_id": 3,
+            "first_name": "Hodari",
+            "last_name": "Deliveries",
+            "id_number": "125126",
+            "yob": 1995,
+            "gender": "male",
+            "nssf_number": "254125126",
+            "nhif_number": "254125",
+            "db_status": "active",
+            "created_at": "2023-10-06 15:13:49",
+            "updated_at": null
+        }
+    ],
+    "customer_data": [
+        {
+            "id": 0,
+            "first_name": "Unregistered",
+            "last_name": "Customer",
+            "location": "N/A",
+            "phone_no": "N/A",
+            "customer_type": "online",
+            "note": "Add Note...",
+            "customer_status": "active",
+            "credit_customer": 0,
+            "db_status": "active",
+            "created_at": "2023-10-06 15:13:49",
+            "updated_at": null
+        },
+        {
+            "id": 1,
+            "first_name": "John",
+            "last_name": "Kimani",
+            "location": "Around",
+            "phone_no": "0798989898",
+            "customer_type": "online",
+            "note": "Add Note...",
+            "customer_status": "active",
+            "credit_customer": 0,
+            "db_status": "active",
+            "created_at": "2023-10-06 15:13:49",
+            "updated_at": null
+        },
+        {
+            "id": 2,
+            "first_name": "Mrs",
+            "last_name": "Kimani",
+            "location": "Around2",
+            "phone_no": "0798989333",
+            "customer_type": "online",
+            "note": "Add Note...",
+            "customer_status": "active",
+            "credit_customer": 1,
+            "db_status": "active",
+            "created_at": "2023-10-06 15:13:49",
+            "updated_at": null
+        },
+        {
+            "id": 3,
+            "first_name": "Mr",
+            "last_name": "Beanzzzzz",
+            "location": "Around4",
+            "phone_no": "0798989533",
+            "customer_type": "online",
+            "note": "Add Note...",
+            "customer_status": "active",
+            "credit_customer": 1,
+            "db_status": "active",
+            "created_at": "2023-10-06 15:13:49",
+            "updated_at": null
+        }
+    ],
+    "user_data": [
+        {
+            "id": 1,
+            "customer_id": null,
+            "staff_id": 1,
+            "user_status": "active",
+            "email_address": "superuser@symphafresh.com",
+            "login_status": 0,
+            "last_activity": "2023-10-06 15:13:49",
+            "login_attempts": 0,
+            "db_status": "active",
+            "created_at": "2023-10-06 15:13:49",
+            "updated_at": null,
+            "password_hash": "$2b$12$kwHpSgi0azO/UaV6MwJQdOWfO4Y6ACmUOCvGsV801Gm9vjb22Slmu"
+        },
+        {
+            "id": 2,
+            "customer_id": null,
+            "staff_id": 2,
+            "user_status": "inactive",
+            "email_address": "mariwa@sympha.com",
+            "login_status": 0,
+            "last_activity": "2023-10-06 15:13:49",
+            "login_attempts": 0,
+            "db_status": "active",
+            "created_at": "2023-10-06 15:13:49",
+            "updated_at": null,
+            "password_hash": "$2b$12$7wtfbtTvwXwE1Xx6vyO8BeQeOQ7lkKHDmQITPQKrDyTi9CqusAZvG"
+        },
+        {
+            "id": 3,
+            "customer_id": null,
+            "staff_id": 3,
+            "user_status": "inactive",
+            "email_address": "hodari@sympha.com",
+            "login_status": 0,
+            "last_activity": "2023-10-06 15:13:50",
+            "login_attempts": 0,
+            "db_status": "active",
+            "created_at": "2023-10-06 15:13:50",
+            "updated_at": null,
+            "password_hash": "$2b$12$N43DogApSjFVIwxr1eQF1uVh1HkrzKm7ofbReSJECA3XK7guURNli"
+        }
+    ],
+    "account_verification_data": [],
+    "logged_device_data": [],
+    "cart_data": [],
+    "wishlist_data": [],
+    "newsletter_subscriber_data": [],
+    "customer_account_data": [
+        {
+            "id": 1,
+            "customer_id": 0,
+            "account_balance": 0,
+            "total_debt": 0,
+            "db_status": "active",
+            "created_at": "2023-10-06 15:13:49",
+            "updated_at": null
+        },
+        {
+            "id": 2,
+            "customer_id": 1,
+            "account_balance": 0,
+            "total_debt": 0,
+            "db_status": "active",
+            "created_at": "2023-10-06 15:13:49",
+            "updated_at": null
+        },
+        {
+            "id": 3,
+            "customer_id": 2,
+            "account_balance": 0,
+            "total_debt": 0,
+            "db_status": "active",
+            "created_at": "2023-10-06 15:13:49",
+            "updated_at": null
+        },
+        {
+            "id": 4,
+            "customer_id": 3,
+            "account_balance": 0,
+            "total_debt": 0,
+            "db_status": "active",
+            "created_at": "2023-10-06 15:13:49",
+            "updated_at": null
+        }
+    ],
+    "customer_refund_data": [],
+    "customer_account_transaction_data": [],
+    "product_category_data": [
+        {
+            "id": 1,
+            "category_name": "chicken_kienyeji",
+            "category_image": "chicken.svg",
+            "category_status": "active",
+            "db_status": "active",
+            "created_at": "2023-10-06 15:13:49",
+            "updated_at": null
+        },
+        {
+            "id": 2,
+            "category_name": "Fish",
+            "category_image": "fish.svg",
+            "category_status": "active",
+            "db_status": "active",
+            "created_at": "2023-10-06 15:13:49",
+            "updated_at": null
+        },
+        {
+            "id": 3,
+            "category_name": "Meat",
+            "category_image": "meat.png",
+            "category_status": "active",
+            "db_status": "active",
+            "created_at": "2023-10-06 15:13:49",
+            "updated_at": null
+        },
+        {
+            "id": 4,
+            "category_name": "Vegetables",
+            "category_image": "vegetables.png",
+            "category_status": "active",
+            "db_status": "active",
+            "created_at": "2023-10-06 15:13:49",
+            "updated_at": null
+        }
+    ],
+    "product_unit_data": [
+        {
+            "id": 1,
+            "unit_name": "none",
+            "measurement_mode": "count",
+            "product_unit_status": "active",
+            "db_status": "active",
+            "created_at": "2023-10-06 15:13:49",
+            "updated_at": null
+        },
+        {
+            "id": 2,
+            "unit_name": "KG",
+            "measurement_mode": "weight",
+            "product_unit_status": "active",
+            "db_status": "active",
+            "created_at": "2023-10-06 15:13:49",
+            "updated_at": null
+        },
+        {
+            "id": 3,
+            "unit_name": "tray",
+            "measurement_mode": "count",
+            "product_unit_status": "active",
+            "db_status": "active",
+            "created_at": "2023-10-06 15:13:49",
+            "updated_at": null
+        },
+        {
+            "id": 4,
+            "unit_name": "crate",
+            "measurement_mode": "count",
+            "product_unit_status": "active",
+            "db_status": "active",
+            "created_at": "2023-10-06 15:13:49",
+            "updated_at": null
+        },
+        {
+            "id": 5,
+            "unit_name": "Ltr",
+            "measurement_mode": "count",
+            "product_unit_status": "active",
+            "db_status": "active",
+            "created_at": "2023-10-06 15:13:49",
+            "updated_at": null
+        },
+        {
+            "id": 6,
+            "unit_name": "ml",
+            "measurement_mode": "count",
+            "product_unit_status": "active",
+            "db_status": "active",
+            "created_at": "2023-10-06 15:13:49",
+            "updated_at": null
+        },
+        {
+            "id": 7,
+            "unit_name": "grams",
+            "measurement_mode": "count",
+            "product_unit_status": "active",
+            "db_status": "active",
+            "created_at": "2023-10-06 15:13:49",
+            "updated_at": null
+        }
+    ],
+    "product_data": [
+        {
+            "id": 1,
+            "category_id": 3,
+            "unit_id": 2,
+            "sub_unit_id": 1,
+            "product_name": "beef steak",
+            "product_description": "Good meat",
+            "subunit_replenish_qty": 1,
+            "total_qty": 9.0,
+            "restock_level": 1,
+            "image": "pork.jpeg",
+            "product_status": "active",
+            "contains": 0,
+            "db_status": "active",
+            "created_at": "2023-10-06 15:13:49",
+            "updated_at": "2023-10-06 15:13:50"
+        },
+        {
+            "id": 2,
+            "category_id": 1,
+            "unit_id": 2,
+            "sub_unit_id": 1,
+            "product_name": "Chicken Drumsticks",
+            "product_description": "Good halal meat",
+            "subunit_replenish_qty": 1,
+            "total_qty": 13.0,
+            "restock_level": 1,
+            "image": "chicken-breasts.png",
+            "product_status": "active",
+            "contains": 0,
+            "db_status": "active",
+            "created_at": "2023-10-06 15:13:49",
+            "updated_at": "2023-10-06 15:13:50"
+        }
+    ],
+    "supplier_data": [
+        {
+            "id": 1,
+            "supplier_name": "Kinuthia The One",
+            "supplier_contact": "0700123456",
+            "supplier_status": "active",
+            "db_status": "active",
+            "created_at": "2023-10-06 15:13:49",
+            "updated_at": null
+        },
+        {
+            "id": 2,
+            "supplier_name": "Maggie Wa Nyumbani",
+            "supplier_contact": "0710123456",
+            "supplier_status": "active",
+            "db_status": "active",
+            "created_at": "2023-10-06 15:13:49",
+            "updated_at": null
+        }
+    ],
+    "product_batch_data": [
+        {
+            "batch_id": 1,
+            "product_id": 1,
+            "supplier_id": 1,
+            "qty_purchased": 12.0,
+            "current_qty": 9.0,
+            "damaged": 0.0,
+            "date_received": "2023-10-06",
+            "buying_price": 200.0,
+            "selling_discount": 0.0,
+            "selling_price": 230.0,
+            "expiry_date": "2023-10-09",
+            "batch_status": 1,
+            "db_status": "active",
+            "created_at": "2023-10-06 15:13:49",
+            "updated_at": "2023-10-06 15:13:50"
+        },
+        {
+            "batch_id": 2,
+            "product_id": 2,
+            "supplier_id": 2,
+            "qty_purchased": 25.0,
+            "current_qty": 13.0,
+            "damaged": 0.0,
+            "date_received": "2023-10-06",
+            "buying_price": 156.0,
+            "selling_discount": 0.0,
+            "selling_price": 256.0,
+            "expiry_date": "2023-10-10",
+            "batch_status": 1,
+            "db_status": "active",
+            "created_at": "2023-10-06 15:13:49",
+            "updated_at": "2023-10-06 15:13:50"
+        }
+    ],
+    "product_reclass_category_data": [
+        {
+            "id": 1,
+            "reclass_parent_product_id": 1,
+            "reclass_category_name": "Beef Products",
+            "db_status": "active",
+            "created_at": "2023-10-06 15:13:50",
+            "updated_at": null
+        }
+    ],
+    "product_reclass_item_data": [
+        {
+            "id": 1,
+            "reclass_category_id": 1,
+            "reclass_child_product_id": 2,
+            "db_status": "active",
+            "created_at": "2023-10-06 15:13:50",
+            "updated_at": null
+        }
+    ],
+    "product_reclass_detail_data": [],
+    "product_movement_data": [
+        {
+            "id": 1,
+            "batch_id": 1,
+            "opening_stock": 12.0,
+            "damaged": 0.0,
+            "total_reclass_qty": 0.0,
+            "sold": 0.0,
+            "closing_stock": 0.0,
+            "revenue_generated": 0.0,
+            "profit_generated": 0.0,
+            "db_status": "active",
+            "created_at": "2023-10-06 15:13:49",
+            "updated_at": null
+        },
+        {
+            "id": 2,
+            "batch_id": 2,
+            "opening_stock": 25.0,
+            "damaged": 0.0,
+            "total_reclass_qty": 0.0,
+            "sold": 0.0,
+            "closing_stock": 0.0,
+            "revenue_generated": 0.0,
+            "profit_generated": 0.0,
+            "db_status": "active",
+            "created_at": "2023-10-06 15:13:49",
+            "updated_at": null
+        }
+    ],
+    "expense_category_data": [
+        {
+            "id": 1,
+            "expense_category": "Operational Expense",
+            "expense_category_status": "active",
+            "db_status": "active",
+            "created_at": "2023-10-06 15:13:49",
+            "updated_at": null
+        },
+        {
+            "id": 2,
+            "expense_category": "Utility Bills",
+            "expense_category_status": "active",
+            "db_status": "active",
+            "created_at": "2023-10-06 15:13:49",
+            "updated_at": null
+        }
+    ],
+    "expense_data": [
+        {
+            "id": 1,
+            "expense_category_id": 1,
+            "expense_description": "Meat display servicing",
+            "party": "Nairobi Kitchen",
+            "total_owed_amount": 10000,
+            "total_paid_amount": 5000,
+            "expense_date": "2023-10-06",
+            "db_status": "active",
+            "created_at": "2023-10-06 15:13:49",
+            "updated_at": null
+        },
+        {
+            "id": 2,
+            "expense_category_id": 2,
+            "expense_description": "Water bill payment",
+            "party": "GW3",
+            "total_owed_amount": 2000,
+            "total_paid_amount": 2000,
+            "expense_date": "2023-10-06",
+            "db_status": "active",
+            "created_at": "2023-10-06 15:13:49",
+            "updated_at": null
+        }
+    ],
+    "expense_payment_detail_data": [
+        {
+            "id": 1,
+            "expense_id": 1,
+            "old_balance": 10000,
+            "paid_amount": 5000,
+            "new_balance": 5000,
+            "payment_date": "2023-10-06",
+            "db_status": "active",
+            "created_at": "2023-10-06 15:13:49",
+            "updated_at": null
+        },
+        {
+            "id": 2,
+            "expense_id": 2,
+            "old_balance": 2000,
+            "paid_amount": 2000,
+            "new_balance": 0,
+            "payment_date": "2023-10-06",
+            "db_status": "active",
+            "created_at": "2023-10-06 15:13:49",
+            "updated_at": null
+        }
+    ],
+    "mpesa_payment_data": [],
+    "order_data": [
+        {
+            "id": 1,
+            "customer_id": 1,
+            "order_cost": 50.0,
+            "tax_payable": 0.0,
+            "order_type": "online",
+            "total_discount": 0,
+            "order_date": "2023-10-06",
+            "order_status": "pending",
+            "db_status": "active",
+            "created_at": "2023-10-06 15:13:50",
+            "updated_at": null
+        }
+    ],
+    "order_detail_data": [
+        {
+            "id": 1,
+            "order_id": 1,
+            "product_id": 1,
+            "quantity": 1.0,
+            "discount": 0,
+            "returned": 0.0,
+            "order_detail_status": "unchanged",
+            "db_status": "active",
+            "created_at": "2023-10-06 15:13:50",
+            "updated_at": null
+        },
+        {
+            "id": 2,
+            "order_id": 1,
+            "product_id": 2,
+            "quantity": 3.0,
+            "discount": 0,
+            "returned": 0.0,
+            "order_detail_status": "unchanged",
+            "db_status": "active",
+            "created_at": "2023-10-06 15:13:50",
+            "updated_at": null
+        }
+    ],
+    "transaction_detail_data": [
+        {
+            "id": 1,
+            "order_id": 1,
+            "payment_method": "cash",
+            "amount_paid": 0,
+            "transaction_code": "PX5Q498H7",
+            "mobile_number": null,
+            "payment_balance": 0,
+            "payment_terms": "before_delivery",
+            "transaction_status": "successful",
+            "db_status": "active",
+            "created_at": "2023-10-06 15:13:50",
+            "updated_at": null
+        }
+    ],
+    "delivery_data": [
+        {
+            "id": 1,
+            "order_id": 1,
+            "delivery_staff_id": 1,
+            "delivery_location": "Around",
+            "delivery_date": "2023-10-06",
+            "delivery_fee": 0,
+            "delivery_stage": "dispatch",
+            "delivery_speed": 0,
+            "staff_status": "pending",
+            "db_status": "active",
+            "created_at": "2023-10-06 15:13:50",
+            "updated_at": null
+        }
+    ],
+    "stk_push_result_data": [],
+    "stk_customer_response_data": []
+}

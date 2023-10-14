@@ -1,0 +1,17 @@
+{% extends 'auth/auth_templates/base_admin_auth_template.html' %}
+
+{% block title %}
+Error
+{% endblock %}
+
+{% block head %}
+{{ error }}
+{% endblock %}
+
+{% block body %}
+    <div>
+        <br>
+        <p><- Back to&ensp;<a href="/auth/admin/{{ return_page }}"
+                style="color: inherit;text-decoration: underline;">verification page</a></p>
+    </div>
+{% endblock %}

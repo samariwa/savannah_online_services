@@ -1,0 +1,57 @@
+{% extends 'auth/auth_templates/base_auth_template.html' %}
+
+{% block title %}
+Login
+{% endblock %}
+
+{% block head %}
+Sign In
+{% endblock %}
+
+{% block body %}
+{{ form.csrf_token }}
+<div class="wrap-input100 m-b-20">
+    <span class="label-input100">{{ form.email_address.label() }}</span>
+    <input class="input100" type="email" name="email_address" id="email_address"
+        placeholder="&#xf0e0;  you@example.com" style="font-family:Arial, FontAwesome">
+    <span class="focus-input100"></span>
+</div>
+
+<div class="wrap-input100 m-b-20">
+    <span class="label-input100">{{ form.password.label() }}</span>
+    <input class="input100" type="password" name="password" id="password1" placeholder="&#xf084; ********"
+        style="font-family:Arial, FontAwesome">
+    <span class="focus-input100"></span>
+    <span class="eye1" id="eye1">
+        <i onclick="showHidePassword('1', 'unhide');" id="unhide1" class="fa fa-eye"></i>
+        <i onclick="showHidePassword('1', 'hide');" id="hide1" class="fa fa-eye-slash"></i>
+    </span>
+</div>
+
+<div class="flex-sb-m w-full m-b-30">
+    <div class="contact100-form-checkbox">
+        {{ form.remember_me() }}
+        <label class="label-checkbox100" for="ckb1">
+            {{ form.remember_me.label() }}
+        </label>
+    </div>
+    <div>
+        <a href="/auth/forgot-password" class="txt1" style="text-decoration: none;">
+            Forgot Password?
+        </a>
+    </div>
+</div>
+<div class="container-login100-form-btn">
+    {{ form.submit(class="login100-form-btn") }}
+</div>
+<div>
+    <br>
+    <p>Don't have an account?&ensp;<a href="/auth/registration"
+            style="color: inherit;text-decoration: underline;">Register</a></p>
+</div>
+
+<div style="margin-top: 20px">
+    <!-- Display validation errors -->
+
+</div>
+{% endblock %}

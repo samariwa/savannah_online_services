@@ -1,0 +1,317 @@
+{% if current_user.has_role('SuperUser') %}
+{% extends 'superuser/superuser_templates/base_superuser_template.html' %}
+{% elif current_user.has_role('Admin') %}
+{% extends 'admin/admin_templates/base_admin_template.html' %}
+{% else %}
+{% extends 'cashier/cashier_templates/base_cashier_template.html' %}
+{% endif %}
+
+{% block head %}
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Dashboard <span style="font-size: 18px;">/Summary</span></h1>
+        <h6 class="h6 mb-0 text-gray-600 mr-3">Time: <span id="time"></span></h6>
+    </div>
+    {% endblock %}
+
+    {% block body %}
+    <div class="row">
+        <h3>Summary for Today ({{ today }})</h3>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <div class="jumbotron">
+                <h3 class="display-10">No. of Completed Orders</h3>
+                <h2>
+                    {{ summaries['today']['order_count'] }}
+                </h2>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="jumbotron">
+                <h3 class="display-10">No. of Walk In Orders</h3>
+                <h2>
+                    {{ summaries['today']['walkin_order_count'] }}
+                </h2>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <div class="jumbotron">
+                <h3 class="display-10">No. of Deliveries</h3>
+                <h2>
+                    {{ summaries['today']['delivery_order_count'] }}
+                </h2>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="jumbotron">
+                <h3 class="display-10">Avg. Delivery Speed</h3>
+                <h2>
+                    {{ summaries['today']['avg_delivery_speed'] }}
+                </h2>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <div class="jumbotron">
+                <h3 class="display-10">No. of Verified Deliveries</h3>
+                <h2>
+                    {{ summaries['today']['verified_deliveries'] }}
+                </h2>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="jumbotron">
+                <h3 class="display-10">No. of Unverified Deliveries</h3>
+                <h2>
+                    {{ summaries['today']['unverified_deliveries'] }}
+                </h2>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <div class="jumbotron">
+                <h3 class="display-10">Total Sales Value</h3>
+                <h2>Ksh.
+                    {{ summaries['today']['sales_value'] }}
+                </h2>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="jumbotron">
+                <h3 class="display-10">Total Payments Made</h3>
+                <h2>Ksh.
+                    {{ summaries['today']['total_payments'] }}
+                </h2>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <div class="jumbotron">
+                <h3 class="display-10">Total Paid via M-Pesa</h3>
+                <h2>Ksh.
+                    {{ summaries['today']['mpesa_payments'] }}
+                </h2>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="jumbotron">
+                <h3 class="display-10">Total Paid in Cash</h3>
+                <h2>Ksh.
+                    {{ summaries['today']['cash_payments'] }}
+                </h2>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <div class="jumbotron">
+                <h3 class="display-10">Total Mpesa Attributions</h3>
+                <h2>Ksh.
+                    {{ summaries['today']['attributed_mpesa_payments'] }}
+                </h2>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="jumbotron">
+                <h3 class="display-10">Total Unpaid</h3>
+                <h2>Ksh.
+                    {{ summaries['today']['total_unpaid'] }}
+                </h2>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <div class="jumbotron">
+                <h3 class="display-10">Total Banked</h3>
+                <h2>Ksh.
+                    {{ summaries['today']['total_banked'] }}
+                </h2>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="jumbotron">
+                <h3 class="display-10">Expenditure</h3>
+                <h2>Ksh.
+                    {{ summaries['today']['total_expenditure'] }}
+                </h2>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <div class="jumbotron">
+                <h3 class="display-10">Total Refund Value</h3>
+                <h2>
+                    Ksh. {{ summaries['today']['total_refunded'] }}
+                </h2>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="jumbotron">
+                <h3 class="display-10">Profit/Loss Made</h3>
+                <h2>Ksh.
+                    {{ summaries['today']['profit_or_loss'] }}
+                </h2>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <h3>Summary for Yesterday ({{ yesterday }})</h3>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <div class="jumbotron">
+                <h3 class="display-10">No. of Completed Orders</h3>
+                <h2>
+                    {{ summaries['yesterday']['order_count'] }}
+                </h2>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="jumbotron">
+                <h3 class="display-10">No. of Walk In Orders</h3>
+                <h2>
+                    {{ summaries['yesterday']['walkin_order_count'] }}
+                </h2>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <div class="jumbotron">
+                <h3 class="display-10">No. of Deliveries</h3>
+                <h2>
+                    {{ summaries['yesterday']['delivery_order_count'] }}
+                </h2>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="jumbotron">
+                <h3 class="display-10">Avg. Delivery Speed</h3>
+                <h2>
+                    {{ summaries['yesterday']['avg_delivery_speed'] }}
+                </h2>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <div class="jumbotron">
+                <h3 class="display-10">No. of Verified Deliveries</h3>
+                <h2>
+                    {{ summaries['yesterday']['verified_deliveries'] }}
+                </h2>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="jumbotron">
+                <h3 class="display-10">No. of Unverified Deliveries</h3>
+                <h2>
+                    {{ summaries['yesterday']['unverified_deliveries'] }}
+                </h2>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <div class="jumbotron">
+                <h3 class="display-10">Total Sales Value</h3>
+                <h2>Ksh.
+                    {{ summaries['yesterday']['sales_value'] }}
+                </h2>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="jumbotron">
+                <h3 class="display-10">Total Payments Made</h3>
+                <h2>Ksh.
+                    {{ summaries['yesterday']['total_payments'] }}
+                </h2>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <div class="jumbotron">
+                <h3 class="display-10">Total Paid via M-Pesa</h3>
+                <h2>Ksh.
+                    {{ summaries['yesterday']['mpesa_payments'] }}
+                </h2>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="jumbotron">
+                <h3 class="display-10">Total Paid in Cash</h3>
+                <h2>Ksh.
+                    {{ summaries['yesterday']['cash_payments'] }}
+                </h2>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <div class="jumbotron">
+                <h3 class="display-10">Total Mpesa Attributions</h3>
+                <h2>Ksh.
+                    {{ summaries['yesterday']['attributed_mpesa_payments'] }}
+                </h2>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="jumbotron">
+                <h3 class="display-10">Total Unpaid</h3>
+                <h2>Ksh.
+                    {{ summaries['yesterday']['total_unpaid'] }}
+                </h2>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <div class="jumbotron">
+                <h3 class="display-10">Total Banked</h3>
+                <h2>Ksh.
+                    {{ summaries['yesterday']['total_banked'] }}
+                </h2>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="jumbotron">
+                <h3 class="display-10">Expenditure</h3>
+                <h2>Ksh.
+                    {{ summaries['yesterday']['total_expenditure'] }}
+                </h2>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <div class="jumbotron">
+                <h3 class="display-10">Total Refund Value</h3>
+                <h2>
+                    Ksh. {{ summaries['yesterday']['total_refunded'] }}
+                </h2>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="jumbotron">
+                <h3 class="display-10">Profit/Loss Made</h3>
+                <h2>Ksh.
+                    {{ summaries['yesterday']['profit_or_loss'] }}
+                </h2>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scroll to Top Button-->
+    {% endblock %}

@@ -1,0 +1,227 @@
+{% if current_user.has_role('SuperUser') %}
+{% extends 'superuser/superuser_templates/base_superuser_template.html' %}
+{% else %}
+{% extends 'admin/admin_templates/base_admin_template.html' %}
+{% endif %}
+
+{% block head %}
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+      <h1 class="h3 mb-0 text-gray-800">Dashboard <span style="font-size: 18px;">/Delivery Trucks</span></h1>
+     <h6 class="h6 mb-0 text-gray-600 mr-3">Time: <span id="time"></span></h6>
+    </div>
+    {% endblock %}
+
+    {% block body %}
+    <div class="row">
+        <div class="col-md-4">
+           <a data-toggle="modal" data-target="#exampleModalScrollable" class="btn btn-success btn-md active" role="button" aria-pressed="true"><i class="fa fa-plus-circle"></i>&ensp;New Vehicle</a>
+     <!-- Modal -->
+    <div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalScrollableTitle">New Vehicle</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form method="POST">
+               <div class="row">
+               <input type="text" name="type" id="type" class="form-control col-md-9" style="padding:15px;margin-left: 60px" placeholder="Vehicle Type..." required>
+                </div><br>
+                <div class="row">
+               <select type="text" name="driver" id="driver" class="form-control col-md-9" style="padding-right:15px;padding-left:15px;margin-left: 60px" onfocus='this.size=3;' onblur='this.size=1;' onchange='this.size=1; this.blur();' required>
+                <option value="" selected="selected" disabled>Vehicle Driver...</option>
+                <!--Start of drivers list loop-->
+                 <option value="<?php echo $driver; ?>">Driver</option>
+                <!--End of loop-->
+               </select>
+                </div><br>
+                <div class="row">
+               <input type="text" name="reg" id="reg" class="form-control col-md-9" style="padding:15px;margin-left: 60px" placeholder="Registration Number..." required>
+                </div><br>
+                <div class="row">
+               <input type="text" name="route" id="route" class="form-control col-md-9" style="padding:15px;margin-left: 60px" placeholder="Vehicle Route..." required>
+                </div>
+                <input type="hidden" name="where" id= "where"  value="vehicles">
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" style="margin-right: 50px" id="addVehicle">Add Vehicle</button>
+          </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="col-md-8">
+    <h6 class="offset-2">Total Number: 1</h6>
+    </div>
+      </div><br>
+
+      <table id="vehiclesEditable" class="table table-striped table-hover paginate" style="display:block;overflow-y:scroll;text-align: center;">
+<thead class="thead-dark">
+  <tr>
+    <th scope="col" width="5%">#</th>
+    <th scope="col" width="12%">Vehicle Type</th>
+    <th scope="col" width="12%">Reg. No.</th>
+    <th scope="col" width="12%">Route</th>
+    <th scope="col" width="12%">Mileage</th>
+    <th scope="col"width="40%"></th>
+  </tr>
+</thead>
+<tbody >
+  <!--End of vehicles list loop-->
+  <tr>
+    <th scope="row" class="uneditable" id="id<?php echo $count; ?>">3452</th>
+    <td class="uneditable" id="type<?php echo $count; ?>">Van</td>
+    <td class="uneditable" id="reg<?php echo $count; ?>">KCF 235L</td>
+    <td class="editable" id="route<?php echo $count; ?>">Ngong - Langata</td>
+    <td class="editable" id="mileage<?php echo $count; ?>">245,564 Kms.</td>
+     <td>
+      <button data-toggle="modal" data-target="#exampleModalScrollable213" id="213" data_id="213" class="btn btn-warning btn-sm active viewVehicle" role="button" aria-pressed="true" ><i class="fa fa-eye"></i>&ensp;View Details</button>
+      <div class="modal fade" id="exampleModalScrollable213" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalScrollableTitle">Vehicle Details</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <!--Start of vehicle details loop-->
+            <div class="row" style="padding:15px;margin-left: 60px">
+                   <h5><b>Driver:</b></h5>
+               </div>
+               <div class="row"  style="padding:15px;margin-left: 60px;margin-top: -30px">
+                Driver name
+                   <select type="text" name="driver" id="driver<?php echo $id?>" class="form-control col-md-9" style="padding-right:15px;padding-left:15px;margin-left: 10px" required onfocus='this.size=3;' onblur='this.size=1;' onchange='this.size=1; this.blur();' required>
+                <option value="<?php echo $Driver_id ?>" selected="selected" disabled>Change Vehicle Driver...</option>
+                  <!--Start of drivers list loop-->
+                 <option value="<?php echo $driver_id; ?>">Johnson</option>
+                <!--End of drivers list loop-->
+               </select>
+               <button type="submit" class="btn btn-primary saveDriver" style="margin-top: 20px;margin-left: 200px" id="<?php echo $id?>">Save</button>
+                </div><br>
+               <div class="row" style="padding:15px;margin-top: -20px;margin-left: 60px">
+                   <h5><b>Last Service Date:</b></h5>
+               </div>
+               <div class="row"  style="padding:15px;margin-left: 60px;margin-top: -30px;">
+                    23rd September, 2022
+                </div><br>
+                 <div class="row" style="padding:15px;margin-left: 60px">
+                   <h5><b>Service Notes:</b></h5><br><br>
+                </div>
+               <div class="row"  style="padding:15px;margin-left: 60px;margin-top: -30px;">
+                     Air filters were changed. Vehicle needs tire change
+                </div><br>
+                 <div class="row" style="padding:15px;margin-left: 60px">
+                   <h5><b>Next Service Date:</b></h5><br>
+                </div>
+               <div class="row"  style="padding:15px;margin-left: 60px;margin-top: -30px;">
+                      1st January, 2023
+                </div>
+                <!--Start of inspection list loop-->
+            <div class="row" style="padding:15px;margin-left: 60px">
+                   <h5><b>Last Inspection Date:</b></h5>
+               </div>
+               <div class="row"  style="padding:15px;margin-left: 60px;margin-top: -30px;">
+                    12th October 2022
+                </div><br>
+                 <div class="row" style="padding:15px;margin-left: 60px">
+                   <h5><b>Inspection Notes:</b></h5><br><br>
+                </div>
+               <div class="row"  style="padding:15px;margin-left: 60px;margin-top: -30px;">
+                     Vehicle in good condition
+                </div><br>
+                 <div class="row" style="padding:15px;margin-left: 60px">
+                   <h5><b>Next Inspection Date:</b></h5><br>
+                </div>
+               <div class="row"  style="padding:15px;margin-left: 60px;margin-top: -30px;">
+                      13th November 2022
+                </div>
+          </div>
+          <div class="modal-footer">
+          </div>
+        </div>
+      </div>
+    </div>
+     <button data-toggle="modal" data-target="#exampleModalScrollable2214" class="btn btn-light btn-sm active" role="button" aria-pressed="true"><i class="fa fa-wrench"></i>&ensp;Service</button>
+     <!-- Modal -->
+    <div class="modal fade" id="exampleModalScrollable2214" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalScrollableTitle">Add Service Details</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form method="POST">
+               <div class="row">
+                <label for="now" style="margin-left: 60px">Service Date...</label>
+               <input type="date" name="now" id="now<?php echo $id?>" class="form-control col-md-9" style="padding:15px;margin-left: 60px"  required>
+                </div><br>
+                <div class="row">
+               <input type="text" name="note" id="note<?php echo $id?>" class="form-control col-md-9" style="padding:15px;margin-left: 60px" placeholder="Service Notes..." >
+                </div><br>
+                <div class="row">
+                   <label for="next" style="margin-left: 60px">Next Service Date...</label>
+               <input type="date" name="next" id="next<?php echo $id?>" class="form-control col-md-9" style="padding:15px;margin-left: 60px"  required>
+                </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary addService" style="margin-right: 50px" id="<?php echo $id?>">Save Details</button>
+          </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    <button data-toggle="modal" data-target="#exampleModalScrollable3<?php echo $id?>" class="btn btn-light btn-sm active" role="button" aria-pressed="true"><i class="fa fa-check-square"></i>&ensp;Inspection</button>
+     <!-- Modal -->
+    <div class="modal fade" id="exampleModalScrollable3<?php echo $id?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalScrollableTitle">Add Inspection Details</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form method="POST">
+               <div class="row">
+                <label for="now" style="margin-left: 60px">Inspection Date...</label>
+               <input type="date" name="now" id="Now<?php echo $id?>" class="form-control col-md-9" style="padding:15px;margin-left: 60px"  required>
+                </div><br>
+                <div class="row">
+               <input type="text" name="note" id="Note<?php echo $id?>" class="form-control col-md-9" style="padding:15px;margin-left: 60px" placeholder="Inspection Notes..." >
+                </div><br>
+                <div class="row">
+                   <label for="next" style="margin-left: 60px">Next Inspection Date...</label>
+               <input type="date" name="next" id="Next<?php echo $id?>" class="form-control col-md-9" style="padding:15px;margin-left: 60px"  required>
+                </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary addInspection" style="margin-right: 50px" id="<?php echo $id?>">Save Details</button>
+          </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+      <button id="<?php echo $id; ?>" data_id="<?php echo $id; ?>" class="btn btn-danger btn-sm active deleteVehicle" role="button" aria-pressed="true" ><i class="fa fa-trash"></i>&ensp;Delete</button>
+     </td>
+  </tr>
+  <!--End of loop-->
+</tbody>
+</table>
+<!-- Scroll to Top Button-->
+    {% endblock %}

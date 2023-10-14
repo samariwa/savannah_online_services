@@ -1,0 +1,83 @@
+{% if current_user.has_role('SuperUser') %}
+{% extends 'superuser/superuser_templates/base_superuser_template.html' %}
+{% else %}
+{% extends 'admin/admin_templates/base_admin_template.html' %}
+{% endif %}
+
+{% block head %}
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Dashboard <span style="font-size: 18px;">/Customers </span>
+            <span style="font-size: 15px;">/Customer Accounts </span><span style="font-size: 13px;">/Customer Account Transactions</span></h1>
+        <h6 class="h6 mb-0 text-gray-600 mr-3">Time: <span id="time"></span></h6>
+    </div>
+{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-md-4">
+        <a href="/cashier/customer-accounts" class="btn btn-primary btn-md active" role="button" aria-pressed="true"><i
+                class="fa fa-arrow-left"></i>&ensp;Back</a>
+    </div>
+    <div class="col-md-4">
+        <h6 class="offset-3">Total Number: {{ customer_account_transactions_count }}</h6>
+    </div>
+    <div class="col-md-4">
+
+    </div>
+</div><br>
+<table id="accountTransactionsEditable" class="table table-striped table-hover paginate"
+    style="display:block;overflow-y:scroll;text-align: center;">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col" width="3%">#</th>
+            <th scope="col" width="15%">Customer</th>
+            <th scope="col" width="12%">Prev. Bal.(Ksh.)</th>
+            <th scope="col" width="12%">Prev. Debt(Ksh.)</th>
+            <th scope="col" width="12%">Txn Amt(Ksh.)</th>
+            <th scope="col" width="10%">Action</th>
+            <th scope="col" width="13%">Txn Bearing</th>
+            <th scope="col" width="12%">Curr. Bal.(Ksh.)</th>
+            <th scope="col" width="12%">Curr. Debt.(Ksh.)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for customer_account_transaction in customer_account_transactions %}
+        <tr>
+            <th scope="row" class="uneditable" id="id{{ loop.index }}">
+                {{ customer_account_transaction.id }}
+            </th>
+            <td class="uneditable" id="customer_name{{ loop.index }}">
+                {{ customer_account_transaction.first_name+' '+customer_account_transaction.last_name }}
+            </td>
+            <td class="uneditable" id="previous_balance{{ loop.index }}">
+                {{ customer_account_transaction.previous_balance }}
+            </td>
+            <td class="uneditable" id="previous_debt{{ loop.index }}">
+                {{ customer_account_transaction.previous_debt }}
+            </td>
+            <td class="uneditable" id="transaction_amount{{ loop.index }}">
+                {{ customer_account_transaction.transaction_amount }}
+            </td>
+            <td class="uneditable" id="action{{ loop.index }}">
+                {{ customer_account_transaction.action }}
+            </td>
+            <td class="uneditable" id="transaction_bearing{{ loop.index }}">
+                {{ customer_account_transaction.transaction_bearing }}
+            </td>
+            <td class="uneditable" id="current_balance{{ loop.index }}">
+                {{ customer_account_transaction.current_balance }}
+            </td>
+            <td class="uneditable" id="current_debt{{ loop.index }}">
+                {{ customer_account_transaction.current_debt }}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- Scroll to Top Button-->
+{% endblock %}
