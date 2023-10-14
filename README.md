@@ -1,7 +1,7 @@
-# Sympha Fresh 
+# CIFOR-ICRAF Events
 ![Alt][1] 
 
-This repo has a re-engineered version of the previous Sympha Fresh web commerce platform that was build PHP. This new version is build using Flask Python framework.
+This repo has a events management platform for CIFOR-ICRAF. Will give more details on it soon.
 
 [1]: /sympha.png "Sympha Logo"
 
