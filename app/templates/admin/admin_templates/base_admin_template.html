@@ -60,7 +60,7 @@
             </a>
           </li>
           <li>
-            <a class="nav-link" href="typography">
+            <a class="nav-link" href="/admin/analytics">
               <i class="fa fa-bar-chart" aria-hidden="true"></i>
               <p>Analytics</p>
             </a>
@@ -91,11 +91,16 @@
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink"
                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <i class="fa fa-user"></i>&ensp;
+                  {% if current_user.is_authenticated %}
+                  {{ current_user.staff.first_name+' '+current_user.staff.last_name }}
+                  {% else %}
+                  User
+                  {% endif %}
+                  &ensp;<i class="fa fa-user"></i>&ensp;
 
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                  <a class="dropdown-item" href="#">Profile</a>
+                  <a class="dropdown-item" href="/admin/profile">Profile</a>
                   <div class="divider"></div>
                   <a class="dropdown-item" href="{{ url_for('admin_logout_page') }}"><i
                       class="fa fa-sign-out"></i>&ensp;Logout</a>

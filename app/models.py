@@ -204,22 +204,6 @@ class Staff(db.Model):
     )
     first_name = db.Column(db.String(length=30), nullable=False)
     last_name = db.Column(db.String(length=30), nullable=False)
-    id_number = db.Column(db.String(length=10))
-    yob = db.Column(db.Integer(), default=1990)
-    # type(datetime.date(2022, 3, 3).year) = <class 'int'>
-    gender = db.Column(
-        db.Enum(
-            "male",
-            "female",
-            "other",
-            name="gender",
-        ),
-        nullable=False,
-        default="other",
-    )
-    nssf_number = db.Column(db.String(length=10))
-    nhif_number = db.Column(db.String(length=10))
-
     db_status = db.Column(
         db.Enum(
             "active",

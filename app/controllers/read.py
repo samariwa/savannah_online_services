@@ -49,7 +49,7 @@ def fetch_all_users():
     function that fetches all users in the database regardless of the db status
     """
     return db.session.execute(
-        db.select(User.id, User.customer_id, User.staff_id, User.user_status,
+        db.select(User.id, User.staff_id, User.user_status,
                   User.email_address, User.login_status, User.last_activity,
                   User.login_attempts, User.db_status, User.password_hash,
                   User.created_at, User.updated_at)
@@ -146,9 +146,7 @@ def fetch_all_staff():
     """
     return db.session.execute(
         db.select(Staff.id, Staff.role_id, Staff.first_name, Staff.last_name,
-                  Staff.id_number, Staff.yob, Staff.gender, Staff.nssf_number,
-                  Staff.nhif_number, Staff.db_status, Staff.created_at,
-                  Staff.updated_at)
+                  Staff.db_status, Staff.created_at, Staff.updated_at)
                   .order_by(Staff.id.asc())
                 ).all()
 

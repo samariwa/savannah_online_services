@@ -166,9 +166,9 @@ class AddAdminForm(FlaskForm):
     firstname = StringField(
         render_kw={
             "placeholder": "First Name...",
-            "class": "form-control col-md-9",
+            "class": "form-control col-md-10 ml-3",
             "id": "firstname",
-            "style": "padding:15px;margin-left: 60px"
+            "style": "padding:15px"
         },
         validators=[DataRequired()]
     )
@@ -176,9 +176,9 @@ class AddAdminForm(FlaskForm):
     lastname = StringField(
         render_kw={
             "placeholder": "Last Name...",
-            "class": "form-control col-md-9",
+            "class": "form-control col-md-10 ml-3",
             "id": "lastname",
-            "style": "padding:15px;margin-left: 60px"
+            "style": "padding:15px"
         },
         validators=[DataRequired()]
     )
@@ -187,9 +187,9 @@ class AddAdminForm(FlaskForm):
         label="Email Address",
         render_kw={
             "placeholder": "Email Address...",
-            "class": "form-control col-md-9",
+            "class": "form-control col-md-10 ml-3",
             "id": "email_address",
-            "style": "padding:15px;margin-left: 60px"
+            "style": "padding:15px"
         },
         validators=[
             Email(check_deliverability=True, message=respond('SK010')),
@@ -200,22 +200,32 @@ class AddAdminForm(FlaskForm):
     role = SelectField(
         choices=[("", "Role...")],
         render_kw={
-            "class": "form-control col-md-9",
+            "class": "form-control col-md-10 ml-3",
             "id": "role",
             "onfocus": "this.size=3;",
             "onblur": "this.size=1;",
             "onchange": "this.size=1; this.blur();",
-            "style": "padding-right:15px;padding-left:15px;margin-left: 60px"
+            "style": "padding-right:15px;padding-left:15px"
             },
         validators=[DataRequired()]
     )
 
-    submit = SubmitField(
-        label='Add Admin',
+    close = SubmitField(
+        label='Close',
 
         render_kw={
             "style": "margin-right: 50px",
-            "class": "btn btn-primary",
+            "class": "btn btn-link btn-simple",
+            "data-dismiss": "modal"
+        }
+    )
+
+    submit = SubmitField(
+        label='Add User',
+
+        render_kw={
+            "style": "margin-right: 50px",
+            "class": "btn btn-link btn-simple",
             "id": "addAdmin"
         }
     )
@@ -229,13 +239,22 @@ class AdminActionForm(FlaskForm):
             'default': 'active',
         }       
                         )
+    close = SubmitField(
+        label='Close',
+
+        render_kw={
+            "style": "margin-right: 50px",
+            "class": "btn btn-link btn-simple",
+            "data-dismiss": "modal"
+        }
+    )
 
     submit = SubmitField(
         label='Apply',
 
         render_kw={
             "style": "margin-right: 50px",
-            "class": "btn btn-primary apply_admin_action"
+            "class": "btn btn-link btn-simple apply_admin_action"
         }
     )
 

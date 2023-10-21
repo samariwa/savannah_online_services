@@ -4,158 +4,175 @@
 {% extends 'admin/admin_templates/base_admin_template.html' %}
 {% endif %}
 
-{% block head %}
+{% block body %}
 <!-- Begin Page Content -->
-<div class="container-fluid">
-
-  <!-- Page Heading -->
-  <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Dashboard <span style="font-size: 18px;">/Analytics</span></h1>
-    <h6 class="text-gray-600" style="margin-left: 500px;">Time: <span id="time"></span></h6>
-  </div>
-  {% endblock %}
-
-  {% block body %}
-  <div class="container expense-categories">
-    <div class="row">
-      <div class="col-6">
-        <div class="jumbotron jumbotron-fluid">
-          <a href="/admin/analytics-customers-view">
-            <div class="container">
-              <h2> Customers</h2>
-              <p class="lead">General view of all customer related insights based on real time records <i class="fa fa-line-chart" aria-hidden="true"></i></p>
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-10">
+                <h4 style="margin-top: -10px">Analytics</h4>
             </div>
-          </a>
-        </div>
-      </div>
-      <div class="col-6">
-        <div class="jumbotron jumbotron-fluid">
-          <a href="/admin/analytics-stock-view">
-            <div class="container">
-              <h2>Stock</h2>
-              <p class="lead">Get an analysis of stock performance and stock movement on the go <i class="fa fa-line-chart" aria-hidden="true"></i></p>
+            <div class="col-2">
+                <div class="ml-4">
+                    <h5 style="color:#9A9A9A;">Time: <span id="time"></span></h5>
+                </div>
             </div>
-          </a>
         </div>
-      </div>
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Notifications</h4>
+                <p class="card-category">Handcrafted by our friend
+                    <a target="_blank" href="https://github.com/mouse0270">Robert McIntosh</a>. Please checkout the
+                    <a href="http://bootstrap-notify.remabledesigns.com/" target="_blank">full documentation.</a>
+                </p>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>
+                            <small>Notifications Style</small>
+                        </h5>
+                        <div class="alert alert-info">
+                            <span>This is a plain notification</span>
+                        </div>
+                        <div class="alert alert-info">
+                            <button type="button" aria-hidden="true" class="close" data-dismiss="alert">
+                                <i class="nc-icon nc-simple-remove"></i>
+                            </button>
+                            <span>This is a notification with close button.</span>
+                        </div>
+                        <div class="alert alert-info alert-with-icon" data-notify="container">
+                            <button type="button" aria-hidden="true" class="close" data-dismiss="alert">
+                                <i class="nc-icon nc-simple-remove"></i>
+                            </button>
+                            <span data-notify="icon" class="nc-icon nc-bell-55"></span>
+                            <span data-notify="message">This is a notification with close button and icon.</span>
+                        </div>
+                        <div class="alert alert-info alert-with-icon" data-notify="container">
+                            <button type="button" aria-hidden="true" class="close" data-dismiss="alert">
+                                <i class="nc-icon nc-simple-remove"></i>
+                            </button>
+                            <span data-notify="icon" class="nc-icon nc-bell-55"></span>
+                            <span data-notify="message">This is a notification with close button and icon and have many
+                                lines. You can see that the icon and the close button are always vertically aligned.
+                                This is a beautiful notification. So you don't have to worry about the style.</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h5>
+                            <small>Notification States</small>
+                        </h5>
+                        <div class="alert alert-primary">
+                            <button type="button" aria-hidden="true" class="close" data-dismiss="alert">
+                                <i class="nc-icon nc-simple-remove"></i>
+                            </button>
+                            <span>
+                                <b> Primary - </b> This is a regular notification made with ".alert-primary"</span>
+                        </div>
+                        <div class="alert alert-info">
+                            <button type="button" aria-hidden="true" class="close" data-dismiss="alert">
+                                <i class="nc-icon nc-simple-remove"></i>
+                            </button>
+                            <span>
+                                <b> Info - </b> This is a regular notification made with ".alert-info"</span>
+                        </div>
+                        <div class="alert alert-success">
+                            <button type="button" aria-hidden="true" class="close" data-dismiss="alert">
+                                <i class="nc-icon nc-simple-remove"></i>
+                            </button>
+                            <span>
+                                <b> Success - </b> This is a regular notification made with ".alert-success"</span>
+                        </div>
+                        <div class="alert alert-warning">
+                            <button type="button" aria-hidden="true" class="close" data-dismiss="alert">
+                                <i class="nc-icon nc-simple-remove"></i>
+                            </button>
+                            <span>
+                                <b> Warning - </b> This is a regular notification made with ".alert-warning"</span>
+                        </div>
+                        <div class="alert alert-danger">
+                            <button type="button" aria-hidden="true" class="close" data-dismiss="alert">
+                                <i class="nc-icon nc-simple-remove"></i>
+                            </button>
+                            <span>
+                                <b> Danger - </b> This is a regular notification made with ".alert-danger"</span>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <br>
+                <div class="places-buttons">
+                    <div class="row">
+                        <div class="col-md-6 offset-md-3 text-center">
+                            <h4 class="card-title">Notifications Places
+                                <p class="card-category">
+                                    <small>Click to view notifications</small>
+                                </p>
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-md-3 col-lg-3">
+                            <button class="btn btn-default btn-block" onclick="demo.showNotification('top','left')">Top
+                                Left</button>
+                        </div>
+                        <div class="col-md-3 col-lg-3">
+                            <button class="btn btn-default btn-block"
+                                onclick="demo.showNotification('top','center')">Top Center</button>
+                        </div>
+                        <div class="col-md-3 col-lg-3">
+                            <button class="btn btn-default btn-block" onclick="demo.showNotification('top','right')">Top
+                                Right</button>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-md-3 col-lg-3">
+                            <button class="btn btn-default btn-block"
+                                onclick="demo.showNotification('bottom','left')">Bottom Left</button>
+                        </div>
+                        <div class="col-md-3 col-lg-3">
+                            <button class="btn btn-default btn-block"
+                                onclick="demo.showNotification('bottom','center')">Bottom Center</button>
+                        </div>
+                        <div class="col-md-3 col-lg-3">
+                            <button class="btn btn-default btn-block"
+                                onclick="demo.showNotification('bottom','right')">Bottom Right</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <h4 class="title">Modal</h4>
+                        <a class="btn btn-info btn-fill btn-wd" data-toggle="modal" data-target="#myModal1"
+                            href="#pablo">
+                            Launch Modal Mini
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Mini Modal -->
+        <div class="modal fade modal-mini modal-primary" id="myModal1" tabindex="-1" role="dialog"
+            aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header justify-content-center">
+                        <div class="modal-profile">
+                            <i class="nc-icon nc-bulb-63"></i>
+                        </div>
+                    </div>
+                    <div class="modal-body text-center">
+                        <p>Always have an access to your profile</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-link btn-simple">Back</button>
+                        <button type="button" class="btn btn-link btn-simple" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--  End Modal -->
     </div>
-
-    <div class="row">
-      <div class="col-6">
-        <div class="jumbotron jumbotron-fluid">
-          <a href="/admin/analytics-sales-view">
-            <div class="container">
-              <h2>Sales</h2>
-              <p class="lead">Comprehensive reports on sales performance for various reporting periods <i class="fa fa-line-chart" aria-hidden="true"></i></p>
-            </div>
-          </a>
-        </div>
-      </div>
-      <div class="col-6">
-        <div class="jumbotron jumbotron-fluid">
-          <a href="/admin/analytics-expenditure-view">
-            <div class="container">
-              <h2>Expenses</h2>
-              <p class="lead">Get an insight of the organization's expenditure and comparisons between various periods <i class="fa fa-line-chart" aria-hidden="true"></i></p>
-            </div>
-          </a>
-        </div>
-      </div>   
-    </div>
-
-    <div class="row">
-      <div class="col-6">
-        <div class="jumbotron jumbotron-fluid">
-          <a href="/admin/analytics-sales-view">
-            <div class="container">
-              <h2>Transactions</h2>
-              <p class="lead">View real time transactions of different types (Cash, M-Pesa, PDQ) <i class="fa fa-line-chart" aria-hidden="true"></i></p>
-            </div>
-          </a>
-        </div>
-      </div>
-      <div class="col-6">
-        <div class="jumbotron jumbotron-fluid">
-          <a href="/admin/analytics-expenditure-view">
-            <div class="container">
-              <h2>M-Pesa</h2>
-              <p class="lead">View real time M-Pesa transactions and all their corresponding details <i class="fa fa-line-chart" aria-hidden="true"></i></p>
-            </div>
-          </a>
-        </div>
-      </div>   
-    </div>
-
-    <div class="row">
-      <div class="col-6">
-        <div class="jumbotron jumbotron-fluid">
-          <a href="/admin/analytics-sales-view">
-            <div class="container">
-              <h2>Cash</h2>
-              <p class="lead">View all cash transactions and their details through various periods <i class="fa fa-line-chart" aria-hidden="true"></i></p>
-            </div>
-          </a>
-        </div>
-      </div>
-      <div class="col-6">
-        <div class="jumbotron jumbotron-fluid">
-          <a href="/admin/analytics-expenditure-view">
-            <div class="container">
-              <h2>Tax</h2>
-              <p class="lead">Keep check on tax compliance through various accounting periods<i class="fa fa-line-chart" aria-hidden="true"></i></p>
-            </div>
-          </a>
-        </div>
-      </div>   
-    </div>
-
-    <div class="row">
-      <div class="col-6">
-        <div class="jumbotron jumbotron-fluid">
-          <a href="/admin/analytics-sales-view">
-            <div class="container">
-              <h2>Accounts</h2>
-              <p class="lead">Have a view of the books of accounts for various accounting periods <i class="fa fa-line-chart" aria-hidden="true"></i></p>
-            </div>
-          </a>
-        </div>
-      </div>
-      <div class="col-6">
-        <div class="jumbotron jumbotron-fluid">
-          <a href="/admin/analytics-expenditure-view">
-            <div class="container">
-              <h2>Staff</h2>
-              <p class="lead">Have a general overview of the organization's staffing <i class="fa fa-line-chart" aria-hidden="true"></i></p>
-            </div>
-          </a>
-        </div>
-      </div>   
-    </div>
-
-    <div class="row">
-      <div class="col-6">
-        <div class="jumbotron jumbotron-fluid">
-          <a href="/admin/analytics-sales-view">
-            <div class="container">
-              <h2>Assets</h2>
-              <p class="lead">Keep track of the various organizational assets and their valuation <i class="fa fa-line-chart" aria-hidden="true"></i></p>
-            </div>
-          </a>
-        </div>
-      </div>
-      <div class="col-6">
-        <div class="jumbotron jumbotron-fluid">
-          <a href="/admin/analytics-expenditure-view">
-            <div class="container">
-              <h2>Overall Performance</h2>
-              <p class="lead">Get the latest performance metrics of the organization for various periods <i class="fa fa-line-chart" aria-hidden="true"></i></p>
-            </div>
-          </a>
-        </div>
-      </div>   
-    </div>
-  </div>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="{{ url_for('static', filename='js/charts.js') }}"></script>
-  <!-- Scroll to Top Button-->
-  {% endblock %}
+</div>
+<!-- Scroll to Top Button-->
+{% endblock %}

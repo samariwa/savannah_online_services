@@ -70,11 +70,6 @@ def create_staff(**kwargs):
             'role_id': 'integer, not null',
             'first_name': 'string, not null, length=30',
             'last_name': 'string, not null, length=30',
-            'id_number': 'string, length=10',
-            'yob': 'integer, default=1990',
-            'gender': 'enum, not null, default=other',
-            'nssf_number': 'string, length=10',
-            'nhif_number': 'string, length=10',
         }
         app.logger.error(f"Unexpected {err=}\n"
             "To avoid incorrect format, use the following:\n"

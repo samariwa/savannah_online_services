@@ -103,7 +103,10 @@ def delete_staff(id):
     try:
         staff_to_delete = db.session.execute(
             db.select(Staff).filter_by(id=id)).one()[0]
+        admin_to_delete = db.session.execute(
+            db.select(User).filter_by(staff_id=id)).one()[0]
         toggle_delete(staff_to_delete)
+        delete_admin(admin_to_delete.id)
         return respond('200')
     except Exception as err:
         app.logger.error(f"Unexpected {err=}")

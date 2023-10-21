@@ -20,6 +20,16 @@ from flask_login import current_user
 def admin_dashboard():
     return render_template('admin/dashboard.html')
 
+@app.route('/admin/profile')
+@app.route('/admin/profile/')
+@login_required_redirect(
+    login_url="admin_login",
+    login_message="Please log in to access this page"
+)
+@roles_required('SuperUser', 'Admin')
+def profile():
+    return render_template('admin/profile.html')
+
 @app.route('/admin/events')
 @app.route('/admin/events/')
 @login_required_redirect(
@@ -39,3 +49,13 @@ def events():
 @roles_required('SuperUser', 'Admin')
 def registered_staff():
     return render_template('admin/registered_staff.html')
+
+@app.route('/admin/analytics')
+@app.route('/admin/analytics/')
+@login_required_redirect(
+    login_url="admin_login",
+    login_message="Please log in to access this page"
+)
+@roles_required('SuperUser', 'Admin')
+def analytics():
+    return render_template('admin/analytics.html')
