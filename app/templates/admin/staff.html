@@ -1,0 +1,99 @@
+{% if current_user.has_role('SuperUser') %}
+{% extends 'superuser/superuser_templates/base_superuser_template.html' %}
+{% else %}
+{% extends 'admin/admin_templates/base_admin_template.html' %}
+{% endif %}
+
+{% block body %}
+<!-- Begin Page Content -->
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-10">
+                <h4 style="margin-top: -10px">Staff Event Details</h4>
+            </div>
+            <div class="col-2">
+                <div class="ml-4">
+                    <h5 style="color:#9A9A9A;">Time: <span id="time"></span></h5>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="col-12">
+            <div class="row">
+                <div class="col-md-8 ml-auto mr-auto">
+                    <a class="btn btn-link btn-simple active" href="/admin/registered_staff"
+                        style="text-decoration: none;">
+                        <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>&ensp;Back
+                    </a>
+                    <div class="card card-plain table-plain-bg">
+                        <div class="card-header ">
+                            <div class="row">
+                                <div class="col-9">
+                                    <h4 class="card-title">Samuel Mariwa (ICT)</h4>
+                                    <p class="card-category">s.mariwa@cifor-icraf.org</p>
+                                </div>
+                                <div class="col-3">
+                                    <h4 class="card-title">2 Events</h4>
+                                    <h5 class="card-title ">6 Sessions</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="header text-center">
+                            <h4 class="title">Science Week</h4>
+                            <p class="category">12th June 2023 - 15th June 2023</p>
+                            <p class="category">Session Count: 4</p>
+                            <br>
+                        </div>
+                        <div class="content table-responsive table-upgrade">
+                            <table class="table">
+                                <thead>
+                                    <th class="text-center">Sessions Attended</th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Documentation</td>
+                                    </tr>
+                                    <tr>
+                                        <td>SASS Files</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Login/Register/Lock Pages</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Premium Support</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="header text-center">
+                            <h4 class="title">GLF: A New Vision for Earth</h4>
+                            <p class="category">12th September 2023 - 15th September 2023</p>
+                            <p class="category">Session Count: 2</p>
+                            <br>
+                        </div>
+                        <div class="content table-responsive table-upgrade">
+                            <table class="table">
+                                <thead>
+                                    <th class="text-center">Sessions Attended</th>
+                                </thead>
+                                <tbody>
+
+                                    <tr>
+                                        <td>Documentation</td>
+                                    </tr>
+                                    <tr>
+                                        <td>SASS Files</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

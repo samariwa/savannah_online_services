@@ -16,7 +16,7 @@
         </div>
         <br>
         <div class="row">
-            <a class="btn btn-success btn-fill btn-wd active ml-5" data-toggle="modal" data-target="#addUserModal">
+            <a class="btn btn-success btn-fill btn-round btn-wd active ml-5" data-toggle="modal" data-target="#addUserModal">
                 <i class="fa fa-user-plus" aria-hidden="true"></i>&ensp;Add User
             </a>
         </div>
@@ -88,12 +88,12 @@
                                 <td>{{ admin.department }}</td>
                                 <td>{{ admin.user_status }}</td>
                                 <td>
-                                    <a class="btn btn-info btn-fill active btn-wd" data-toggle="modal" data-target="#adminActionModal{{ admin.id }}">
+                                    <a class="btn btn-warning btn-fill active btn-round" data-toggle="modal" data-target="#adminActionModal{{ admin.id }}">
                                         Action
                                     </a>
                                 </td>
                                 <td>
-                                    <a class="btn btn-danger btn-fill btn-wd active deleteAdmin" id="{{ admin.id }}" data_id="{{ admin.id }}">
+                                    <a class="btn btn-danger btn-fill btn-round active deleteAdmin" id="{{ admin.id }}" data_id="{{ admin.id }}">
                                         <i class="fa fa-user-times" aria-hidden="true"></i>&ensp;Delete
                                     </a>
                                 </td>

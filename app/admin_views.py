@@ -50,6 +50,18 @@ def events():
 def registered_staff():
     return render_template('admin/registered_staff.html')
 
+@app.route('/admin/staff/<staff_id>')
+@app.route('/admin/staff/<staff_id>/')
+@login_required_redirect(
+    login_url="admin_login",
+    login_message="Please log in to access this page"
+)
+@roles_required('SuperUser', 'Admin',)
+def staff(staff_id):
+    return render_template(
+        'admin/staff.html',
+    )
+
 @app.route('/admin/analytics')
 @app.route('/admin/analytics/')
 @login_required_redirect(

@@ -294,4 +294,56 @@ class Department(db.Model):
         return f"{self.department} Department D_ID#: {self.id} {self.role}"
 
 
- 
+class Event(db.Model):
+    __tablename__ = 'events'
+    id = db.Column(db.Integer(), primary_key=True)
+    event = db.Column(db.String(length=20),  nullable=False)
+
+    db_status = db.Column(
+        db.Enum(
+            "active",
+            "deleted",
+            name="delete_status",
+        ),
+        nullable=False,
+        default="active",
+    )
+    created_at = db.Column(db.DateTime(timezone=True),
+                           server_default=func.now())
+    updated_at = db.Column(
+        db.DateTime(timezone=True),
+        onupdate=func.now(),
+    )
+    session = db.relationship('Session', backref='event')
+
+    def __repr__(self):
+        return f"{self.event} Event_ID#: {self.id}"
+    
+class Session(db.Model):
+    __tablename__ = 'sessions'
+    id = db.Column(db.Integer(), primary_key=True)
+    event_id = db.Column(
+        db.Integer(),
+        db.ForeignKey('events.id'),
+        nullable=False,
+    )
+    session = db.Column(db.String(length=20),  nullable=False)
+    db_status = db.Column(
+        db.Enum(
+            "active",
+            "deleted",
+            name="delete_status",
+        ),
+        nullable=False,
+        default="active",
+    )
+    created_at = db.Column(db.DateTime(timezone=True),
+                           server_default=func.now())
+    updated_at = db.Column(
+        db.DateTime(timezone=True),
+        onupdate=func.now(),
+    )
+
+
+    def __repr__(self):
+        return f"{self.session} Session_ID#: {self.id}"
