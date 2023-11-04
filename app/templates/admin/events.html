@@ -20,6 +20,52 @@
         </div>
         <div class="row">
             <div class="col-md-8 ml-auto mr-auto">
+                <div>
+                        <a class="btn btn-success btn-fill btn-round btn-wd active ml-3" data-toggle="modal"
+                            data-target="#addEventModal">
+                            <i class="fa fa-plus" aria-hidden="true"></i>&ensp;Add Event
+                        </a>
+                        <div class="modal fade modal-mini modal-primary" id="addEventModal" tabindex="-1" role="dialog"
+                            aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header justify-content-center">
+                                        <div class="modal-profile">
+                                            <i class="fa fa-plus" aria-hidden="true"></i>
+                                        </div>
+                                    </div>
+                                    <div class="modal-body text-center">
+                                        <p>Add Event</p>
+                                    </div>
+                                    <form method="POST" id="form_add_admin">
+                                        <div class="modal-body">
+                                            {{ add_event_form.hidden_tag() }}
+                                            <div class="row">
+                                                {{ add_event_form.event_name }}
+                                            </div><br>
+                                            <div class="row">
+                                                {{ add_event_form.start_date }}
+                                            </div><br>
+                                            <div class="row">
+                                                {{ add_event_form.end_date }}
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <div class="row">
+                                                <div class="col-5">
+                                                    {{ add_event_form.close }}
+                                                </div>
+                                                <div class="col-7">
+                                                    {{ add_event_form.submit }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
                 <div class="card">
                     <div class="header text-center">
                         <h4 class="title">All Events</h4>
@@ -29,13 +75,15 @@
                     <div class="content table-responsive">
                         <table class="table">
                             <thead>
-                                <th class="text-center" width="35%">Event</th>
-                                <th class="text-center" width="30%">Date</th>
-                                <th class="text-center" width="15%">Sessions</th>
+                                <th class="text-center" width="20%">#</th>
+                                <th class="text-center" width="30%">Event</th>
+                                <th class="text-center" width="20%">Date</th>
+                                <th class="text-center" width="10%">Sessions</th>
                                 <th width="20%"></th>
                             </thead>
                             <tbody>
                                 <tr>
+                                    <td>weed-34b3-23bj-2w3b</td>
                                     <td>Science Week</td>
                                     <td>16/8/2023 - 20/8/2023</td>
                                     <td>11</td>
@@ -46,6 +94,7 @@
                                     </td>
                                 </tr>
                                 <tr>
+                                    <td>weed-34b3-23bj-2w3b</td>
                                     <td>GLF: A New Vision for Earth</td>
                                     <td>16/1/2023 - 20/1/2023</td>
                                     <td>14</td>
@@ -56,6 +105,7 @@
                                     </td>
                                 </tr>
                                 <tr>
+                                    <td>weed-34b3-23bj-2w3b</td>
                                     <td>Plant Breeding Conference</td>
                                     <td>4/7/2023 - 20/7/2023</td>
                                     <td>22</td>

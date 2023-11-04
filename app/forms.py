@@ -2,7 +2,7 @@ from flask import Markup
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField,SubmitField, BooleanField,\
      SelectField, IntegerField, DateField, DecimalField, FileField,\
-     TextAreaField, HiddenField, RadioField
+     TextAreaField, HiddenField, RadioField, DateTimeField
 from wtforms.validators import Length, EqualTo, Email, DataRequired,\
      ValidationError, Regexp
 from flask_wtf.file import FileRequired
@@ -259,6 +259,146 @@ class AdminActionForm(FlaskForm):
     )
 
 
+class AddEventForm(FlaskForm):
+    event_name = StringField(
+        render_kw={
+            "placeholder": "Event Name...",
+            "class": "form-control col-md-10 ml-3",
+            "id": "eventname",
+            "style": "padding:15px"
+        },
+        validators=[DataRequired()]
+    )
+
+    start_date = DateTimeField(
+        label="Start Date",
+        format='%d-%m-%Y %H:%M:%S',
+        default=datetime.today(),
+        render_kw={
+            "class": "form-control col-md-10 ml-3",
+            "id": "start_date",
+            "style": "padding:15px;margin-left: 60px"
+            },
+        validators=[DataRequired()]
+    )
+
+    end_date = DateTimeField(
+        label="End Date",
+        format='%d-%m-%Y %H:%M:%S',
+        default=datetime.today(),
+        render_kw={
+            "class": "form-control col-md-10 ml-3",
+            "id": "end_date",
+            "style": "padding:15px;margin-left: 60px"
+            },
+        validators=[DataRequired()]
+    )
+
+    close = SubmitField(
+        label='Close',
+
+        render_kw={
+            "style": "margin-right: 50px",
+            "class": "btn btn-link btn-simple",
+            "data-dismiss": "modal"
+        }
+    )
+
+    submit = SubmitField(
+        label='Add Event',
+
+        render_kw={
+            "style": "margin-right: 50px",
+            "class": "btn btn-link btn-simple",
+            "id": "addSession"
+        }
+    )
+
+class AddDepartmentForm(FlaskForm):
+    department_name = StringField(
+        render_kw={
+            "placeholder": "Department Name...",
+            "class": "form-control col-md-10 ml-3",
+            "id": "eventname",
+            "style": "padding:15px"
+        },
+        validators=[DataRequired()]
+    )
+
+    close = SubmitField(
+        label='Close',
+
+        render_kw={
+            "style": "margin-right: 50px",
+            "class": "btn btn-link btn-simple",
+            "data-dismiss": "modal"
+        }
+    )
+
+    submit = SubmitField(
+        label='Add Department',
+
+        render_kw={
+            "style": "margin-right: 50px",
+            "class": "btn btn-link btn-simple",
+            "id": "addDepartment"
+        }
+    )
+class AddSessionForm(FlaskForm):
+    session_name = StringField(
+        render_kw={
+            "placeholder": "Session Name...",
+            "class": "form-control col-md-10 ml-3",
+            "id": "sessionname",
+            "style": "padding:15px"
+        },
+        validators=[DataRequired()]
+    )
+
+    session_date = DateTimeField(
+        label="Session Date",
+        format='%d-%m-%Y %H:%M:%S',
+        default=datetime.today(),
+        render_kw={
+            "class": "form-control col-md-10 ml-3",
+            "id": "session_date",
+            "style": "padding:15px;margin-left: 60px"
+            },
+        validators=[DataRequired()]
+    )
+
+    session_venue = SelectField(
+        choices=[("", "Venue...")],
+        render_kw={
+            "class": "form-control col-md-10 ml-3",
+            "id": "venue",
+            "onfocus": "this.size=3;",
+            "onblur": "this.size=1;",
+            "onchange": "this.size=1; this.blur();",
+            "style": "padding-right:15px;padding-left:15px"
+            },
+        validators=[DataRequired()]
+    )
+
+    close = SubmitField(
+        label='Close',
+
+        render_kw={
+            "style": "margin-right: 50px",
+            "class": "btn btn-link btn-simple",
+            "data-dismiss": "modal"
+        }
+    )
+
+    submit = SubmitField(
+        label='Add Session',
+
+        render_kw={
+            "style": "margin-right: 50px",
+            "class": "btn btn-link btn-simple",
+            "id": "addSession"
+        }
+    )
 class ForgotPasswordForm(FlaskForm):
     csrf_token = HiddenField()
     email_address = StringField(

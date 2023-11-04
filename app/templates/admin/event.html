@@ -10,7 +10,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-10">
-                <h4 style="margin-top: -10px">Events</h4>
+                <h4 style="margin-top: -10px">Events/ <span style="font-size: 80%;">Event Details</span></h4>
             </div>
             <div class="col-2">
                 <div class="ml-4">
@@ -20,74 +20,154 @@
         </div>
         <div class="row">
             <div class="col-md-8 ml-auto mr-auto">
+                <div class="row">
+                    <div class="col-5">
+                        <a class="btn btn-link btn-simple active" href="/admin/events" style="text-decoration: none;">
+                            <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>&ensp;Back
+                        </a>
+                    </div>
+                    <div class="col-7">
+                        <a class="btn btn-success btn-fill btn-round btn-wd active ml-5" data-toggle="modal"
+                            data-target="#addSessionModal">
+                            <i class="fa fa-plus" aria-hidden="true"></i>&ensp;Add Session
+                        </a>
+                        <a class="btn btn-md btn-danger btn-fill btn-round active deleteEvent ml-5" id="12"
+                        data_id="12">
+                        <i class="fa fa-trash" aria-hidden="true"></i>&ensp;Delete Event
+                        </a>
+                        <div class="modal fade modal-mini modal-primary" id="addSessionModal" tabindex="-1"
+                            role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header justify-content-center">
+                                        <div class="modal-profile">
+                                            <i class="fa fa-plus" aria-hidden="true"></i>
+                                        </div>
+                                    </div>
+                                    <div class="modal-body text-center">
+                                        <p>Add Session</p>
+                                    </div>
+                                    <form method="POST" id="form_add_admin">
+                                        <div class="modal-body">
+                                            {{ add_session_form.hidden_tag() }}
+                                            <div class="row">
+                                                {{ add_session_form.session_name }}
+                                            </div><br>
+                                            <div class="row">
+                                                {{ add_session_form.session_date }}
+                                            </div><br>
+                                            <div class="row">
+                                                {{ add_session_form.session_venue }}
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <div class="row">
+                                                <div class="col-4">
+                                                    {{ add_session_form.close }}
+                                                </div>
+                                                <div class="col-8">
+                                                    {{ add_session_form.submit }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                <br>
                 <div class="card">
                     <div class="header text-center">
-                        <h4 class="title">All Events</h4>
-                        <p class="category">Are you looking for more components? Please check our
-                            Premium Version of Light Bootstrap Dashboard.</p>
+                        <h4 class="title">Science Week</h4>
+                        <p class="category"># weed-34b3-23bj-2w3b</p>
+                        <p class="category">23rd September 2023 - 4th October 2023</p>
+                        <p class="category">11 Sessions</p>
                         <br>
                     </div>
-                    <div class="content table-responsive table-upgrade">
+                    <div class="content table-responsive">
                         <table class="table">
                             <thead>
-                                <th class="text-center">Event</th>
-                                <th class="text-center">Date</th>
-                                <th class="text-center">Sessions</th>
-                                </th>
+                                <th class="text-center" width="20%">#</th>
+                                <th class="text-center" width="20%">Session</th>
+                                <th class="text-center" width="20%">Date Time</th>
+                                <th class="text-center" width="20%">Venue</th>
+                                <th class="text-center" width="5%">Active</th>
+                                </th width="15%">
                                 </th>
                             </thead>
                             <tbody>
                                 <tr>
+                                    <td>weed-34b3-23bj-2w3b</td>
                                     <td>Components</td>
                                     <td>16</td>
                                     <td>115+</td>
+                                    <td><i class="fa fa-check text-success"></td>
                                     <td>
-                                        <a class="btn btn-default btn-fill active btn-round" href="/admin/staff/3">
+                                        <a class="btn btn-default btn-fill active btn-round" href="/admin/session/3">
                                             View Details
                                         </a>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Plugins</td>
-                                    <td>4</td>
-                                    <td>14+</td>
-                                    <td></td>
+                                    <td>weed-34b3-23bj-2w3b</td>
+                                    <td>Global Restoration of Landscapes in South East Asia</td>
+                                    <td>20/09/2023 14:04:23</td>
+                                    <td>Main Conference Hall</td>
+                                    <td><i class="fa fa-check text-success"></td>
+                                    <td>
+                                        <a class="btn btn-default btn-fill active btn-round" href="/admin/session/3">
+                                            View Details
+                                        </a>
+                                    </td>
                                 </tr>
                                 <tr>
+                                    <td>weed-34b3-23bj-2w3b</td>
                                     <td>Example Pages</td>
                                     <td>4</td>
                                     <td>22+</td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>Documentation</td>
                                     <td><i class="fa fa-times text-danger"></i></td>
-                                    <td><i class="fa fa-check text-success"></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>SASS Files</td>
-                                    <td><i class="fa fa-times text-danger"></i></td>
-                                    <td><i class="fa fa-check text-success"></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>Login/Register/Lock Pages</td>
-                                    <td><i class="fa fa-times text-danger"></i></td>
-                                    <td><i class="fa fa-check text-success"></td>
-                                    <td></td>
-                                </tr>
-                                <tr class="last-row">
-                                    <td></td>
                                     <td>
-                                        <a href="#" class="btn btn-round btn-fill btn-default disabled">Current
-                                            Version</a>
+                                        <a class="btn btn-default btn-fill active btn-round" href="/admin/session/3">
+                                            View Details
+                                        </a>
                                     </td>
+                                </tr>
+                                <tr>
+                                    <td>weed-34b3-23bj-2w3b</td>
+                                    <td>Documentation</td>
+                                    <td>4</td>
+                                    <td>22+</td>
+                                    <td><i class="fa fa-times text-danger"></i></td>
                                     <td>
-                                        <a target="_blank"
-                                            href="http://www.creative-tim.com/product/light-bootstrap-dashboard-pro/?ref=lbdupgrade"
-                                            class="btn btn-round btn-fill btn-info">Upgrade to
-                                            PRO</a>
+                                        <a class="btn btn-default btn-fill active btn-round" href="/admin/session/3">
+                                            View Details
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>weed-34b3-23bj-2w3b</td>
+                                    <td>SASS Files</td>
+                                    <td>4</td>
+                                    <td>22+</td>
+                                    <td><i class="fa fa-times text-danger"></i></td>
+                                    <td>
+                                        <a class="btn btn-default btn-fill active btn-round" href="/admin/session/3">
+                                            View Details
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>weed-34b3-23bj-2w3b</td>
+                                    <td>Login/Register/Lock Pages</td>
+                                    <td>4</td>
+                                    <td>22+</td>
+                                    <td><i class="fa fa-times text-danger"></i></td>
+                                    <td>
+                                        <a class="btn btn-default btn-fill active btn-round" href="/admin/session/3">
+                                            View Details
+                                        </a>
                                     </td>
                                 </tr>
                             </tbody>
