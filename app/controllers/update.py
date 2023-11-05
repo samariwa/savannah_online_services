@@ -220,7 +220,7 @@ def update_session(**kwargs):
     A method to update details of a session venue given a specific session id
 
     expected use:
-        update_session(id=s_id, session_name="Restoration of Forests in South East Asia", ...)
+        update_session(id=s_id, session="Restoration of Forests in South East Asia", ...)
 
     If successful , the function returns the 200(OK) HTTP status code,
     otherwise returns Name of the type of exception
@@ -228,7 +228,7 @@ def update_session(**kwargs):
     kwargs must have an id
     """
     try:
-        fields = ['session_name']
+        fields = ['session', 'session_description']
         session_to_update = db.session.execute(
             db.select(Session).filter_by(id=kwargs['id'])
         ).one()[0]

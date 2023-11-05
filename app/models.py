@@ -333,7 +333,8 @@ class Event(db.Model):
     __tablename__ = 'events'
     id = db.Column(db.Integer(), primary_key=True)
     event = db.Column(db.String(length=20),  nullable=False)
-
+    start_date = db.Column(db.Date(), default=str(datetime.now().date()), nullable=False)
+    end_date = db.Column(db.Date(), default=str(datetime.now().date()), nullable=False)
     db_status = db.Column(
         db.Enum(
             "active",
@@ -393,6 +394,9 @@ class Session(db.Model):
         nullable=False,
     )
     session = db.Column(db.String(length=20),  nullable=False)
+    session_description = db.Column(db.String(length=500),  nullable=False)
+    start_timestamp = db.Column(db.DateTime(timezone=True), default=str(datetime.now()), nullable=False)
+    end_timestamp = db.Column(db.DateTime(timezone=True), default=str(datetime.now()), nullable=False)
     db_status = db.Column(
         db.Enum(
             "inactive",

@@ -333,6 +333,8 @@ def create_event(**kwargs):
         db.session.rollback()
         expected_args = {
             'event': 'string, not null, length=20',
+            'start_date': 'date, not null',
+            'end_date': 'date, not null',
         }
         app.logger.error(f"Unexpected {err=}\n"
             "To avoid incorrect format, use the following:\n"
@@ -386,7 +388,10 @@ def create_session(**kwargs):
         expected_args = {
             'event_id': 'integer, not null',
             'event_venue_id': 'integer, not null',
-            'session_name': 'string, not null, length=20',
+            'session': 'string, not null, length=20',
+            'session_description': 'string, not null, length=500',
+            'start_timestamp': 'datetime, not null',
+            'end_timestamp': 'datetime, not null',
         }
         app.logger.error(f"Unexpected {err=}\n"
             "To avoid incorrect format, use the following:\n"
