@@ -2,15 +2,12 @@
 A module to perform all READ operations in CRUD
 
 order:
--Customer Crud: Customer, Cart, Wishlist
 -User Crud : User, Account_Verification, Logged_Devices, Newsletter_Subscribers
 -Staff Crud: Staff, Staff_Role
--Product cruds: Product_Category, Product_Unit, Product, Supplier,
- Product_Batch, Product_Movement, Product_Reclass_Detail
 """
 from app.models import User , Account_Verification , Logged_Devices 
-from app.models import Staff, Staff_Role, Department
-
+from app.models import Staff, Staff_Role, Department, Participant
+from app.models import Event, Event_Venues, Session, Session_Registration
 
 from sqlalchemy import or_, func
 from app import app, db
@@ -169,3 +166,43 @@ def read_staff(id):
     except Exception as err:
         app.logger.error(f"Unexpected {err=}")
         return None
+    
+def fetch_active_participants():
+    """
+    fetch_active_participants()
+
+    Fetches all participants that have not been soft deleted
+    """
+    return Participant.query.filter(Participant.db_status != 'deleted').order_by(Participant.id.asc())
+
+def fetch_active_events():
+    """
+    fetch_active_events()
+
+    Fetches all events that have not been soft deleted
+    """
+    return Event.query.filter(Event.db_status != 'deleted').order_by(Event.id.asc())
+
+def fetch_active_event_venues():
+    """
+    fetch_active_event_venues()
+
+    Fetches all event venues that have not been soft deleted
+    """
+    return Event_Venues.query.filter(Event_Venues.db_status != 'deleted').order_by(Event_Venues.id.asc())
+
+def fetch_active_sessions():
+    """
+    fetch_active_sessions()
+
+    Fetches all sessions that have not been soft deleted
+    """
+    return Session.query.filter(Session.db_status != 'deleted').order_by(Session.id.asc())
+
+def fetch_active_session_registrations():
+    """
+    fetch_active_session_registrations()
+
+    Fetches all session registrations that have not been soft deleted
+    """
+    return Session_Registration.query.filter(Session_Registration.db_status != 'deleted').order_by(Session_Registration.id.asc())

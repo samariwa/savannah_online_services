@@ -2,12 +2,8 @@
 A module to perform all create operations in CRUD
 
 order:
--Product cruds: Product_Category, Product_Unit, Product, Supplier,
- Product_Batch, Product_Movement, Product_Reclass_Detail
--Customer Crud: Customer, Customer_Account, Cart, Wishlist
 -Staff Crud: Staff, Staff_Role
--User Crud : User, Account_Verification, Logged_Devices, Newsletter_Subscribers
--Orders Controllers: Order, Order_Detail, Delivery, Transaction_Detail
+-User Crud : User, Account_Verification, Logged_Devices
 *Point to note: not all create operations are named create_... because it
 doesn't make sense. E.g for product, we have reclass_product to
 work on Product_Reclass_Detail model
@@ -216,7 +212,6 @@ def create_user(**kwargs):
     except Exception as err:
         db.session.rollback()
         expected_args = {
-            'customer_id': 'integer, nullable, unique',
             'staff_id': 'integer, nullable, unique',
             'user_status': 'enum, not null, default=inactivate',
             'email_address': 'string, not null, unique, length=50',
