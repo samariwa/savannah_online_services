@@ -344,6 +344,91 @@ class AddDepartmentForm(FlaskForm):
             "id": "addDepartment"
         }
     )
+
+class AddEventVenueForm(FlaskForm):
+    event_venue_name = StringField(
+        render_kw={
+            "placeholder": "Event Venue Name...",
+            "class": "form-control col-md-10 ml-3",
+            "id": "eventvenuename",
+            "style": "padding:15px"
+        },
+        validators=[DataRequired()]
+    )
+
+    close = SubmitField(
+        label='Close',
+
+        render_kw={
+            "style": "margin-right: 50px",
+            "class": "btn btn-link btn-simple",
+            "data-dismiss": "modal"
+        }
+    )
+
+    submit = SubmitField(
+        label='Add Event Venue',
+
+        render_kw={
+            "style": "margin-right: 50px",
+            "class": "btn btn-link btn-simple",
+            "id": "addEventVenue"
+        }
+    )
+
+class SessionRegistrationForm(FlaskForm):
+    first_name = StringField(
+        render_kw={
+            "placeholder": "First Name...",
+            "class": "form-control",
+            "id": "firstname"
+        },
+        validators=[DataRequired()]
+    )
+
+    last_name = StringField(
+        render_kw={
+            "placeholder": "Last Name...",
+            "class": "form-control",
+            "id": "lastname"
+        },
+        validators=[DataRequired()]
+    )
+
+    email_address = StringField(
+        label="Email Address",
+        render_kw={
+            "placeholder": "Email Address...",
+            "class": "form-control",
+            "id": "email_address"
+        },
+        validators=[
+            Email(check_deliverability=True, message=respond('SK010')),
+            DataRequired(message=respond('SJ011'))
+        ]
+    )
+
+    department = SelectField(
+        choices=[("", "Department...")],
+        render_kw={
+            "class": "form-control",
+            "id": "department",
+            "onfocus": "this.size=3;",
+            "onblur": "this.size=1;",
+            "onchange": "this.size=1; this.blur();",
+            },
+        validators=[DataRequired()]
+    )
+
+    submit = SubmitField(
+        label='Register',
+
+        render_kw={
+            "value": "Register",
+            "class": "btn btn-primary",
+            "id": "registerSession"
+        }
+    )
 class AddSessionForm(FlaskForm):
     session_name = StringField(
         render_kw={

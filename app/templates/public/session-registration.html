@@ -63,36 +63,32 @@
                                     <div id="form-message-warning" class="mb-4"></div>
                                     <div id="form-message-success" class="mb-4"></div>
                                     <form method="POST" id="contactForm" name="contactForm">
+                                        {{ session_registration_form.hidden_tag() }}
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control" name="firstname" id="firstname"
-                                                        placeholder="First Name">
+                                                    {{ session_registration_form.first_name }}
                                                 </div>
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control" name="lastname" id="lastname"
-                                                        placeholder="Last Name">
+                                                    {{ session_registration_form.last_name }}
                                                 </div>
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <input type="email" class="form-control" name="email" id="email"
-                                                        placeholder="Email Adddress">
+                                                    {{ session_registration_form.email_address }}
                                                 </div>
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control" name="department" id="department"
-                                                        placeholder="Department">
+                                                    {{ session_registration_form.department }}
                                                 </div>
                                             </div>
                                             <div class="col-md-12">
                                                 <br>
                                                 <div class="form-group">
-                                                    <input type="submit" value="Register" class="btn btn-primary">
-                                                    <div class="submitting"></div>
+                                                    {{ session_registration_form.submit }}
                                                 </div>
                                             </div>
                                         </div>

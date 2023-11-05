@@ -1,6 +1,7 @@
 from app import app, db, organization, csrf
 from flask import render_template, request
 from app.response import flash_response
+from app.forms import SessionRegistrationForm
 import json
 import random
 
@@ -16,8 +17,11 @@ def index():
 @app.route('/session-registration/<session_id>/')
 def session_registration(session_id):
     random_number = random.randint(0, 11)
+    session_registration_form = SessionRegistrationForm()
     return render_template(
-        'public/session-registration.html', random_number=random_number)
+        'public/session-registration.html', 
+        random_number=random_number,
+        session_registration_form=session_registration_form)
 
 @app.route('/session-registration-success/<session_id>')
 @app.route('/session-registration-success/<session_id>/')

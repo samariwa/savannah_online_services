@@ -289,10 +289,45 @@ class Department(db.Model):
         onupdate=func.now(),
     )
     role = db.relationship('Staff_Role', backref='department')
+    participant = db.relationship('Participant', backref='department')
 
     def __repr__(self):
-        return f"{self.department} Department D_ID#: {self.id} {self.role}"
+        return f"{self.department} Department_ID#: {self.id} {self.role}"
+    
+class Participant(db.Model):
+    __tablename__ = 'participants'
+    id = db.Column(db.Integer(), primary_key=True)
+    department_id = db.Column(
+        db.Integer(),
+        db.ForeignKey('departments.id'),
+        nullable=False,
+    )
+    first_name = db.Column(db.String(length=30), nullable=False)
+    last_name = db.Column(db.String(length=30), nullable=False)
+    email_address = db.Column(db.String(length=50),
+                              nullable=False, unique=True)
+    db_status = db.Column(
+        db.Enum(
+            "active",
+            "deleted",
+            name="delete_status",
+        ),
+        nullable=False,
+        default="active",
+    )
+    created_at = db.Column(
+        db.DateTime(timezone=True),
+        server_default=func.now(),
+    )
+    updated_at = db.Column(
+        db.DateTime(timezone=True),
+        onupdate=func.now(),
+    )
+    # uselist=False ensures one to one relationship
+    session_registration = db.relationship('Session_Registration', backref='participant')
 
+    def __repr__(self):
+        return f"#{self.id} {self.first_name}: {self.last_name}"
 
 class Event(db.Model):
     __tablename__ = 'events'
@@ -319,6 +354,31 @@ class Event(db.Model):
     def __repr__(self):
         return f"{self.event} Event_ID#: {self.id}"
     
+class Event_Venues(db.Model):
+    __tablename__ = 'event_venues'
+    id = db.Column(db.Integer(), primary_key=True)
+    venue = db.Column(db.String(length=20),  nullable=False)
+
+    db_status = db.Column(
+        db.Enum(
+            "active",
+            "deleted",
+            name="delete_status",
+        ),
+        nullable=False,
+        default="active",  # consider default deleted for OTP
+    )
+    created_at = db.Column(db.DateTime(timezone=True),
+                           server_default=func.now())
+    updated_at = db.Column(
+        db.DateTime(timezone=True),
+        onupdate=func.now(),
+    )
+    session = db.relationship('Session', backref='event_venue')
+
+    def __repr__(self):
+        return f"{self.department} Event_Venue_ID#: {self.id} {self.role}"
+    
 class Session(db.Model):
     __tablename__ = 'sessions'
     id = db.Column(db.Integer(), primary_key=True)
@@ -327,7 +387,46 @@ class Session(db.Model):
         db.ForeignKey('events.id'),
         nullable=False,
     )
+    event_venue_id = db.Column(
+        db.Integer(),
+        db.ForeignKey('event_venues.id'),
+        nullable=False,
+    )
     session = db.Column(db.String(length=20),  nullable=False)
+    db_status = db.Column(
+        db.Enum(
+            "inactive",
+            "active",
+            "deleted",
+            name="delete_status",
+        ),
+        nullable=False,
+        default="inactive",
+    )
+    created_at = db.Column(db.DateTime(timezone=True),
+                           server_default=func.now())
+    updated_at = db.Column(
+        db.DateTime(timezone=True),
+        onupdate=func.now(),
+    )
+    session_registration = db.relationship('Session_Registration', backref='session')
+
+    def __repr__(self):
+        return f"{self.session} Session_ID#: {self.id}"
+    
+class Session_Registration(db.Model):
+    __tablename__ = 'session_registration'
+    id = db.Column(db.Integer(), primary_key=True)
+    session_id = db.Column(
+        db.Integer(),
+        db.ForeignKey('sessions.id'),
+        nullable=False,
+    )
+    participant_id = db.Column(
+        db.Integer(),
+        db.ForeignKey('participants.id'),
+        nullable=False,
+    )
     db_status = db.Column(
         db.Enum(
             "active",
@@ -346,4 +445,4 @@ class Session(db.Model):
 
 
     def __repr__(self):
-        return f"{self.session} Session_ID#: {self.id}"
+        return f"{self.session} Session_Registration_ID#: {self.id}"

@@ -10,7 +10,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-10">
-                <h4 style="margin-top: -10px">Departments</h4>
+                <h4 style="margin-top: -10px">Event Venues</h4>
             </div>
             <div class="col-2">
                 <div class="ml-4">
@@ -20,12 +20,12 @@
         </div>
         <div class="row">
             <a class="btn btn-success btn-fill btn-round btn-wd active ml-3" data-toggle="modal"
-                data-target="#addDepartmentModal">
-                <i class="fa fa-plus" aria-hidden="true"></i>&ensp;Add Department
+                data-target="#addEventVenueModal">
+                <i class="fa fa-plus" aria-hidden="true"></i>&ensp;Add Event Venue
             </a>
         </div>
         <br>
-        <div class="modal fade modal-mini modal-primary" id="addDepartmentModal" tabindex="-1" role="dialog"
+        <div class="modal fade modal-mini modal-primary" id="addEventVenueModal" tabindex="-1" role="dialog"
             aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -35,22 +35,22 @@
                         </div>
                     </div>
                     <div class="modal-body text-center">
-                        <p>Add Department</p>
+                        <p>Add Event Venue</p>
                     </div>
                     <form method="POST" id="form_add_admin">
                         <div class="modal-body">
-                            {{ add_department_form.hidden_tag() }}
+                            {{ add_venue_form.hidden_tag() }}
                             <div class="row">
-                                {{ add_department_form.department_name }}
+                                {{ add_venue_form.event_venue_name }}
                             </div>
                         </div>
                         <div class="modal-footer">
                             <div class="row">
                                 <div class="col-3">
-                                    {{ add_department_form.close }}
+                                    {{ add_venue_form.close }}
                                 </div>
                                 <div class="col-9">
-                                    {{ add_department_form.submit }}
+                                    {{ add_venue_form.submit }}
                                 </div>
                             </div>
                         </div>
@@ -62,7 +62,7 @@
             <div class="col-md-12">
                 <div class="card strpied-tabled-with-hover">
                     <div class="card-header ">
-                        <h4 class="card-title">All Departments</h4>
+                        <h4 class="card-title">All Event Venues</h4>
                         <p class="card-category">CIFOR-ICRAF</p>
                     </div>
                     <div class="card-body table-full-width table-responsive">
@@ -70,7 +70,7 @@
                             <thead>
                                 <th>#</th>
                                 <th>Name</th>
-                                <th>Registered Staff</th>
+                                <th>Registered Sessions</th>
                                 <th>Date Registered</th>
                                 <th></th>
                                 <th></th>
@@ -78,16 +78,16 @@
                             <tbody>
                                 <tr>
                                     <td>1</td>
-                                    <td>Information Communication Technology</td>
+                                    <td>Main Conference Hall</td>
                                     <td>12</td>
                                     <td>28th September, 2023</td>
                                     <td>
-                                        <a class="btn btn-info btn-fill btn-round active" href="/admin/department/3">
+                                        <a class="btn btn-info btn-fill btn-round active" href="/admin/event-venue/3">
                                             <i class="fa fa-eye" aria-hidden="true"></i>&ensp;View Details
                                         </a>
                                     </td>
                                     <td>
-                                        <a class="btn btn-md btn-danger btn-fill btn-round active deleteDepartment ml-5"
+                                        <a class="btn btn-md btn-danger btn-fill btn-round active deleteEventVenue ml-5"
                                             id="12" data_id="12">
                                             <i class="fa fa-trash" aria-hidden="true"></i>&ensp;Delete
                                         </a>
@@ -95,7 +95,7 @@
                                 </tr>
                                 <tr>
                                     <td>2</td>
-                                    <td>Finance</td>
+                                    <td>Lundgren Hall</td>
                                     <td>18</td>
                                     <td>14th September, 2023</td>
                                     <td>
@@ -104,7 +104,7 @@
                                         </a>
                                     </td>
                                     <td>
-                                        <a class="btn btn-md btn-danger btn-fill btn-round active deleteDepartment ml-5"
+                                        <a class="btn btn-md btn-danger btn-fill btn-round active deleteEventVenue ml-5"
                                             id="12" data_id="12">
                                             <i class="fa fa-trash" aria-hidden="true"></i>&ensp;Delete
                                         </a>
