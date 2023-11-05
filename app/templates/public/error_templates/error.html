@@ -1,52 +1,49 @@
-<!--<?php
-  include('header.php');
-  $error = $_SERVER["REDIRECT_STATUS"];
-  $error_code = '';
-  $error_title = '';
-  $error_message = '';
-
-  if($error == 404)
-  {
-      $error_code = '404';
-      $error_title = 'Page Not Found';
-      $error_message = 'It looks like nothing was found at this location.';
-  }
-  if($error == 408)
-  {
-      $error_code = '408';
-      $error_title = 'Request Timeout';
-      $error_message = 'Your request took too long to respond.';
-  }
-?> -->
 {% extends 'public/public_templates/base_public_template.html' %}
 
 {% block body %}
-            <!-- page-header-section start -->
-            <div class="page-header-section">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-12 d-flex justify-content-between justify-content-md-end">
-                            <ul class="breadcrumb">
-                                <li><a href="/">Home</a></li>
-                                <li><span>/</span></li>
-                                <li>{{ error_code }} Page</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- page-header-section end -->
 
-
-
-            <!-- about section start -->
-            <section class="error-page text-center">
-                <div class="container">
-                    <h1>{{ error_code }}</h1>
-                    <h3>{{ error_def }}</h3>
-                    <p>{{ error_message }}</p>
-                    <a href="/" class="backhome">Back Home</a>
-                </div>
-            </section>
-            <!-- about section end -->
-{% endblock %}
+<body>
+    {% if random_number == 1 %}
+    <section class="ftco-section img bg-hero" style="background-image: url(../static/img/landscape1.jpg);">
+        {% elif random_number == 2 %}
+        <section class="ftco-section img bg-hero" style="background-image: url(../static/img/landscape2.jpg);">
+            {% elif random_number == 3 %}
+            <section class="ftco-section img bg-hero" style="background-image: url(../static/img/landscape3.jpg);">
+                {% elif random_number == 4 %}
+                <section class="ftco-section img bg-hero" style="background-image: url(../static/img/landscape4.jpg);">
+                    {% elif random_number == 5 %}
+                    <section class="ftco-section img bg-hero"
+                        style="background-image: url(../static/img/landscape5.jpg);">
+                        {% elif random_number == 6 %}
+                        <section class="ftco-section img bg-hero"
+                            style="background-image: url(../static/img/landscape6.jpg);">
+                            {% elif random_number == 7 %}
+                            <section class="ftco-section img bg-hero"
+                                style="background-image: url(../static/img/landscape7.jpg);">
+                                {% elif random_number == 8 %}
+                                <section class="ftco-section img bg-hero"
+                                    style="background-image: url(../static/img/landscape8.jpg);">
+                                    {% elif random_number == 9 %}
+                                    <section class="ftco-section img bg-hero"
+                                        style="background-image: url(../static/img/landscape9.jpg);">
+                                        {% else %}
+                                        <section class="ftco-section img bg-hero"
+                                            style="background-image: url(../static/img/landscape10.jpg);">
+                                            {% endif %}
+                                            <div class="container">
+                                                <div class="row justify-content-center">
+                                                    <div class="col-md-6 text-center mb-5 staus-page-title">
+                                                        <img src="{{ url_for('static', filename='img/cifor-icraf-logo.png') }}"
+                                                            width="230px" height="100px">
+                                                        <br><br>
+                                                        <h2 class="heading-section">CIFOR-ICRAF EVENTS</h2>
+                                                        <br><br>
+                                                        <h1 class="status-page-text" style="font-size: 1000%;">{{ error_code }}</h1>
+                                                        <h3 class="status-page-text">{{ error_def }}</h3>
+                                                        <h5 class="mb-2 status-page-text">{{ error_message }}</h5>
+                                                        <a href="/" style="color: white" class="backhome"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>&ensp;Back Home</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </section>
+                                        {% endblock %}

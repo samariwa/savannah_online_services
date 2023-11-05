@@ -59,64 +59,6 @@ def connect(host='http://google.com'):
     except:
         return False
 
-## Public Auth ###########################################################################################
-@app.route('/auth/login', methods=['GET', 'POST'])
-@app.route('/auth/login/', methods=['GET', 'POST'])
-@app.route('/auth/signin', methods=['GET', 'POST'])
-@app.route('/auth/signin/', methods=['GET', 'POST'])
-def login():
-    """
-    expect some changes then reflect controller changes
-    """
-    if not connect():
-        # check if there is no internet connection and let user know
-        flash_response('SL009')
-    form = LoginForm()
-    # what happens when the form has not yet been submitted
-    return render_template('auth/login.html', form=form)
-
-@app.route('/auth/logout')
-@app.route('/auth/logout/')
-@app.route('/auth/signout')
-@app.route('/auth/signout/')
-def logout_page():
-    """
-    # set login status to false
-    user = User.query.get(id)
-    user.login_status = 0
-    db.session.commit()
-    """
-    if current_user.is_authenticated:
-        logout_user()
-    flash_response('SF002')
-    return redirect(url_for('login'))
-
-
-@app.route('/auth/forgot-password', methods=['GET', 'POST'])
-@app.route('/auth/forgot_password', methods=['GET', 'POST'])
-@app.route('/auth/forgot-password/', methods=['GET', 'POST'])
-@app.route('/auth/forgot_password/', methods=['GET', 'POST'])
-def forgot_password():
-    if not connect():
-        # check if there is no internet connection and let user know
-        flash_response('SL009')
-    form = ForgotPasswordForm()
-    return render_template('auth/forgot-password.html', form=form)
-
-
-@app.route('/auth/reset-password', methods=['GET', 'POST'])
-@app.route('/auth/reset_password', methods=['GET', 'POST'])
-@app.route('/auth/reset-password/', methods=['GET', 'POST'])
-@app.route('/auth/reset_password/', methods=['GET', 'POST'])
-def reset_password():
-    """ this function verifies that the verifcation code exists in the database
-    and that it has not expired before returning the page """
-    if not connect():
-        # check if there is no internet connection and let user know
-        flash_response('SL009')
-    form = ResetPasswordForm()
-    return render_template('auth/reset-password.html', form=form)
-
 ##########################################################################################################
 ## Admin Auth ###########################################################################################
 @app.route('/auth/admin/login', methods=['GET', 'POST'])

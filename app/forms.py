@@ -355,6 +355,17 @@ class AddSessionForm(FlaskForm):
         validators=[DataRequired()]
     )
 
+    session_description = TextAreaField(
+        render_kw={
+            "placeholder": "Session Description...",
+            "class": "form-control col-md-10 ml-3",
+            "id": "sessiondescription",
+            "style": "padding:15px;"
+            },
+        validators=[DataRequired(),
+                    Length(max=512)]
+    )
+
     session_date = DateTimeField(
         label="Session Date",
         format='%d-%m-%Y %H:%M:%S',
