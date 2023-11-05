@@ -39,7 +39,8 @@ However, if the create function called returns an object, then respond with 201
 """
 import os
 from app.models import User, Account_Verification, Logged_Devices
-from app.models import Staff, Staff_Role, Department
+from app.models import Staff, Staff_Role, Department, Participant
+from app.models import Event, Event_Venues, Session, Session_Registration
 from app.response import respond
 from app import app, db, mail, organization, Message
 from flask import render_template, send_file
@@ -286,6 +287,142 @@ def create_device_log(**kwargs):
         app.logger.error(f"Unexpected {err=}\n"
             "To avoid incorrect format, use the following:\n"
             f"create_device_log({expected_args})\n"
+            "If you called this from the shell, "
+            "do a db.session.rollback() before continuing")
+        return type(err).__name__
+    
+def create_participant(**kwargs):
+    """
+    create_participant(**kwargs)
+
+    A method to create a participant. If it's successful, 
+    it returns the 201 successfully created status code
+    otherwise it prints exception with a message
+    The error msg helps the user create a better query the next time
+    """
+    try:
+        participant_to_create = Participant(**kwargs)
+        db.session.add(participant_to_create)
+        db.session.commit()
+        return respond('201')
+    except Exception as err:
+        db.session.rollback()
+        expected_args = {
+            'department_id': 'integer, not null',
+            'first_name': 'string, not null, length=30',
+            'last_name': 'string, not null, length=30',
+            'email_address': 'string, not null, length=50, unique',
+        }
+        app.logger.error(f"Unexpected {err=}\n"
+            "To avoid incorrect format, use the following:\n"
+            f"create_participant({expected_args})\n"
+            "If you called this from the shell, "
+            "do a db.session.rollback() before continuing")
+        return type(err).__name__
+    
+def create_event(**kwargs):
+    """
+    create_event(**kwargs)
+
+    A method to create an event. If it's successful, 
+    it returns the 201 successfully created status code
+    otherwise it prints exception with a message
+    The error msg helps the user create a better query the next time
+    """
+    try:
+        event_to_create = Event(**kwargs)
+        db.session.add(event_to_create)
+        db.session.commit()
+        return respond('201')
+    except Exception as err:
+        db.session.rollback()
+        expected_args = {
+            'event': 'string, not null, length=20',
+        }
+        app.logger.error(f"Unexpected {err=}\n"
+            "To avoid incorrect format, use the following:\n"
+            f"create_event({expected_args})\n"
+            "If you called this from the shell, "
+            "do a db.session.rollback() before continuing")
+        return type(err).__name__
+    
+def create_event_venue(**kwargs):
+    """
+    create_event_venue(**kwargs)
+
+    A method to create an event venue. If it's successful, 
+    it returns the 201 successfully created status code
+    otherwise it prints exception with a message
+    The error msg helps the user create a better query the next time
+    """
+    try:
+        event_venue_to_create = Event_Venues(**kwargs)
+        db.session.add(event_venue_to_create)
+        db.session.commit()
+        return respond('201')
+    except Exception as err:
+        db.session.rollback()
+        expected_args = {
+            'venue': 'string, not null, length=20',
+        }
+        app.logger.error(f"Unexpected {err=}\n"
+            "To avoid incorrect format, use the following:\n"
+            f"create_event_venue({expected_args})\n"
+            "If you called this from the shell, "
+            "do a db.session.rollback() before continuing")
+        return type(err).__name__
+    
+def create_session(**kwargs):
+    """
+    create_session(**kwargs)
+
+    A method to create an event session. If it's successful, 
+    it returns the 201 successfully created status code
+    otherwise it prints exception with a message
+    The error msg helps the user create a better query the next time
+    """
+    try:
+        session_to_create = Session(**kwargs)
+        db.session.add(session_to_create)
+        db.session.commit()
+        return respond('201')
+    except Exception as err:
+        db.session.rollback()
+        expected_args = {
+            'event_id': 'integer, not null',
+            'event_venue_id': 'integer, not null',
+            'session_name': 'string, not null, length=20',
+        }
+        app.logger.error(f"Unexpected {err=}\n"
+            "To avoid incorrect format, use the following:\n"
+            f"create_session({expected_args})\n"
+            "If you called this from the shell, "
+            "do a db.session.rollback() before continuing")
+        return type(err).__name__
+    
+def create_session_registration(**kwargs):
+    """
+    create_session_registration(**kwargs)
+
+    A method to create an event session registration. If it's successful, 
+    it returns the 201 successfully created status code
+    otherwise it prints exception with a message
+    The error msg helps the user create a better query the next time
+    """
+    try:
+        session_registration_to_create = Session_Registration(**kwargs)
+        db.session.add(session_registration_to_create)
+        db.session.commit()
+        return respond('201')
+    except Exception as err:
+        db.session.rollback()
+        expected_args = {
+            'session_id': 'integer, not null',
+            'participant_id': 'integer, not null',
+        }
+        app.logger.error(f"Unexpected {err=}\n"
+            "To avoid incorrect format, use the following:\n"
+            f"create_session_registration({expected_args})\n"
             "If you called this from the shell, "
             "do a db.session.rollback() before continuing")
         return type(err).__name__
