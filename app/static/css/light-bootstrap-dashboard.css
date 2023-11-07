@@ -809,7 +809,7 @@ body>.navbar-collapse[data-color="purple"]:after {
 }
 
 .modal.modal-mini .modal-dialog {
-    max-width: 255px;
+    max-width: 355px;
     margin: 0 auto;
 }
 

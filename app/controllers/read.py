@@ -118,6 +118,44 @@ def fetch_all_departments():
                   .order_by(Department.id.asc())
                 ).all()
 
+
+def fetch_active_departments():
+    """
+    fetch_active_departments()
+
+    function that fetches all departments that have not been soft deleted
+    """
+    results = db.session.execute(
+        db.select(Department.id, Department.department, Department.created_at)
+        .filter(Department.db_status != 'deleted')
+        .order_by(Department.id.asc())
+    )
+
+    departments = []
+    for department in results:
+        department_details = {}
+        department_details['id'] = department.id
+        department_details['department'] = department.department
+        department_details['participants_count'] = get_departments_participants_count(department.id)
+        department_details['created_at'] = department.created_at
+        departments.append(department_details)
+
+    return departments
+
+def get_departments_participants_count(department_id):
+    """
+    get_departments_participants_count(participants_count)
+
+    function that fetches the number of all participants in a department that
+    have not been soft deleted
+    """
+    participants_count =  db.session.execute(
+        db.select(Participant)
+        .filter(Participant.db_status != 'deleted', Participant.department_id == department_id)
+    ).scalars().all()
+
+    return len(participants_count)
+
 def fetch_active_admins():
     """
     fetch_active_admins()
@@ -187,9 +225,46 @@ def fetch_active_event_venues():
     """
     fetch_active_event_venues()
 
-    Fetches all event venues that have not been soft deleted
+    function that fetches all event venues that have not been soft deleted
     """
-    return Event_Venues.query.filter(Event_Venues.db_status != 'deleted').order_by(Event_Venues.id.asc())
+    event_venues = db.session.execute(
+        db.select(Event_Venues.id, Event_Venues.venue, Event_Venues.created_at)
+        .filter(Event_Venues.db_status != 'deleted')
+        .order_by(Event_Venues.id.asc())
+    )
+
+    venues = []
+    for venue in event_venues:
+        venue_details = {}
+        venue_details['id'] = venue.id
+        venue_details['venue'] = venue.venue
+        venue_details['session_count'] = get_event_venue_session_count(venue.id)
+        venue_details['created_at'] = venue.created_at
+        venues.append(venue_details)
+
+    return venues
+    
+def get_event_venue_session_count(venue_id):
+    """
+    get_event_venue_session_count(venue_id)
+
+    function that fetches the number of all sessions in an event venue 
+    that have not been soft deleted
+    """
+    venue_sessions =  db.session.execute(
+        db.select(Session)
+        .filter(Session.db_status != 'deleted', Session.event_venue_id == venue_id)
+    ).scalars().all()
+
+    return len(venue_sessions)
+
+def fetch_all_sessions():
+    """
+    fetch_all_sessions()
+
+    Fetches all sessions that are in the database regardless of the status
+    """
+    return Session.query.filter(Session.db_status != 'deleted').order_by(Session.id.asc())
 
 def fetch_active_sessions():
     """
@@ -197,7 +272,12 @@ def fetch_active_sessions():
 
     Fetches all sessions that have not been soft deleted
     """
-    return Session.query.filter(Session.db_status != 'deleted').order_by(Session.id.asc())
+    return db.session.execute(
+        db.select(Session.id, Session.session_description, Session.start_timestamp, 
+                  Session.end_timestamp)
+        .filter(Session.db_status != 'deleted')
+        .order_by(Session.id.asc())
+    )
 
 def fetch_active_session_registrations():
     """

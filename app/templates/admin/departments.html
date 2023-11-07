@@ -46,10 +46,10 @@
                         </div>
                         <div class="modal-footer">
                             <div class="row">
-                                <div class="col-3">
+                                <div class="col-5">
                                     {{ add_department_form.close }}
                                 </div>
-                                <div class="col-9">
+                                <div class="col-7">
                                     {{ add_department_form.submit }}
                                 </div>
                             </div>
@@ -76,40 +76,25 @@
                                 <th></th>
                             </thead>
                             <tbody>
+                                {% for department in departments %}
                                 <tr>
-                                    <td>1</td>
-                                    <td>Information Communication Technology</td>
-                                    <td>12</td>
-                                    <td>28th September, 2023</td>
+                                    <td>{{ department.id }}</td>
+                                    <td>{{ department.department }}</td>
+                                    <td>{{ department.participants_count }}</td>
+                                    <td>{{ department.created_at.strftime("%b %d %Y") }}</td>
                                     <td>
-                                        <a class="btn btn-info btn-fill btn-round active" href="/admin/department/3">
+                                        <a class="btn btn-info btn-fill btn-round active" href="/admin/department/{{ department.id }}">
                                             <i class="fa fa-eye" aria-hidden="true"></i>&ensp;View Details
                                         </a>
                                     </td>
                                     <td>
                                         <a class="btn btn-md btn-danger btn-fill btn-round active deleteDepartment ml-5"
-                                            id="12" data_id="12">
+                                            id="{{ department.id }}" data_id="{{ department.id }}">
                                             <i class="fa fa-trash" aria-hidden="true"></i>&ensp;Delete
                                         </a>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Finance</td>
-                                    <td>18</td>
-                                    <td>14th September, 2023</td>
-                                    <td>
-                                        <a class="btn btn-info btn-fill active btn-round">
-                                            <i class="fa fa-eye" aria-hidden="true"></i>&ensp;View Details
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a class="btn btn-md btn-danger btn-fill btn-round active deleteDepartment ml-5"
-                                            id="12" data_id="12">
-                                            <i class="fa fa-trash" aria-hidden="true"></i>&ensp;Delete
-                                        </a>
-                                    </td>
-                                </tr>
+                                {% endfor %}
                             </tbody>
                         </table>
                     </div>

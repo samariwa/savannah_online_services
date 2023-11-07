@@ -2,8 +2,9 @@ from app import app, csrf, organization
 from app.response import respond
 from flask import render_template, make_response, json, request
 from app.forms import AddSessionForm, AddEventForm, AddDepartmentForm,\
-     AddEventVenueForm, ForceAttributionForm, AddProductUnitForm,\
-     AddExpenseCategoryForm, AddReclassCategoryForm, AddReclassItemForm
+     AddEventVenueForm
+from app.controllers.read import fetch_active_departments, fetch_active_event_venues,\
+     fetch_active_sessions
 from app.general_functions import datetime, datetime_to_time, datetime_to_standard_date
 from app.auth_views import roles_required, login_required_redirect
 from flask_login import current_user
@@ -50,6 +51,7 @@ def events():
 @roles_required('SuperUser', 'Admin')
 def event(event_id):
     add_session_form = AddSessionForm()
+    sessions = fetch_active_sessions()
     return render_template('admin/event.html', add_session_form=add_session_form)
 
 @app.route('/admin/event-venues')
@@ -61,7 +63,10 @@ def event(event_id):
 @roles_required('SuperUser', 'Admin')
 def event_venues():
     add_venue_form = AddEventVenueForm()
-    return render_template('admin/event-venues.html', add_venue_form = add_venue_form)
+    event_venues = fetch_active_event_venues()
+    return render_template('admin/event-venues.html', 
+                           add_venue_form = add_venue_form,
+                           event_venues=event_venues)
 
 @app.route('/admin/event-venue/<venue_id>')
 @app.route('/admin/event-venue/<venue_id>/')
@@ -114,7 +119,10 @@ def staff(staff_id):
 @roles_required('SuperUser', 'Admin')
 def departments():
     add_department_form = AddDepartmentForm()
-    return render_template('admin/departments.html', add_department_form = add_department_form)
+    departments = fetch_active_departments()
+    return render_template('admin/departments.html',
+                           add_department_form = add_department_form,
+                           departments=departments)
 
 @app.route('/admin/department/<department_id>')
 @app.route('/admin/department/<department_id>/')
