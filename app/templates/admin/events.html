@@ -19,9 +19,9 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-8 ml-auto mr-auto">
+            <div class="col-md-12 ml-auto mr-auto">
                 <div>
-                        <a class="btn btn-success btn-fill btn-round btn-wd active ml-3" data-toggle="modal"
+                        <a class="btn btn-success btn-fill btn-round btn-wd active ml-1" data-toggle="modal"
                             data-target="#addEventModal">
                             <i class="fa fa-plus" aria-hidden="true"></i>&ensp;Add Event
                         </a>
@@ -69,52 +69,32 @@
                 <div class="card">
                     <div class="header text-center">
                         <h4 class="title">All Events</h4>
-                        <p class="category">Event Count: 23</p>
+                        <p class="category">Events Count: {{ events_count }}</p>
                         <br>
                     </div>
                     <div class="content table-responsive">
                         <table class="table">
                             <thead>
-                                <th class="text-center" width="20%">#</th>
                                 <th class="text-center" width="30%">Event</th>
-                                <th class="text-center" width="20%">Date</th>
+                                <th class="text-center" width="25%">Start Date</th>
+                                <th class="text-center" width="25%">End Date</th>
                                 <th class="text-center" width="10%">Sessions</th>
-                                <th width="20%"></th>
+                                <th width="10%"></th>
                             </thead>
                             <tbody>
+                                {% for event in events %}
                                 <tr>
-                                    <td>weed-34b3-23bj-2w3b</td>
-                                    <td>Science Week</td>
-                                    <td>16/8/2023 - 20/8/2023</td>
-                                    <td>11</td>
+                                    <td>{{ event.event }}</td>
+                                    <td>{{ event.start_date.strftime("%d/%m/%Y") }}</td>
+                                    <td>{{ event.end_date.strftime("%d/%m/%Y") }}</td>
+                                    <td>{{ event.sessions_count }}</td>
                                     <td>
-                                        <a class="btn btn-info btn-fill active btn-round" href="/admin/event/3">
+                                        <a class="btn btn-info btn-fill active btn-round" href="/admin/event/{{ event.event_uuid }}">
                                             <i class="fa fa-eye" aria-hidden="true"></i>&ensp;View Details
                                         </a>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>weed-34b3-23bj-2w3b</td>
-                                    <td>GLF: A New Vision for Earth</td>
-                                    <td>16/1/2023 - 20/1/2023</td>
-                                    <td>14</td>
-                                    <td>
-                                        <a class="btn btn-info btn-fill active btn-round" href="/admin/event/3">
-                                            <i class="fa fa-eye" aria-hidden="true"></i>&ensp;View Details
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>weed-34b3-23bj-2w3b</td>
-                                    <td>Plant Breeding Conference</td>
-                                    <td>4/7/2023 - 20/7/2023</td>
-                                    <td>22</td>
-                                    <td>
-                                        <a class="btn btn-info btn-fill active btn-round" href="/admin/event/3">
-                                            <i class="fa fa-eye" aria-hidden="true"></i>&ensp;View Details
-                                        </a>
-                                    </td>
-                                </tr>
+                                {% endfor %}
                             </tbody>
                         </table>
 

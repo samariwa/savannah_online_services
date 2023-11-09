@@ -332,6 +332,7 @@ def create_event(**kwargs):
     except Exception as err:
         db.session.rollback()
         expected_args = {
+            'event_uuid': 'string, not null, length=100',
             'event': 'string, not null, length=20',
             'start_date': 'date, not null',
             'end_date': 'date, not null',
@@ -386,6 +387,7 @@ def create_session(**kwargs):
     except Exception as err:
         db.session.rollback()
         expected_args = {
+            'session_uuid': 'string, not null, length=100',
             'event_id': 'integer, not null',
             'event_venue_id': 'integer, not null',
             'session': 'string, not null, length=20',

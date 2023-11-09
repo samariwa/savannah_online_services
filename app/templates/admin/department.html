@@ -28,33 +28,27 @@
                 <br>
                 <div class="card">
                     <div class="header text-center">
-                        <h4 class="title">Finance</h4>
-                        <p class="category"># 2</p>
-                        <p class="category">Registered on 23rd September 2023</p>
-                        <p class="category">Registered Staff Count: 11</p>
+                        <h4 class="title">{{ department_details.department }}</h4>
+                        <p class="category"># {{ department_details.id }}</p>
+                        <p class="category">Registered on {{ department_details.created_at.strftime("%B %d, %Y") }}</p>
+                        <p class="category">Registered Staff Count: {{ department_participants_count }}</p>
                         <br>
                     </div>
                     <div class="content table-responsive">
                         <table class="table">
                             <thead>
-                                <th class="text-center" width="10%">#</th>
                                 <th class="text-center" width="40%">Name</th>
-                                <th class="text-center" width="40%">Email Address</th>
+                                <th class="text-center" width="50%">Email Address</th>
                                 <th class="text-center" width="10%">Event Sessions Count</th>
                             </thead>
                             <tbody>
+                                {% for participant in  department_participants %}
                                 <tr>
-                                    <td>1</td>
-                                    <td>Samuel Mariwa</td>
-                                    <td>s.mariwa@cifor-icraf.org</td>
-                                    <td>11</td>
+                                    <td>{{ participant.first_name+' '+participant.last_name }}</td>
+                                    <td>{{ participant.email_address }}</td>
+                                    <td>{{ participant.sessions_count }}</td>
                                 </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Ermias Betemariam</td>
-                                    <td>e.betemariam@cifor-icraf.org</td>
-                                    <td>5</td>
-                                </tr>
+                                {% endfor %}
                             </tbody>
                         </table>
 

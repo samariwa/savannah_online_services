@@ -332,6 +332,7 @@ class Participant(db.Model):
 class Event(db.Model):
     __tablename__ = 'events'
     id = db.Column(db.Integer(), primary_key=True)
+    event_uuid = db.Column(db.String(length=100),  nullable=False)
     event = db.Column(db.String(length=70),  nullable=False)
     start_date = db.Column(db.Date(), default=str(datetime.now().date()), nullable=False)
     end_date = db.Column(db.Date(), default=str(datetime.now().date()), nullable=False)
@@ -383,6 +384,7 @@ class Event_Venues(db.Model):
 class Session(db.Model):
     __tablename__ = 'sessions'
     id = db.Column(db.Integer(), primary_key=True)
+    session_uuid = db.Column(db.String(length=100),  nullable=False)
     event_id = db.Column(
         db.Integer(),
         db.ForeignKey('events.id'),

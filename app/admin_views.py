@@ -4,7 +4,8 @@ from flask import render_template, make_response, json, request
 from app.forms import AddSessionForm, AddEventForm, AddDepartmentForm,\
      AddEventVenueForm
 from app.controllers.read import fetch_active_departments, fetch_active_event_venues,\
-     fetch_active_sessions
+     fetch_active_sessions, fetch_active_participants, fetch_active_events,\
+     get_event_sessions_count, fetch_department_participants, fetch_department_details
 from app.general_functions import datetime, datetime_to_time, datetime_to_standard_date
 from app.auth_views import roles_required, login_required_redirect
 from flask_login import current_user
@@ -40,19 +41,29 @@ def profile():
 @roles_required('SuperUser', 'Admin')
 def events():
     add_event_form = AddEventForm()
-    return render_template('admin/events.html', add_event_form = add_event_form)
+    events=fetch_active_events()
+    events_count = len(events)
+    return render_template('admin/events.html',
+                           add_event_form = add_event_form,
+                           events=events,
+                           events_count=events_count)
 
-@app.route('/admin/event/<event_id>')
-@app.route('/admin/event/<event_id>/')
+@app.route('/admin/event/<event_uuid>')
+@app.route('/admin/event/<event_uuid>/')
 @login_required_redirect(
     login_url="admin_login",
     login_message="Please log in to access this page"
 )
 @roles_required('SuperUser', 'Admin')
-def event(event_id):
+def event(event_uuid):
     add_session_form = AddSessionForm()
-    sessions = fetch_active_sessions()
-    return render_template('admin/event.html', add_session_form=add_session_form)
+    sessions = fetch_active_sessions(event_uuid)
+    sessions_count = get_event_sessions_count(event_uuid)
+    return render_template('admin/event.html', 
+                           add_session_form=add_session_form,
+                           sessions=sessions,
+                           sessions_count=sessions_count,
+                           event_uuid=event_uuid)
 
 @app.route('/admin/event-venues')
 @app.route('/admin/event-venues/')
@@ -64,9 +75,11 @@ def event(event_id):
 def event_venues():
     add_venue_form = AddEventVenueForm()
     event_venues = fetch_active_event_venues()
+    event_venues_count = len(event_venues)
     return render_template('admin/event-venues.html', 
                            add_venue_form = add_venue_form,
-                           event_venues=event_venues)
+                           event_venues=event_venues,
+                           event_venues_count=event_venues_count)
 
 @app.route('/admin/event-venue/<venue_id>')
 @app.route('/admin/event-venue/<venue_id>/')
@@ -96,7 +109,11 @@ def session(session_id):
 )
 @roles_required('SuperUser', 'Admin')
 def registered_staff():
-    return render_template('admin/registered_staff.html')
+    participants = fetch_active_participants()
+    participants_count = len(participants)
+    return render_template('admin/registered_staff.html', 
+                           participants=participants,
+                           participants_count=participants_count)
 
 @app.route('/admin/staff/<staff_id>')
 @app.route('/admin/staff/<staff_id>/')
@@ -122,7 +139,8 @@ def departments():
     departments = fetch_active_departments()
     return render_template('admin/departments.html',
                            add_department_form = add_department_form,
-                           departments=departments)
+                           departments=departments,
+                           departments_count=len(departments))
 
 @app.route('/admin/department/<department_id>')
 @app.route('/admin/department/<department_id>/')
@@ -132,7 +150,12 @@ def departments():
 )
 @roles_required('SuperUser', 'Admin')
 def department(department_id):
-    return render_template('admin/department.html')
+    department_details=fetch_department_details(department_id)
+    department_participants=fetch_department_participants(department_id)
+    return render_template('admin/department.html',
+                           department_details=department_details,
+                           department_participants=department_participants,
+                           department_participants_count=len(department_participants))
 
 @app.route('/admin/analytics')
 @app.route('/admin/analytics/')

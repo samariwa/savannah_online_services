@@ -211,7 +211,41 @@ def fetch_active_participants():
 
     Fetches all participants that have not been soft deleted
     """
-    return Participant.query.filter(Participant.db_status != 'deleted').order_by(Participant.id.asc())
+    results = db.session.execute(
+        db.select(Participant.id, Participant.first_name, Participant.last_name, 
+                  Participant.email_address, Department.department)
+                  .join(Department, Participant.department_id == Department.id)
+                  .filter(Participant.db_status != 'deleted')
+                  .order_by(Participant.id.asc())
+                ).all()
+
+    participants = []
+    for participant in results:
+        participant_details = {}
+        participant_details['id'] = participant.id
+        participant_details['first_name'] = participant.first_name
+        participant_details['last_name'] = participant.last_name
+        participant_details['email_address'] = participant.email_address
+        participant_details['department'] = participant.department
+        participant_details['sessions_count'] = get_participant_sessions_count(participant.id)
+        participants.append(participant_details)
+
+    return participants
+
+def get_participant_sessions_count(participant_id):
+    """
+    get_participant_sessions_count(participant_id)
+
+    function that fetches the number of all sessions a participant has registered
+    for that have not been soft deleted
+    """
+    sessions_count =  db.session.execute(
+        db.select(Session_Registration)
+        .filter(Session_Registration.db_status != 'deleted', 
+                Session_Registration.participant_id == participant_id)
+    ).scalars().all()
+
+    return len(sessions_count)
 
 def fetch_active_events():
     """
@@ -219,7 +253,41 @@ def fetch_active_events():
 
     Fetches all events that have not been soft deleted
     """
-    return Event.query.filter(Event.db_status != 'deleted').order_by(Event.id.asc())
+    results = db.session.execute(
+        db.select(Event.id, Event.event_uuid, Event.event,\
+                  Event.start_date, Event.end_date)
+                  .filter(Event.db_status != 'deleted')
+                  .order_by(Event.id.asc())
+                ).all()
+
+    events = []
+    for event in results:
+        event_details = {}
+        event_details['id'] = event.id
+        event_details['event_uuid'] = event.event_uuid
+        event_details['event'] = event.event
+        event_details['start_date'] = event.start_date
+        event_details['end_date'] = event.end_date
+        event_details['sessions_count'] = get_event_sessions_count(event.event_uuid)
+        events.append(event_details)
+
+    return events
+
+def get_event_sessions_count(event_uuid):
+    """
+    get_event_sessions_count(event_uuid)
+
+    function that fetches the number of all sessions an event has
+    and that have not been soft deleted
+    """
+    sessions_count =  db.session.execute(
+        db.select(Session)
+        .join(Event, Session.event_id == Event.id)
+        .filter(Session.db_status != 'deleted', 
+                Event.event_uuid == event_uuid)
+    ).scalars().all()
+
+    return len(sessions_count)
 
 def fetch_active_event_venues():
     """
@@ -266,18 +334,36 @@ def fetch_all_sessions():
     """
     return Session.query.filter(Session.db_status != 'deleted').order_by(Session.id.asc())
 
-def fetch_active_sessions():
+def fetch_active_sessions(event_uuid):
     """
-    fetch_active_sessions()
+    fetch_active_sessions(event_id)
 
     Fetches all sessions that have not been soft deleted
     """
     return db.session.execute(
-        db.select(Session.id, Session.session_description, Session.start_timestamp, 
-                  Session.end_timestamp)
-        .filter(Session.db_status != 'deleted')
+        db.select(Session.id, Session.session_uuid, Session.session,\
+                  Session.session_description, Event_Venues.venue,
+                  Session.start_timestamp, Session.end_timestamp, Session.db_status)
+        .join(Event_Venues, Session.event_venue_id == Event_Venues.id)
+        .join(Event, Session.event_id == Event.id)
+        .filter(Session.db_status != 'deleted', Event.event_uuid == event_uuid)
         .order_by(Session.id.asc())
     )
+
+def get_event_sessions_count(event_uuid):
+    """
+    get_event_sessions_count(event_uuid)
+
+    function that fetches the number of all sessions in an event 
+    that have not been soft deleted
+    """
+    sessions =  db.session.execute(
+        db.select(Session)
+        .join(Event, Session.event_id == Event.id)
+        .filter(Session.db_status != 'deleted', Event.event_uuid == event_uuid)
+    ).scalars().all()
+
+    return len(sessions)
 
 def fetch_active_session_registrations():
     """
@@ -286,3 +372,39 @@ def fetch_active_session_registrations():
     Fetches all session registrations that have not been soft deleted
     """
     return Session_Registration.query.filter(Session_Registration.db_status != 'deleted').order_by(Session_Registration.id.asc())
+
+def fetch_department_participants(department_id):
+    """
+    fetch_active_sessions(event_id)
+
+    Fetches all participants under a certain department whose department id is passed
+     as a parameter and that have not been soft deleted
+    """
+    results = db.session.execute(
+        db.select(Participant.id, Participant.first_name, Participant.last_name, Participant.email_address)
+        .filter(Participant.db_status != 'deleted', Participant.department_id == department_id)
+        .order_by(Participant.id.asc())
+    )
+
+    participants = []
+    for participant in results:
+        participant_details = {}
+        participant_details['first_name'] = participant.first_name
+        participant_details['last_name'] = participant.last_name
+        participant_details['email_address'] = participant.email_address
+        participant_details['sessions_count'] = get_participant_sessions_count(participant.id)
+        participants.append(participant_details)
+
+    return participants
+
+def fetch_department_details(department_id):
+    """
+    fetch_department_details(department_id)
+
+    Fetches the details of the department whoseid is passed
+    as a parameter
+    """
+    return db.session.execute(
+        db.select(Department.id, Department.department, Department.created_at)
+        .filter(Department.id == department_id)
+    ).one()

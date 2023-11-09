@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 from app.controllers import create
+from app.general_functions import get_uuid
 from app import app, db
 app.app_context().push()
 
@@ -77,12 +78,14 @@ participant_kwargs = {
 create.create_participant(**participant_kwargs)
 
 event_kwargs = {
+    'event_uuid': get_uuid(),
     'event': "Science Week",
 }
 
 create.create_event(**event_kwargs)
 
 event_kwargs = {
+    'event_uuid': get_uuid(),
     'event': "GLF (A New Vision for Earth)",
 }
 
@@ -101,15 +104,18 @@ event_venue_kwargs = {
 create.create_event_venue(**event_venue_kwargs)
 
 session_kwargs = {
+    'session_uuid': get_uuid(),
     'event_id': 1,
     'event_venue_id': 1,
     'session': "Global Restoration of Mangrove Forests",
     'session_description': "Global Restoration of Mangrove Forests",
+    "db_status": "active"
 }
 
 create.create_session(**session_kwargs)
 
 session_kwargs = {
+    'session_uuid': get_uuid(),
     'event_id': 2,
     'event_venue_id': 2,
     'session': "The Future of Forests in the Global Climate Agenda",
