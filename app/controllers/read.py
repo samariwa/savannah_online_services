@@ -232,6 +232,19 @@ def fetch_active_participants():
 
     return participants
 
+def fetch_participant_details(participant_id):
+    """
+    fetch_participant_details(participant_id)
+
+    Fetches the details of a participant whose ID is passed in an ID
+    """
+    return db.session.execute(
+        db.select(Participant.first_name, Participant.last_name, 
+                  Participant.email_address, Department.department)
+                  .join(Department, Participant.department_id == Department.id)
+                  .filter(Participant.id == participant_id)
+                ).one()
+
 def get_participant_sessions_count(participant_id):
     """
     get_participant_sessions_count(participant_id)
@@ -246,6 +259,26 @@ def get_participant_sessions_count(participant_id):
     ).scalars().all()
 
     return len(sessions_count)
+
+def get_participant_events_count(participant_id):
+    """
+    get_participant_sessions_count(participant_id)
+
+    function that fetches the number of all sessions a participant has registered
+    for that have not been soft deleted
+    """
+    sessions_count =  db.session.execute(
+        db.select(Session_Registration)
+        .join(Session, Session_Registration.session_id == Session.id)
+        .join(Event, Session.event_id == Event.id)
+        .filter(Event.db_status != 'deleted',
+                Session.db_status != 'deleted',
+                Session_Registration.db_status != 'deleted',
+                Session_Registration.participant_id == participant_id)
+    ).scalars().all()
+
+    return len(sessions_count)
+
 
 def fetch_active_events():
     """
@@ -461,6 +494,35 @@ def get_session_participants_count(session_id):
 
     return len(participants_count)
 
+def fetch_session_participants(session_uuid):
+    """
+    fetch_session_participants(session_uuid)
+
+    Fetches all participants of a session whose uuid is passed
+    as a parameter and that have not been soft deleted
+    """
+    results = db.session.execute(
+        db.select(Session.id, Participant.first_name, Participant.last_name, Participant.email_address, 
+                  Session_Registration.created_at, Department.department)
+        .join(Session_Registration, Session.id == Session_Registration.session_id)
+        .join(Participant, Session_Registration.participant_id == Participant.id)
+        .join(Department, Participant.department_id == Department.id)
+        .filter(Participant.db_status != 'deleted', Session.session_uuid == session_uuid)
+        .order_by(Session.id.asc())
+    )
+
+    participants = []
+    for participant in results:
+        participant_details = {}
+        participant_details['first_name'] = participant.first_name
+        participant_details['last_name'] = participant.last_name
+        participant_details['email_address'] = participant.email_address
+        participant_details['created_at'] = participant.created_at
+        participant_details['department'] = participant.department
+        participants.append(participant_details)
+
+    return participants
+
 def fetch_event_venue_details(venue_id):
     """
     fetch_event_venue_details(venue_id)
@@ -481,7 +543,7 @@ def fetch_participant_sessions(participant_id):
     as a parameter and that have not been soft deleted
     """
     results = db.session.execute(
-        db.select(Event.event, Event.start_date, Event.end_date, Session.session)
+        db.select(Event.event_uuid, Event.event, Event.start_date, Event.end_date, Session.session)
         .join(Session_Registration, Session.id == Session_Registration.session_id)
         .join(Event, Session.event_id == Event.id)
         .filter(Session.db_status != 'deleted', Session_Registration.participant_id == participant_id)
@@ -490,31 +552,64 @@ def fetch_participant_sessions(participant_id):
     """
     Dict Format
     {
-     'Science Week': {
-                      'Start Date': '2021-09-13',
-                      'End Date': '2021-09-17',
-                      'Sessions Count': 2,
-                      'Sessions': ['Session 1', 'Session 2']
-                     },
-     'Maths Week': {
-                    'Start Date': '2021-09-13',
-                    'End Date': '2021-09-17',
-                    'Sessions Count': 2,
-                    'Sessions': ['Session 1', 'Session 2']
-                   }
+     3bh43-34bui3-43nb34-23b34iu3: {
+                                    'Event': 'Science Week',
+                                    'Start Date': '2021-09-13',
+                                    'End Date': '2021-09-17',
+                                    'Sessions Count': 2,
+                                    'Sessions': ['Session 1', 'Session 2']
+                                },
+     weu273-b3483483-28434-23bb3: {
+                                    'Event': 'Maths Week',
+                                    'Start Date': '2021-09-13',
+                                    'End Date': '2021-09-17',
+                                    'Sessions Count': 2,
+                                    'Sessions': ['Session 1', 'Session 2']
+                                }
     }
+    UUID is used as a unique ID and not event name because and event name can
+    occur more than once for different instances
     """
     registered_events = {}
 
     for session in results:
-        if not registered_events.get(session.event):
-            registered_events[session.event] = {}
-            registered_events[session.event]['start_date'] = session.start_date
-            registered_events[session.event]['end_date'] = session.end_date
-            registered_events[session.event]['sessions_count'] = 1
-            registered_events[session.event]['sessions'] = [session.session]
+        if not registered_events.get(session.event_uuid):
+            registered_events[session.event_uuid] = {}
+            registered_events[session.event_uuid]['event'] = session.event
+            registered_events[session.event_uuid]['start_date'] = session.start_date
+            registered_events[session.event_uuid]['end_date'] = session.end_date
+            registered_events[session.event_uuid]['sessions_count'] = 1
+            registered_events[session.event_uuid]['sessions'] = [session.session]
         else:
-            registered_events[session.event]['sessions_count'] += 1
-            registered_events[session.event]['sessions'].append(session.session)
+            registered_events[session.event_uuid]['sessions_count'] += 1
+            registered_events[session.event_uuid]['sessions'].append(session.session)
 
     return registered_events
+
+def fetch_session_event_uuid(session_uuid):
+    """
+    fetch_session_event_uuid(session_uuid)
+
+    Fetches the uuid of the event whose session uuid is passed
+    as a parameter
+    """
+    return db.session.execute(
+        db.select(Event.event_uuid)
+        .join(Session, Session.event_id == Event.id)
+        .filter(Session.session_uuid == session_uuid)
+    ).one()
+
+def fetch_session_details(session_uuid):
+    """
+    fetch_session_details(session_uuid)
+
+    Fetches the details of the session whose uuid is passed
+    as a parameter
+    """
+    return db.session.execute(
+        db.select(Session.id, Session.session_uuid, Session.session, 
+                  Session.session_description, Session.start_timestamp, 
+                  Event_Venues.venue, Session.db_status)
+        .join(Event_Venues, Session.event_venue_id == Event_Venues.id)
+        .filter(Session.session_uuid == session_uuid)
+    ).one()

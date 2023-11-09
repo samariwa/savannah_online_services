@@ -7,7 +7,9 @@ from app.controllers.read import fetch_active_departments, fetch_active_event_ve
      fetch_active_sessions, fetch_active_participants, fetch_active_events,\
      get_event_sessions_count, fetch_department_participants, fetch_department_details,\
      fetch_event_details, fetch_event_venue_sessions, fetch_event_venue_details,\
-     fetch_participant_sessions
+     fetch_participant_sessions, fetch_participant_details, get_participant_sessions_count,\
+     get_participant_events_count, fetch_session_event_uuid, fetch_session_participants,\
+     fetch_session_details
 from app.general_functions import datetime, datetime_to_time, datetime_to_standard_date
 from app.auth_views import roles_required, login_required_redirect
 from flask_login import current_user
@@ -100,15 +102,22 @@ def event_venue(venue_id):
                            venue_sessions_count=len(venue_sessions)
     )
 
-@app.route('/admin/session/<session_id>')
-@app.route('/admin/session/<session_id>/')
+@app.route('/admin/session/<session_uuid>')
+@app.route('/admin/session/<session_uuid>/')
 @login_required_redirect(
     login_url="admin_login",
     login_message="Please log in to access this page"
 )
 @roles_required('SuperUser', 'Admin')
-def session(session_id):
-    return render_template('admin/session.html')
+def session(session_uuid):
+    event_uuid = fetch_session_event_uuid(session_uuid)
+    participants = fetch_session_participants(session_uuid)
+    session_details = fetch_session_details(session_uuid)
+    return render_template('admin/session.html',
+                           event_uuid=event_uuid,
+                           participants=participants,
+                           participants_count=len(participants),
+                           session_details=session_details)
 
 @app.route('/admin/registered-staff')
 @app.route('/admin/registered-staff/')
@@ -132,10 +141,16 @@ def registered_staff():
 )
 @roles_required('SuperUser', 'Admin',)
 def staff(participant_id):
+    participant_details = fetch_participant_details(participant_id)
     sessions = fetch_participant_sessions(participant_id)
+    sessions_count=get_participant_sessions_count(participant_id)
+    events_count=get_participant_events_count(participant_id)
     return render_template(
         'admin/staff.html',
-        sessions=sessions
+        sessions=sessions,
+        sessions_count=sessions_count,
+        events_count=events_count,
+        participant_details=participant_details
     )
 
 @app.route('/admin/departments')

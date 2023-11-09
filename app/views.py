@@ -2,6 +2,7 @@ from app import app, db, organization, csrf
 from flask import render_template, request
 from app.response import flash_response
 from app.forms import SessionRegistrationForm
+from app.controllers.read import fetch_active_departments
 import json
 import random
 
@@ -18,6 +19,10 @@ def index():
 def session_registration(session_id):
     random_number = random.randint(0, 11)
     session_registration_form = SessionRegistrationForm()
+    departments=fetch_active_departments()
+    department_options = [(d['id'], d['department'])
+                                  for d in departments]
+    session_registration_form.department.choices.extend(department_options)
     return render_template(
         'public/session-registration.html', 
         random_number=random_number,

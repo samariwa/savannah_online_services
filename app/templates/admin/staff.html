@@ -30,12 +30,12 @@
                         <div class="card-header ">
                             <div class="row">
                                 <div class="col-9">
-                                    <h4 class="card-title">Samuel Mariwa (ICT)</h4>
-                                    <p class="card-category">s.mariwa@cifor-icraf.org</p>
+                                    <h4 class="card-title">{{ participant_details.first_name+' '+participant_details.last_name}} ({{ participant_details.department }})</h4>
+                                    <p class="card-category">{{ participant_details.email_address }}</p>
                                 </div>
                                 <div class="col-3">
-                                    <h4 class="card-title">2 Events</h4>
-                                    <h5 class="card-title ">6 Sessions</h5>
+                                    <h4 class="card-title">{{ events_count }} Event(s)</h4>
+                                    <h5 class="card-title ">{{ sessions_count }} Session(s)</h5>
                                 </div>
                             </div>
                         </div>
@@ -43,7 +43,7 @@
                     <div class="card">
                         {% for key, values in sessions.items() %}
                         <div class="header text-center">
-                            <h4 class="title">{{ key }}</h4>
+                            <h4 class="title">{{ values.event }}</h4>
                             <p class="category">{{ values.start_date.strftime("%B %d, %Y") }} - {{ values.end_date.strftime("%B %d, %Y") }}</p>
                             <p class="category">Session Count: {{ values.sessions_count }}</p>
                             <br>
