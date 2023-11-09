@@ -401,10 +401,120 @@ def fetch_department_details(department_id):
     """
     fetch_department_details(department_id)
 
-    Fetches the details of the department whoseid is passed
+    Fetches the details of the department whose id is passed
     as a parameter
     """
     return db.session.execute(
         db.select(Department.id, Department.department, Department.created_at)
         .filter(Department.id == department_id)
     ).one()
+
+def fetch_event_details(event_uuid):
+    """
+    fetch_event_details(event_id)
+
+    Fetches the details of the event whose id is passed
+    as a parameter
+    """
+    return db.session.execute(
+        db.select(Event.event_uuid, Event.event, Event.start_date, Event.end_date)
+        .filter(Event.event_uuid == event_uuid)
+    ).one()
+
+def fetch_event_venue_sessions(event_venue_id):
+    """
+    fetch_event_venue_sessions(event_venue_id)
+
+    Fetches all sessions under an event venue whose id is passed
+    as a parameter and that have not been soft deleted
+    """
+    results = db.session.execute(
+        db.select(Session.id, Event.event, Session.session)
+        .join(Event, Session.event_id == Event.id)
+        .join(Event_Venues, Session.event_venue_id == Event_Venues.id)
+        .filter(Session.db_status != 'deleted', Event_Venues.id == event_venue_id)
+        .order_by(Session.id.asc())
+    )
+
+    sessions = []
+    for session in results:
+        session_details = {}
+        session_details['event'] = session.event
+        session_details['session'] = session.session
+        session_details['participants_count'] = get_session_participants_count(session.id)
+        sessions.append(session_details)
+
+    return sessions
+
+def get_session_participants_count(session_id):
+    """
+    get_session_participants_count(session_id)
+
+    function that fetches the number of all participants who registered for a
+    session and have not been soft deleted
+    """
+    participants_count =  db.session.execute(
+        db.select(Session_Registration)
+        .filter(Session_Registration.db_status != 'deleted', 
+                Session_Registration.session_id == session_id)
+    ).scalars().all()
+
+    return len(participants_count)
+
+def fetch_event_venue_details(venue_id):
+    """
+    fetch_event_venue_details(venue_id)
+
+    Fetches the details of the event venue whose id is passed
+    as a parameter
+    """
+    return db.session.execute(
+        db.select(Event_Venues.id, Event_Venues.venue, Event_Venues.created_at)
+        .filter(Event_Venues.id == venue_id)
+    ).one()
+
+def fetch_participant_sessions(participant_id):
+    """
+    fetch_participant_sessions(participant_id)
+
+    Fetches all sessions and events of a participant whose id is passed
+    as a parameter and that have not been soft deleted
+    """
+    results = db.session.execute(
+        db.select(Event.event, Event.start_date, Event.end_date, Session.session)
+        .join(Session_Registration, Session.id == Session_Registration.session_id)
+        .join(Event, Session.event_id == Event.id)
+        .filter(Session.db_status != 'deleted', Session_Registration.participant_id == participant_id)
+        .order_by(Session.id.asc())
+    )
+    """
+    Dict Format
+    {
+     'Science Week': {
+                      'Start Date': '2021-09-13',
+                      'End Date': '2021-09-17',
+                      'Sessions Count': 2,
+                      'Sessions': ['Session 1', 'Session 2']
+                     },
+     'Maths Week': {
+                    'Start Date': '2021-09-13',
+                    'End Date': '2021-09-17',
+                    'Sessions Count': 2,
+                    'Sessions': ['Session 1', 'Session 2']
+                   }
+    }
+    """
+    registered_events = {}
+
+    for session in results:
+        if not registered_events.get(session.event):
+            registered_events[session.event] = {}
+            registered_events[session.event]['start_date'] = session.start_date
+            registered_events[session.event]['end_date'] = session.end_date
+            registered_events[session.event]['sessions_count'] = 1
+            registered_events[session.event]['sessions'] = [session.session]
+        else:
+            registered_events[session.event]['sessions_count'] += 1
+            registered_events[session.event]['sessions'].append(session.session)
+
+    return registered_events

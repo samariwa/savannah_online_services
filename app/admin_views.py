@@ -5,7 +5,9 @@ from app.forms import AddSessionForm, AddEventForm, AddDepartmentForm,\
      AddEventVenueForm
 from app.controllers.read import fetch_active_departments, fetch_active_event_venues,\
      fetch_active_sessions, fetch_active_participants, fetch_active_events,\
-     get_event_sessions_count, fetch_department_participants, fetch_department_details
+     get_event_sessions_count, fetch_department_participants, fetch_department_details,\
+     fetch_event_details, fetch_event_venue_sessions, fetch_event_venue_details,\
+     fetch_participant_sessions
 from app.general_functions import datetime, datetime_to_time, datetime_to_standard_date
 from app.auth_views import roles_required, login_required_redirect
 from flask_login import current_user
@@ -59,11 +61,12 @@ def event(event_uuid):
     add_session_form = AddSessionForm()
     sessions = fetch_active_sessions(event_uuid)
     sessions_count = get_event_sessions_count(event_uuid)
+    event_details = fetch_event_details(event_uuid)
     return render_template('admin/event.html', 
                            add_session_form=add_session_form,
                            sessions=sessions,
                            sessions_count=sessions_count,
-                           event_uuid=event_uuid)
+                           event_details=event_details)
 
 @app.route('/admin/event-venues')
 @app.route('/admin/event-venues/')
@@ -89,7 +92,13 @@ def event_venues():
 )
 @roles_required('SuperUser', 'Admin')
 def event_venue(venue_id):
-    return render_template('admin/event-venue.html')
+    venue_sessions = fetch_event_venue_sessions(venue_id)
+    venue_details = fetch_event_venue_details(venue_id)
+    return render_template('admin/event-venue.html',
+                           venue_details=venue_details,
+                           venue_sessions=venue_sessions,
+                           venue_sessions_count=len(venue_sessions)
+    )
 
 @app.route('/admin/session/<session_id>')
 @app.route('/admin/session/<session_id>/')
@@ -101,8 +110,8 @@ def event_venue(venue_id):
 def session(session_id):
     return render_template('admin/session.html')
 
-@app.route('/admin/registered_staff')
-@app.route('/admin/registered_staff/')
+@app.route('/admin/registered-staff')
+@app.route('/admin/registered-staff/')
 @login_required_redirect(
     login_url="admin_login",
     login_message="Please log in to access this page"
@@ -111,20 +120,22 @@ def session(session_id):
 def registered_staff():
     participants = fetch_active_participants()
     participants_count = len(participants)
-    return render_template('admin/registered_staff.html', 
+    return render_template('admin/registered-staff.html', 
                            participants=participants,
                            participants_count=participants_count)
 
-@app.route('/admin/staff/<staff_id>')
-@app.route('/admin/staff/<staff_id>/')
+@app.route('/admin/staff/<participant_id>')
+@app.route('/admin/staff/<participant_id>/')
 @login_required_redirect(
     login_url="admin_login",
     login_message="Please log in to access this page"
 )
 @roles_required('SuperUser', 'Admin',)
-def staff(staff_id):
+def staff(participant_id):
+    sessions = fetch_participant_sessions(participant_id)
     return render_template(
         'admin/staff.html',
+        sessions=sessions
     )
 
 @app.route('/admin/departments')

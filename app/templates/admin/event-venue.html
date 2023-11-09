@@ -28,33 +28,27 @@
                 <br>
                 <div class="card">
                     <div class="header text-center">
-                        <h4 class="title">Main Conference Hall</h4>
-                        <p class="category"># 1</p>
-                        <p class="category">Registered on 23rd September 2023</p>
-                        <p class="category">Registered Sessions Count: 11</p>
+                        <h4 class="title">{{ venue_details.venue }}</h4>
+                        <p class="category"># {{ venue_details.id }}</p>
+                        <p class="category">Created on {{ venue_details.created_at.strftime("%B %d, %Y") }}</p>
+                        <p class="category">Registered Sessions Count: {{ venue_sessions_count }}</p>
                         <br>
                     </div>
                     <div class="content table-responsive">
                         <table class="table">
                             <thead>
-                                <th class="text-center" width="10%">#</th>
                                 <th class="text-center" width="40%">Event Name</th>
-                                <th class="text-center" width="40%">Session Name</th>
+                                <th class="text-center" width="50%">Session Name</th>
                                 <th class="text-center" width="10%">Registered Participants Count</th>
                             </thead>
                             <tbody>
+                                {% for venue_session in venue_sessions %}
                                 <tr>
-                                    <td>1</td>
-                                    <td>Science Week</td>
-                                    <td>Restoration of Forests</td>
-                                    <td>11</td>
+                                    <td>{{ venue_session.event }}</td>
+                                    <td>{{ venue_session.session }}</td>
+                                    <td>{{ venue_session.participants_count }}</td>
                                 </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Science Week</td>
-                                    <td>Cacao Harvesting in Ghana</td>
-                                    <td>5</td>
-                                </tr>
+                                {% endfor %}
                             </tbody>
                         </table>
 

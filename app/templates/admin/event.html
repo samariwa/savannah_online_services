@@ -83,9 +83,9 @@
                 <br>
                 <div class="card">
                     <div class="header text-center">
-                        <h4 class="title">Science Week</h4>
-                        <p class="category"># {{ event_uuid }}</p>
-                        <p class="category">23rd September 2023 - 4th October 2023</p>
+                        <h4 class="title">{{ event_details.event }}</h4>
+                        <p class="category"># {{ event_details.event_uuid }}</p>
+                        <p class="category">{{ event_details.start_date.strftime("%B %d, %Y") }} - {{ event_details.end_date.strftime("%B %d, %Y") }}</p>
                         <p class="category">Sessions Count: {{ sessions_count }}</p>
                         <br>
                     </div>

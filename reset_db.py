@@ -133,6 +133,13 @@ create.create_session_registration(**session_registration_kwargs)
 
 session_registration_kwargs = {
     'session_id': 2,
+    'participant_id': 1,
+}
+
+create.create_session_registration(**session_registration_kwargs)
+
+session_registration_kwargs = {
+    'session_id': 2,
     'participant_id': 2,
 }
 

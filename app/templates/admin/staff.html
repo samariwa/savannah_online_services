@@ -22,7 +22,7 @@
         <div class="col-12">
             <div class="row">
                 <div class="col-md-8 ml-auto mr-auto">
-                    <a class="btn btn-link btn-simple active" href="/admin/registered_staff"
+                    <a class="btn btn-link btn-simple active" href="/admin/registered-staff"
                         style="text-decoration: none;">
                         <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>&ensp;Back
                     </a>
@@ -41,10 +41,11 @@
                         </div>
                     </div>
                     <div class="card">
+                        {% for key, values in sessions.items() %}
                         <div class="header text-center">
-                            <h4 class="title">Science Week</h4>
-                            <p class="category">12th June 2023 - 15th June 2023</p>
-                            <p class="category">Session Count: 4</p>
+                            <h4 class="title">{{ key }}</h4>
+                            <p class="category">{{ values.start_date.strftime("%B %d, %Y") }} - {{ values.end_date.strftime("%B %d, %Y") }}</p>
+                            <p class="category">Session Count: {{ values.sessions_count }}</p>
                             <br>
                         </div>
                         <div class="content table-responsive table-upgrade">
@@ -53,43 +54,15 @@
                                     <th class="text-center">Sessions Attended</th>
                                 </thead>
                                 <tbody>
+                                    {% for session in values.sessions %}
                                     <tr>
-                                        <td>Documentation</td>
+                                        <td>{{ session }}</td>
                                     </tr>
-                                    <tr>
-                                        <td>SASS Files</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Login/Register/Lock Pages</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Premium Support</td>
-                                    </tr>
+                                    {% endfor %}
                                 </tbody>
                             </table>
                         </div>
-                        <div class="header text-center">
-                            <h4 class="title">GLF: A New Vision for Earth</h4>
-                            <p class="category">12th September 2023 - 15th September 2023</p>
-                            <p class="category">Session Count: 2</p>
-                            <br>
-                        </div>
-                        <div class="content table-responsive table-upgrade">
-                            <table class="table">
-                                <thead>
-                                    <th class="text-center">Sessions Attended</th>
-                                </thead>
-                                <tbody>
-
-                                    <tr>
-                                        <td>Documentation</td>
-                                    </tr>
-                                    <tr>
-                                        <td>SASS Files</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
