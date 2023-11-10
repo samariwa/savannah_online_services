@@ -900,29 +900,25 @@ $('.deleteReclassItem').click(function () {
   }
   deleteRequest($(this), 'product reclass item', '/crud/product-reclass-items-delete', values);
 });
-// Damaged Stock Update //////////////////////////////////////////////////////////
-
-$('#damagedEditable').editableTableWidget();
-$('#damagedEditable td.uneditable').on('change', function (evt, newValue) {
-  return false;
-});
-$('#damagedEditable td').on('change', function (evt, newValue) {
-  var rowx = parseInt(evt.target._DT_CellIndex.row) + 1;
-  var values = {
-    batch_id: $(`#id${rowx}`).text(),
-    new_qty: $(`#new_qty_damaged${rowx}`).text()
-  };
-  updateRequest('/crud/damaged-products-update', values, reload = true)
-});
-
-// Suppliers CRUD ////////////////////////////////////////////////////////////////
-
-$(document).on('click', '#addSupplier', function (e) {
+// Event Venue CRUD ///////////////////////////////////////////////////////////
+$(document).on('click', '#addEventVenue', function (e) {
   e.preventDefault();
   var args = {
-    formId: 'form_add_supplier',
-    serverUrl: '/crud/suppliers-create',
-    object: 'Supplier'
+    formId: 'form_add_event_venue',
+    serverUrl: '/crud/event-venue-create',
+    object: 'Event Venue'
+  };
+  createRequest(args);
+});
+
+// Department CRUD ////////////////////////////////////////////////////////////////
+
+$(document).on('click', '#addDepartment', function (e) {
+  e.preventDefault();
+  var args = {
+    formId: 'form_add_department',
+    serverUrl: '/crud/department-create',
+    object: 'Department'
   };
   createRequest(args);
 });

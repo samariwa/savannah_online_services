@@ -118,7 +118,6 @@ def fetch_all_departments():
                   .order_by(Department.id.asc())
                 ).all()
 
-
 def fetch_active_departments():
     """
     fetch_active_departments()
@@ -437,10 +436,13 @@ def fetch_department_details(department_id):
     Fetches the details of the department whose id is passed
     as a parameter
     """
-    return db.session.execute(
-        db.select(Department.id, Department.department, Department.created_at)
-        .filter(Department.id == department_id)
-    ).one()
+    try:
+        return db.session.execute(
+            db.select(Department.id, Department.department, Department.created_at)
+            .filter(Department.id == department_id)
+        ).one()
+    except Exception as err:
+        return None
 
 def fetch_event_details(event_uuid):
     """
@@ -449,10 +451,13 @@ def fetch_event_details(event_uuid):
     Fetches the details of the event whose id is passed
     as a parameter
     """
-    return db.session.execute(
-        db.select(Event.event_uuid, Event.event, Event.start_date, Event.end_date)
-        .filter(Event.event_uuid == event_uuid)
-    ).one()
+    try:
+        return db.session.execute(
+            db.select(Event.event_uuid, Event.event, Event.start_date, Event.end_date)
+            .filter(Event.event_uuid == event_uuid)
+        ).one()
+    except Exception as err:
+        return None
 
 def fetch_event_venue_sessions(event_venue_id):
     """
@@ -530,10 +535,13 @@ def fetch_event_venue_details(venue_id):
     Fetches the details of the event venue whose id is passed
     as a parameter
     """
-    return db.session.execute(
-        db.select(Event_Venues.id, Event_Venues.venue, Event_Venues.created_at)
-        .filter(Event_Venues.id == venue_id)
-    ).one()
+    try:
+        return db.session.execute(
+            db.select(Event_Venues.id, Event_Venues.venue, Event_Venues.created_at)
+            .filter(Event_Venues.id == venue_id)
+        ).one()
+    except Exception as err:
+        return None
 
 def fetch_participant_sessions(participant_id):
     """
@@ -593,11 +601,14 @@ def fetch_session_event_uuid(session_uuid):
     Fetches the uuid of the event whose session uuid is passed
     as a parameter
     """
-    return db.session.execute(
-        db.select(Event.event_uuid)
-        .join(Session, Session.event_id == Event.id)
-        .filter(Session.session_uuid == session_uuid)
-    ).one()
+    try:
+        return db.session.execute(
+            db.select(Event.event_uuid)
+            .join(Session, Session.event_id == Event.id)
+            .filter(Session.session_uuid == session_uuid)
+        ).one()
+    except Exception as err:
+        return None
 
 def fetch_session_details(session_uuid):
     """
@@ -606,7 +617,8 @@ def fetch_session_details(session_uuid):
     Fetches the details of the session whose uuid is passed
     as a parameter
     """
-    return db.session.execute(
+    try:
+        return db.session.execute(
         db.select(Session.id, Session.session_uuid, Session.session, 
                   Session.session_description, Session.start_timestamp, 
                   Session.end_timestamp, Event_Venues.venue, Session.db_status,
@@ -614,4 +626,9 @@ def fetch_session_details(session_uuid):
         .join(Event_Venues, Session.event_venue_id == Event_Venues.id)
         .join(Event, Session.event_id == Event.id)
         .filter(Session.session_uuid == session_uuid)
-    ).one()
+        ).one()
+    except Exception as err:
+        return None
+    
+
+    

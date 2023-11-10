@@ -24,11 +24,21 @@ def session_registration(session_uuid):
     department_options = [(d['id'], d['department'])
                                   for d in departments]
     session_registration_form.department.choices.extend(department_options)
-    return render_template(
-        'public/session-registration.html', 
-        random_number=random_number,
-        session_details=session_details,
-        session_registration_form=session_registration_form)
+    if session_details is None:
+        return render_template(
+            'public/session-registration-error.html', 
+            random_number=random_number)
+    else:
+        if session_details.db_status == 'active':
+            return render_template(
+                'public/session-registration.html', 
+                random_number=random_number,
+                session_details=session_details,
+                session_registration_form=session_registration_form)
+        else:
+            return render_template(
+                'public/session-registration-error.html', 
+                random_number=random_number)
 
 @app.route('/session-registration-success/<session_uuid>')
 @app.route('/session-registration-success/<session_uuid>/')

@@ -1,7 +1,7 @@
 from app import app, db, csrf, organization
 from flask import make_response, json, request, jsonify, abort
 from app.general_functions import empty_input_fields
-from app.controllers.create import create_admin
+from app.controllers.create import create_admin, create_department, create_event_venue
 from app.controllers.update import update_user
 from app.controllers.delete import delete_admin, delete_staff
 from datetime import datetime
@@ -112,5 +112,73 @@ def staff_delete():
     # Any error
     else:
         response = make_response(delete_result, 200)
+    # request response returned
+    return response
+
+##########################################################################
+## Department ############################################################
+@app.route('/crud/department-create', methods=['POST'])
+@csrf.exempt
+def department_create():
+    """
+    This function gets the client request and passes its values to the
+    create department controller which creates a department object and 
+    queries the database to insert.
+    Any errors caught in any of the processes are returned back to
+    the client for standardization to a user friendly output
+    """
+    response = ''
+    # Check if there are any blank input fields
+    empty_fields = empty_input_fields(request.form)
+    if len(empty_fields) > 0:
+        response = make_response(json.dumps(empty_fields), 422)
+    else:
+        # call the create department controller
+        query_result = create_department(
+            department=request.form['department_name']
+        )
+        # If department has successfully been created
+        if query_result == respond('201'):
+            response = make_response(respond('201'), 201)
+        # If the department already exists
+        elif query_result == respond('SF020')[0]:
+            response = make_response(respond('SF020')[1], 200)
+        # Any other uncaught error
+        else:
+            response = make_response(query_result, 200)
+    # request response returned
+    return response
+
+##########################################################################
+## Event Venue ###########################################################
+@app.route('/crud/event-venue-create', methods=['POST'])
+@csrf.exempt
+def event_venue_create():
+    """
+    This function gets the client request and passes its values to the
+    create event venue controller which creates an event venue object and 
+    queries the database to insert.
+    Any errors caught in any of the processes are returned back to
+    the client for standardization to a user friendly output
+    """
+    response = ''
+    # Check if there are any blank input fields
+    empty_fields = empty_input_fields(request.form)
+    if len(empty_fields) > 0:
+        response = make_response(json.dumps(empty_fields), 422)
+    else:
+        # call the create event venue controller
+        query_result = create_event_venue(
+            venue=request.form['event_venue_name']
+        )
+        # If event venue has successfully been created
+        if query_result == respond('201'):
+            response = make_response(respond('201'), 201)
+        # If the event venue already exists
+        elif query_result == respond('SF020')[0]:
+            response = make_response(respond('SF020')[1], 200)
+        # Any other uncaught error
+        else:
+            response = make_response(query_result, 200)
     # request response returned
     return response

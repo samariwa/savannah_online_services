@@ -1,6 +1,6 @@
 from app import app, csrf, organization
 from app.response import respond
-from flask import render_template, make_response, json, request
+from flask import render_template, make_response, json, request, redirect, url_for
 from app.forms import AddSessionForm, AddEventForm, AddDepartmentForm,\
      AddEventVenueForm
 from app.controllers.read import fetch_active_departments, fetch_active_event_venues,\
@@ -64,11 +64,15 @@ def event(event_uuid):
     sessions = fetch_active_sessions(event_uuid)
     sessions_count = get_event_sessions_count(event_uuid)
     event_details = fetch_event_details(event_uuid)
-    return render_template('admin/event.html', 
-                           add_session_form=add_session_form,
-                           sessions=sessions,
-                           sessions_count=sessions_count,
-                           event_details=event_details)
+    if event_details is None:
+        #response = {'error': 'Error: Event # does not exist'}
+        return redirect(url_for('events'))
+    else:
+        return render_template('admin/event.html', 
+                            add_session_form=add_session_form,
+                            sessions=sessions,
+                            sessions_count=sessions_count,
+                            event_details=event_details)
 
 @app.route('/admin/event-venues')
 @app.route('/admin/event-venues/')
@@ -96,11 +100,14 @@ def event_venues():
 def event_venue(venue_id):
     venue_sessions = fetch_event_venue_sessions(venue_id)
     venue_details = fetch_event_venue_details(venue_id)
-    return render_template('admin/event-venue.html',
-                           venue_details=venue_details,
-                           venue_sessions=venue_sessions,
-                           venue_sessions_count=len(venue_sessions)
-    )
+    if venue_details is None:
+        return redirect(url_for('event_venues'))
+    else:
+        return render_template('admin/event-venue.html',
+                            venue_details=venue_details,
+                            venue_sessions=venue_sessions,
+                            venue_sessions_count=len(venue_sessions)
+        )
 
 @app.route('/admin/session/<session_uuid>')
 @app.route('/admin/session/<session_uuid>/')
@@ -113,11 +120,15 @@ def session(session_uuid):
     event_uuid = fetch_session_event_uuid(session_uuid)
     participants = fetch_session_participants(session_uuid)
     session_details = fetch_session_details(session_uuid)
-    return render_template('admin/session.html',
-                           event_uuid=event_uuid,
-                           participants=participants,
-                           participants_count=len(participants),
-                           session_details=session_details)
+    if session_details is None:
+        #response = [{'error': 'Error: Event # does not exist'}]
+        return redirect(url_for('events'))
+    else:
+        return render_template('admin/session.html',
+                            event_uuid=event_uuid,
+                            participants=participants,
+                            participants_count=len(participants),
+                            session_details=session_details)
 
 @app.route('/admin/registered-staff')
 @app.route('/admin/registered-staff/')
@@ -178,10 +189,13 @@ def departments():
 def department(department_id):
     department_details=fetch_department_details(department_id)
     department_participants=fetch_department_participants(department_id)
-    return render_template('admin/department.html',
-                           department_details=department_details,
-                           department_participants=department_participants,
-                           department_participants_count=len(department_participants))
+    if department_details is None:
+        return redirect(url_for('departments'))
+    else:
+        return render_template('admin/department.html',
+                            department_details=department_details,
+                            department_participants=department_participants,
+                            department_participants_count=len(department_participants))
 
 @app.route('/admin/analytics')
 @app.route('/admin/analytics/')

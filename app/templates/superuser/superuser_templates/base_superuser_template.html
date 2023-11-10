@@ -129,7 +129,21 @@
         </div>
       </nav>
       <!-- End Navbar -->
+      <div class="text-center container mx-auto d-block">
+        {% if response %}
+        {% for category, message in response %}
+        <div class="alert alert-{{ category }}">
+            {{ message }}
+            <button type="button" class="m1-2 mb-1 close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {% endfor %}
+        {% endif %}
+        <div id="flash_message">
 
+        </div>
+        </div>
       {% block body %}{% endblock %}
 
       <footer class="footer">
