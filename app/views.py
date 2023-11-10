@@ -2,7 +2,7 @@ from app import app, db, organization, csrf
 from flask import render_template, request
 from app.response import flash_response
 from app.forms import SessionRegistrationForm
-from app.controllers.read import fetch_active_departments
+from app.controllers.read import fetch_active_departments, fetch_session_details
 import json
 import random
 
@@ -14,30 +14,32 @@ def index():
         random_number=random_number,
     )
 
-@app.route('/session-registration/<session_id>')
-@app.route('/session-registration/<session_id>/')
-def session_registration(session_id):
+@app.route('/session-registration/<session_uuid>')
+@app.route('/session-registration/<session_uuid>/')
+def session_registration(session_uuid):
     random_number = random.randint(0, 11)
     session_registration_form = SessionRegistrationForm()
     departments=fetch_active_departments()
+    session_details = fetch_session_details(session_uuid)
     department_options = [(d['id'], d['department'])
                                   for d in departments]
     session_registration_form.department.choices.extend(department_options)
     return render_template(
         'public/session-registration.html', 
         random_number=random_number,
+        session_details=session_details,
         session_registration_form=session_registration_form)
 
-@app.route('/session-registration-success/<session_id>')
-@app.route('/session-registration-success/<session_id>/')
-def session_registration_success(session_id):
+@app.route('/session-registration-success/<session_uuid>')
+@app.route('/session-registration-success/<session_uuid>/')
+def session_registration_success(session_uuid):
     random_number = random.randint(0, 11)
     return render_template(
         'public/session-registration-success.html', random_number=random_number)
 
-@app.route('/session-registration-error/<session_id>')
-@app.route('/session-registration-error/<session_id>/')
-def session_registration_error(session_id):
+@app.route('/session-registration-error/<session_uuid>')
+@app.route('/session-registration-error/<session_uuid>/')
+def session_registration_error(session_uuid):
     random_number = random.randint(0, 11)
     return render_template(
         'public/session-registration-error.html', random_number=random_number)

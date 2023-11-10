@@ -609,7 +609,9 @@ def fetch_session_details(session_uuid):
     return db.session.execute(
         db.select(Session.id, Session.session_uuid, Session.session, 
                   Session.session_description, Session.start_timestamp, 
-                  Event_Venues.venue, Session.db_status)
+                  Session.end_timestamp, Event_Venues.venue, Session.db_status,
+                  Event.event)
         .join(Event_Venues, Session.event_venue_id == Event_Venues.id)
+        .join(Event, Session.event_id == Event.id)
         .filter(Session.session_uuid == session_uuid)
     ).one()
