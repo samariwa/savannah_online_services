@@ -47,21 +47,21 @@
                     <br>
                     <div class="row">
                         <div class="col-8">
-                            <p class="mt-2 card-title">Session Activity</p>
+                            <p class="mt-2 ml-4 card-title">Session Activity</p>
                             {% if session_details.db_status == "inactive" %}
-                            <label class="switch">
+                            <label class="switch ml-5">
                                 <input type="checkbox" name="session_activity">
                                 <span class="slider round"></span>
                             </label>
                             {% elif session_details.db_status == "active" %}
-                            <label class="switch">
+                            <label class="switch ml-5">
                                 <input type="checkbox" name="session_activity" checked>
                                 <span class="slider round"></span>
                             </label>
                             {% endif %}
                         </div>
                         <div class="col-4">
-                            <a class="btn btn-md btn-danger btn-fill btn-round active deleteSession mt-4 ml-2" id="{{ session_details.id }}"
+                            <a class="btn btn-md btn-danger btn-fill btn-round active deleteSession mt-4 ml-5" id="{{ session_details.id }}"
                                 data_id="{{ session_details.id }}">
                                 <i class="fa fa-trash" aria-hidden="true"></i>&ensp;Delete Session
                             </a>

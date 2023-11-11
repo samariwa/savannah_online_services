@@ -546,360 +546,6 @@ var flashMessage = function (code, message) {
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-// Customers CRUD ///////////////////////////////////////////////////////////////
-
-$(document).on('click', '#addCustomer', function (e) {
-  e.preventDefault();
-  var args = {
-    formId: 'form_add_customer',
-    serverUrl: '/crud/customers-create',
-    object: 'Customer'
-  };
-  createRequest(args);
-});
-
-$('#customersEditable').editableTableWidget();
-$('#customersEditable td.uneditable').on('change', function (evt, newValue) {
-  return false;
-});
-$('#customersEditable td').on('change', function (evt, newValue) {
-  var rowx = parseInt(evt.target._DT_CellIndex.row) + 1;
-  var values = {
-    id: $(`#id${rowx}`).text(),
-    first_name: $(`#firstname${rowx}`).text(),
-    last_name: $(`#lastname${rowx}`).text(),
-    phone_no: $(`#number${rowx}`).text(),
-    location: $(`#location${rowx}`).text(),
-    note: $(`#note${rowx}`).text()
-  };
-  updateRequest('/crud/customers-update', values)
-});
-
-$('.blacklistCustomer').click(function () {
-  var el = $(this)
-  bootbox.confirm('Do you really want to blacklist the selected customer?', function (result) {
-    if (result) {
-      var values = {
-        id: el.attr("id"),
-        customer_status: 'blacklisted'
-      }
-      updateRequest('/crud/customers-update', values)
-      $(el).closest('tr').css('background', 'tomato');
-      $(el).closest('tr').fadeOut(800, function () {
-        el.remove();
-      });
-    }
-  });
-});
-
-$('.restoreBlacklistedCustomer').click(function () {
-  var el = $(this)
-  bootbox.confirm('Do you really want to restore the selected blacklisted customer?', function (result) {
-    if (result) {
-      var values = {
-        id: el.attr("id"),
-        customer_status: 'active'
-      }
-      updateRequest('/crud/customers-update', values)
-      $(el).closest('tr').css('background', 'lime');
-      $(el).closest('tr').fadeOut(800, function () {
-        el.remove();
-      });
-    }
-  });
-});
-
-$(".customer_status_checkbox").change(function () {
-  var values = {}
-  if (this.checked) {
-    values.id = $(this).attr("value");
-    values.customer_status = 'active';
-  }
-  else {
-    values.id = $(this).attr("value");
-    values.customer_status = 'inactive';
-  }
-  updateRequest('/crud/customers-update', values)
-});
-
-$(".credit_customer_checkbox").change(function () {
-  var values = {}
-  if (this.checked) {
-    values.id = $(this).attr("value");
-    values.credit_customer = 1;
-  }
-  else {
-    values.id = $(this).attr("value");
-    values.credit_customer = '0';
-  }
-  updateRequest('/crud/customers-update', values)
-});
-
-$(document).on('click', '.addRefund', function (e) {
-  e.preventDefault();
-  /*
-  In this function fetch ID of form with ID attribute of the button.
-  Each product has its own restock form which have unique form IDS
-  which are uniquely identified by the ID
-  */
-  var args = {
-    formId: 'form_add_refund' + $(this).attr("id"),
-    serverUrl: '/crud/refund-customer',
-    object: 'Customer Refund'
-  };
-  createRequest(args);
-});
-
-$('.deleteCustomer').click(function () {
-  var values = {
-    id: $(this).attr("id")
-  }
-  deleteRequest($(this), 'customer', '/crud/customers-delete', values);
-});
-// Categories CRUD ///////////////////////////////////////////////////////////////
-
-$(document).on('click', '#addCategory', function (e) {
-  e.preventDefault();
-  var args = {
-    formId: 'form_add_category',
-    serverUrl: '/crud/categories-create',
-    object: 'Category'
-  };
-  createRequest(args);
-});
-
-$('#categoriesEditable').editableTableWidget();
-$('#categoriesEditable td.uneditable').on('change', function (evt, newValue) {
-  return false;
-});
-$('#categoriesEditable td').on('change', function (evt, newValue) {
-  var rowx = parseInt(evt.target._DT_CellIndex.row) + 1;
-  var values = {
-    id: $(`#id${rowx}`).text(),
-    category_name: $(`#category${rowx}`).text()
-  };
-  updateRequest('/crud/categories-update', values)
-});
-
-$(".category_status_checkbox").change(function () {
-  var values = {}
-  if (this.checked) {
-    values.id = $(this).attr("value");
-    values.category_status = 'active';
-  }
-  else {
-    values.id = $(this).attr("value");
-    values.category_status = 'inactive';
-  }
-  updateRequest('/crud/categories-update', values)
-});
-
-$('.deleteCategory').click(function () {
-  var values = {
-    id: $(this).attr("id")
-  }
-  deleteRequest($(this), 'category', '/crud/categories-delete', values);
-});
-// Stock CRUD ///////////////////////////////////////////////////////////////////
-$(document).on('click', '#addProduct', function (e) {
-  e.preventDefault();
-  var args = {
-    formId: 'form_add_product',
-    serverUrl: '/crud/products-create',
-    object: 'Product'
-  };
-  createRequest(args);
-});
-
-$(document).on('click', '.addPurchase', function (e) {
-  e.preventDefault();
-  /*
-  In this function fetch ID of form with ID attribute of the button.
-  Each product has its own restock form which have unique form IDS
-  which are uniquely identified by the ID
-  */
-  var args = {
-    formId: 'form_restock_product' + $(this).attr("id"),
-    serverUrl: '/crud/products-restock',
-    object: 'Product Purchase'
-  };
-  createRequest(args);
-});
-
-$('#stockEditable').editableTableWidget();
-$('#stockEditable td.uneditable').on('change', function (evt, newValue) {
-  return false;
-});
-$('#stockEditable td').on('change', function (evt, newValue) {
-  var rowx = parseInt(evt.target._DT_CellIndex.row) + 1;
-  var values = {
-    id: $(`#id${rowx}`).text(),
-    product_name: $(`#name${rowx}`).text(),
-    restock_level: $(`#restock_level${rowx}`).text()
-  };
-  updateRequest('/crud/products-update', values)
-});
-
-$(".product_status_checkbox").change(function () {
-  var values = {}
-  if (this.checked) {
-    values.id = $(this).attr("value");
-    values.product_status = 'active';
-  }
-  else {
-    values.id = $(this).attr("value");
-    values.product_status = 'inactive';
-  }
-  updateRequest('/crud/products-update', values)
-});
-
-$('#addReclassCategory').click(function (e) {
-  e.preventDefault();
-  var args = {
-    formId: 'form_add_reclass_category',
-    serverUrl: '/crud/reclass-category-create',
-    object: 'Reclass Category'
-  };
-  createRequest(args);
-});
-
-$('.parent_product').keyup(function () {
-  if ($('.parent_product').val() != '') {
-    var value = {
-      'string': $('.parent_product').val()
-    }
-    var results = ''
-    fetch(`${window.origin}` + '/crud/search-reclass-product', {
-      method: "POST",
-      credentials: "include",
-      body: JSON.stringify(value),
-      cache: "no-cache",
-      headers: new Headers({
-        "content-type": "application/json"
-      })
-    }).then(function (response) {
-      // First sort situation where response not 200
-      if (response.status !== 200) {
-        $('#flash_message').append(flashMessage('warning', 'We were unable to process your request. Please try again later.'));
-        console.log(response.status);
-        return;
-      }
-      response.text().then(function (data) {
-        var search_results = JSON.parse(data);
-        for (let product_id in search_results) {
-          results += '<a href="#" class="list-group-item list-group-item-action border-1 offset-1 product-item" id="' + product_id + '">' + search_results[product_id] + '</a>';
-        }
-        $('#parent_product_results').html(results);
-      })
-    });
-  }
-  else {
-    $('#parent_product_results').html('');
-  }
-  $(document).on('click', 'a', function () {
-    $(".parent_product").val($(this).text());
-    $("#parent_product_results").html('');
-    document.querySelector('.selected_product_id').setAttribute("value", $(this).attr("id"))
-  });
-});
-
-$('#addReclassItem').click(function (e) {
-  e.preventDefault();
-  var args = {
-    formId: 'form_add_reclass_item',
-    serverUrl: '/crud/reclass-item-create',
-    object: 'Reclass Item'
-  };
-  createRequest(args);
-});
-
-$('.child_product').keyup(function () {
-  if ($('.child_product').val() != '') {
-    var value = {
-      'string': $('.child_product').val()
-    }
-    var results = ''
-    fetch(`${window.origin}` + '/crud/search-reclass-product', {
-      method: "POST",
-      credentials: "include",
-      body: JSON.stringify(value),
-      cache: "no-cache",
-      headers: new Headers({
-        "content-type": "application/json"
-      })
-    }).then(function (response) {
-      // First sort situation where response not 200
-      if (response.status !== 200) {
-        $('#flash_message').append(flashMessage('warning', 'We were unable to process your request. Please try again later.'));
-        console.log(response.status);
-        return;
-      }
-      response.text().then(function (data) {
-        var search_results = JSON.parse(data);
-        for (let product_id in search_results) {
-          results += '<a href="#" class="list-group-item list-group-item-action border-1 offset-1 product-item" id="' + product_id + '">' + search_results[product_id] + '</a>';
-        }
-        $('#child_product_results').html(results);
-      })
-    });
-  }
-  else {
-    $('#child_product_results').html('');
-  }
-  $(document).on('click', 'a', function () {
-    $(".child_product").val($(this).text());
-    $("#child_product_results").html('');
-    document.querySelector('.selected_product_id').setAttribute("value", $(this).attr("id"))
-  });
-});
-
-$('#reclassCategoriesEditable').editableTableWidget();
-$('#reclassCategoriesEditable td.uneditable').on('change', function (evt, newValue) {
-  return false;
-});
-$('#reclassCategoriesEditable td').on('change', function (evt, newValue) {
-  var rowx = parseInt(evt.target._DT_CellIndex.row) + 1;
-  var values = {
-    id: $(`#reclass_category_id${rowx}`).text(),
-    reclass_category_name: $(`#reclass_category_name${rowx}`).text()
-  };
-  updateRequest('/crud/products-reclass-categories-update', values)
-});
-
-$('#reclassDetailsEditable').editableTableWidget();
-$('#reclassDetailsEditable td.uneditable').on('change', function (evt, newValue) {
-  return false;
-});
-$('#reclassDetailsEditable td').on('change', function (evt, newValue) {
-  var rowx = parseInt(evt.target._DT_CellIndex.row) + 1;
-  var values = {
-    id: $(`#reclass_item_id${rowx}`).text(),
-    adjustment: $(`#reclass_detail_adjustment${rowx}`).text()
-  };
-  updateRequest('/crud/products-reclass-update', values, reload = true)
-});
-
-$('.deleteStock').click(function () {
-  var values = {
-    id: $(this).attr("id")
-  }
-  deleteRequest($(this), 'product', '/crud/products-delete', values);
-});
-
-$('.deleteReclassCategory').click(function () {
-  var values = {
-    id: $(this).attr("id")
-  }
-  deleteRequest($(this), 'product reclass category', '/crud/product-reclass-categories-delete', values);
-});
-
-$('.deleteReclassItem').click(function () {
-  var values = {
-    id: $(this).attr("id")
-  }
-  deleteRequest($(this), 'product reclass item', '/crud/product-reclass-items-delete', values);
-});
 // Event Venue CRUD ///////////////////////////////////////////////////////////
 $(document).on('click', '#addEventVenue', function (e) {
   e.preventDefault();
@@ -923,149 +569,72 @@ $(document).on('click', '#addDepartment', function (e) {
   createRequest(args);
 });
 
-$('#suppliersEditable').editableTableWidget();
-$('#suppliersEditable td.uneditable').on('change', function (evt, newValue) {
-  return false;
-});
-$('#suppliersEditable td').on('change', function (evt, newValue) {
-  var rowx = parseInt(evt.target._DT_CellIndex.row) + 1;
-  var values = {
-    id: $(`#id${rowx}`).text(),
-    supplier_contact: $(`#contact${rowx}`).text()
-  };
-  updateRequest('/crud/suppliers-update', values)
-});
-
-$(".supplier_status_checkbox").change(function () {
-  var values = {}
-  if (this.checked) {
-    values.id = $(this).attr("value");
-    values.supplier_status = 'active';
-  }
-  else {
-    values.id = $(this).attr("value");
-    values.supplier_status = 'inactive';
-  }
-  updateRequest('/crud/suppliers-update', values)
-});
-
-$('.deleteSupplier').click(function () {
-  var values = {
-    id: $(this).attr("id")
-  }
-  deleteRequest($(this), 'supplier', '/crud/suppliers-delete', values);
-});
-// Product Unit Automation Settings Update ////////////////////////////////////////////////////
-$(document).on('click', '.editAutomation', function (e) {
-  e.preventDefault();
-  var id = $(this).attr("id");
-  var values = {
-    id: id,
-    unit_id: $(`#unit${id}`).val(),
-    contains: $(`#contains${id}`).val(),
-    sub_unit_id: $(`#subunit${id}`).val(),
-    subunit_replenish_qty: $(`#replenish${id}`).val(),
-    restock_level: $(`#restock${id}`).val()
-  };
-  updateRequest('/crud/product-units-automation-update', values)
-  $('.close').click();
-});
-
-// Product Units CRUD ///////////////////////////////////////////////////////////////////////
-$(document).on('click', '#addUnit', function (e) {
+// Events CRUD ////////////////////////////////////////////////////////////////
+$(document).on('click', '#addEvent', function (e) {
   e.preventDefault();
   var args = {
-    formId: 'form_add_unit',
-    serverUrl: '/crud/product-units-create',
-    object: 'Product Unit'
+    formId: 'form_add_event',
+    serverUrl: '/crud/event-create',
+    object: 'Event'
   };
   createRequest(args);
 });
 
-$('#productUnitsEditable').editableTableWidget();
-$('#productUnitsEditable td.uneditable').on('change', function (evt, newValue) {
-  return false;
-});
-$('#productUnitsEditable td').on('change', function (evt, newValue) {
-  var rowx = parseInt(evt.target._DT_CellIndex.row) + 1;
-  var values = {
-    id: $(`#id${rowx}`).text(),
-    unit_name: $(`#unit${rowx}`).text(),
-    measurement_mode: $(`#mode${rowx}`).text()
-  };
-  updateRequest('/crud/product-units-update', values)
-});
-
-$(".product_unit_status_checkbox").change(function () {
-  var values = {}
-  if (this.checked) {
-    values.id = $(this).attr("value");
-    values.product_unit_status = 'active';
-  }
-  else {
-    values.id = $(this).attr("value");
-    values.product_unit_status = 'inactive';
-  }
-  updateRequest('/crud/product-units-update', values)
-});
-
-$('.deleteUnit').click(function () {
-  var values = {
-    id: $(this).attr("id")
-  }
-  deleteRequest($(this), 'product unit', '/crud/product-units-delete', values);
-});
-
-// Expenses CRUD /////////////////////////////////////////////////////////////////////
-
-$(document).on('click', '#addExpense', function (e) {
+// Sessions CRUD ///////////////////////////////////////////////////////////////////////
+$(document).on('click', '#addSession', function (e) {
   e.preventDefault();
   var args = {
-    formId: 'form_add_expense',
-    serverUrl: '/crud/expenses-create',
-    object: 'Expense'
+    formId: 'form_add_session',
+    serverUrl: '/crud/sessions-create',
+    object: 'Session'
   };
   createRequest(args);
 });
 
-$('#expensesEditable').editableTableWidget();
-$('#expensesEditable td.uneditable').on('change', function (evt, newValue) {
-  return false;
-});
-$('#expensesEditable td').on('change', function (evt, newValue) {
-  var rowx = parseInt(evt.target._DT_CellIndex.row) + 1;
-  var values = {
-    id: $(`#id${rowx}`).text(),
-    expense_description: $(`#expense_description${rowx}`).text(),
-    party: $(`#party${rowx}`).text(),
-    total_owed_amount: $(`#total_owed_amount${rowx}`).text(),
-    expense_date: $(`#expense_date${rowx}`).text()
-  };
-  if (parseInt($(`#payment${rowx}`).text()) > 0) {
-    var expense_details = {
-      expense_id: values['id'],
-      old_balance: parseInt($(`#due${rowx}`).text()),
-      paid_amount: parseInt($(`#payment${rowx}`).text()),
-      new_balance: parseInt($(`#due${rowx}`).text()) - parseInt($(`#payment${rowx}`).text())
+// Session Registration CRUD /////////////////////////////////////////////////////////////////////
+$(document).on('click', '#registerSession', function (e) {
+  e.preventDefault();
+  var form = document.getElementById('contactForm');
+  const data = new FormData(form)
+  fetch(`${window.origin}` + '/crud/session-registration-create', {
+    method: "POST",
+    credentials: "include",
+    body: data,
+    cache: "no-cache",
+  }).then(function (response) {
+    // Close the modal
+    $('.close').click();
+    form.reset();
+    // First sort successful resource creations
+    if (response.status == 201) {
+      $('#flash_message').append(flashMessage('success', 'Session Registration Successful'));
+      $(location).prop('href', `${window.origin}` + '/session-registration-success/'+ data.get("session_uuid"));
+      return;
     }
-    values['total_paid_amount'] = parseInt($(`#paid${rowx}`).text()) + parseInt($(`#payment${rowx}`).text());
-    updateRequest('/crud/expenses-update', values)
-    addPaymentDetail(expense_details);
-  }
-  else if (parseInt($(`#payment${rowx}`).text()) < 0) {
-    return $('#flash_message').append(flashMessage('warning', 'Payment amount cannot be a negative number.'));
-  }
-  else {
-    updateRequest('/crud/expenses-update', values)
-  }
+    // Else handle errors
+    else {
+      response.text().then(function (data) {
+        // If an unsupported media type has been uploaded (e.g. an image)
+        if (response.status == 415) {
+          $('#flash_message').append(flashMessage('danger', data));
+        }
+        // If there was an empty field
+        else if (response.status == 422) {
+          empty_list = JSON.parse(data)
+          for (var i = 0; i < empty_list.length; i++) {
+            $('#flash_message').append(flashMessage('danger', empty_list[i] + ' value missing'));
+          }
+        }
+        // Any other uncaught error
+        else {
+          console.log(data)
+          $('#flash_message').append(flashMessage('danger', 'Something unexpected happened. Please try again.'));
+        }
+      })
+    }
+  });
 });
 
-$('.deleteExpense').click(function () {
-  var values = {
-    id: $(this).attr("id")
-  }
-  deleteRequest($(this), 'expense', '/crud/expense-delete', values);
-});
 // Expense Payment Details CRUD //////////////////////////////////////////////////////
 function addPaymentDetail(params) {
   var data = new FormData();

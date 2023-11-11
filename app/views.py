@@ -44,8 +44,11 @@ def session_registration(session_uuid):
 @app.route('/session-registration-success/<session_uuid>/')
 def session_registration_success(session_uuid):
     random_number = random.randint(0, 11)
+    session_details = fetch_session_details(session_uuid)
     return render_template(
-        'public/session-registration-success.html', random_number=random_number)
+        'public/session-registration-success.html', 
+        random_number=random_number,
+        session_details=session_details)
 
 @app.route('/session-registration-error/<session_uuid>')
 @app.route('/session-registration-error/<session_uuid>/')

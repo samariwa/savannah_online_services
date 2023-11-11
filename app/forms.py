@@ -310,7 +310,7 @@ class AddEventForm(FlaskForm):
         render_kw={
             "style": "margin-right: 50px",
             "class": "btn btn-link btn-simple",
-            "id": "addSession"
+            "id": "addEvent"
         }
     )
 
@@ -430,6 +430,19 @@ class SessionRegistrationForm(FlaskForm):
         }
     )
 class AddSessionForm(FlaskForm):
+    event_name = SelectField(
+        choices=[("", "Event...")],
+        render_kw={
+            "class": "form-control col-md-10 ml-3",
+            "id": "venue",
+            "onfocus": "this.size=3;",
+            "onblur": "this.size=1;",
+            "onchange": "this.size=1; this.blur();",
+            "style": "padding-right:15px;padding-left:15px"
+            },
+        validators=[DataRequired()]
+    )
+
     session_name = StringField(
         render_kw={
             "placeholder": "Session Name...",
@@ -451,8 +464,20 @@ class AddSessionForm(FlaskForm):
                     Length(max=512)]
     )
 
-    session_date = DateTimeField(
-        label="Session Date",
+    start_datetime = DateTimeField(
+        label="Start Date time...",
+        format='%d-%m-%Y %H:%M:%S',
+        default=datetime.today(),
+        render_kw={
+            "class": "form-control col-md-10 ml-3",
+            "id": "session_date",
+            "style": "padding:15px;margin-left: 60px"
+            },
+        validators=[DataRequired()]
+    )
+
+    end_datetime = DateTimeField(
+        label="Start Date time...",
         format='%d-%m-%Y %H:%M:%S',
         default=datetime.today(),
         render_kw={

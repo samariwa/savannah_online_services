@@ -1,106 +1,154 @@
 {% extends 'public/public_templates/base_public_template.html' %}
 
 {% block body %}
+
 <body>
     {% if random_number == 1 %}
     <section class="ftco-section img bg-hero" style="background-image: url(../static/img/landscape1.jpg);">
-    {% elif random_number == 2 %}
-    <section class="ftco-section img bg-hero" style="background-image: url(../static/img/landscape2.jpg);">
-    {% elif random_number == 3 %}
-    <section class="ftco-section img bg-hero" style="background-image: url(../static/img/landscape3.jpg);">
-    {% elif random_number == 4 %}
-    <section class="ftco-section img bg-hero" style="background-image: url(../static/img/landscape4.jpg);">
-    {% elif random_number == 5 %}
-    <section class="ftco-section img bg-hero" style="background-image: url(../static/img/landscape5.jpg);">
-    {% elif random_number == 6 %}
-    <section class="ftco-section img bg-hero" style="background-image: url(../static/img/landscape6.jpg);">
-    {% elif random_number == 7 %}
-    <section class="ftco-section img bg-hero" style="background-image: url(../static/img/landscape7.jpg);">
-    {% elif random_number == 8 %}
-    <section class="ftco-section img bg-hero" style="background-image: url(../static/img/landscape8.jpg);">
-    {% elif random_number == 9 %}
-    <section class="ftco-section img bg-hero" style="background-image: url(../static/img/landscape9.jpg);">
-    {% else %}
-    <section class="ftco-section img bg-hero" style="background-image: url(../static/img/landscape10.jpg);">
-    {% endif %}
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-8 text-center mb-5">
-                    <h2 class="heading-section"><img src="{{ url_for('static', filename='img/cifor-icraf-logo.png') }}" width="120px" height="50px">&ensp;CIFOR-ICRAF Events Session Registration</h2>
-                </div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-lg-11">
-                    <div class="wrapper">
-                        <div class="row no-gutters justify-content-between">
-                            <div class="col-lg-6 d-flex align-items-stretch">
-                                <div class="info-wrap w-100 p-5">
-                                    <h3 class="mb-2">{{ session_details.event }}</h3>
-                                    <div class="dbox w-100 d-flex align-items-start">
-                                        <h5 class="mb-n3">{{ session_details.start_timestamp.strftime("%B %d, %Y") }}</h5>
-                                    </div>
-                                    <div class="dbox w-100 d-flex align-items-start">
-                                        <h5 class="mb-3">{{ session_details.start_timestamp.strftime("%I:%M %p") }} - {{ session_details.end_timestamp.strftime("%I:%M %p") }}</h5>
-                                    </div>
-                                    <div class="dbox w-100 d-flex align-items-start">
-                                        <div class="text pl-4">
-                                            <p><span>{{ session_details.session }}</span> 
-                                                {{ session_details.session_description }}</p>
-                                        </div>
-                                    </div>
-                                    <div class="dbox w-100 d-flex align-items-start">
-                                        <div class="icon d-flex align-items-center justify-content-center">
-                                            <i class="fa fa-envelope" aria-hidden="true"></i>
-                                        </div>
-                                        <div class="text pl-3">
-                                            <p><span>Enquiry Email Address:</span> <a
-                                                    href="mailto:ciforicrafevents@cifor-icraf.org">ciforicrafevents@cifor-icraf.org</a></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-5">
-                                <div class="contact-wrap w-100 p-md-5 p-4">
-                                    <h3 class="mb-4">Registration Form</h3>
-                                    <div id="form-message-warning" class="mb-4"></div>
-                                    <div id="form-message-success" class="mb-4"></div>
-                                    <form method="POST" id="contactForm" name="contactForm">
-                                        {{ session_registration_form.hidden_tag() }}
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    {{ session_registration_form.first_name }}
+        {% elif random_number == 2 %}
+        <section class="ftco-section img bg-hero" style="background-image: url(../static/img/landscape2.jpg);">
+            {% elif random_number == 3 %}
+            <section class="ftco-section img bg-hero" style="background-image: url(../static/img/landscape3.jpg);">
+                {% elif random_number == 4 %}
+                <section class="ftco-section img bg-hero" style="background-image: url(../static/img/landscape4.jpg);">
+                    {% elif random_number == 5 %}
+                    <section class="ftco-section img bg-hero"
+                        style="background-image: url(../static/img/landscape5.jpg);">
+                        {% elif random_number == 6 %}
+                        <section class="ftco-section img bg-hero"
+                            style="background-image: url(../static/img/landscape6.jpg);">
+                            {% elif random_number == 7 %}
+                            <section class="ftco-section img bg-hero"
+                                style="background-image: url(../static/img/landscape7.jpg);">
+                                {% elif random_number == 8 %}
+                                <section class="ftco-section img bg-hero"
+                                    style="background-image: url(../static/img/landscape8.jpg);">
+                                    {% elif random_number == 9 %}
+                                    <section class="ftco-section img bg-hero"
+                                        style="background-image: url(../static/img/landscape9.jpg);">
+                                        {% else %}
+                                        <section class="ftco-section img bg-hero"
+                                            style="background-image: url(../static/img/landscape10.jpg);">
+                                            {% endif %}
+                                            <div class="container">
+                                                <div class="row justify-content-center">
+                                                    <div class="col-md-8 text-center mb-5">
+                                                        <h2 class="heading-section"><img
+                                                                src="{{ url_for('static', filename='img/cifor-icraf-logo.png') }}"
+                                                                width="120px" height="50px">&ensp;CIFOR-ICRAF Events
+                                                            Session Registration</h2>
+                                                    </div>
+                                                </div>
+                                                <div class="row justify-content-center">
+                                                    <div class="col-lg-11">
+                                                        <div class="wrapper">
+                                                            <div class="row no-gutters justify-content-between">
+                                                                <div class="col-lg-6 d-flex align-items-stretch">
+                                                                    <div class="info-wrap w-100 p-5">
+                                                                        <h3 class="mb-2">{{ session_details.event }}
+                                                                        </h3>
+                                                                        <div
+                                                                            class="dbox w-100 d-flex align-items-start">
+                                                                            <h5 class="mb-n3">{{
+                                                                                session_details.start_timestamp.strftime("%B
+                                                                                %d, %Y") }}</h5>
+                                                                        </div>
+                                                                        <div
+                                                                            class="dbox w-100 d-flex align-items-start">
+                                                                            <h5 class="mb-3">{{
+                                                                                session_details.start_timestamp.strftime("%I:%M
+                                                                                %p") }} - {{
+                                                                                session_details.end_timestamp.strftime("%I:%M
+                                                                                %p") }}</h5>
+                                                                        </div>
+                                                                        <div
+                                                                            class="dbox w-100 d-flex align-items-start">
+                                                                            <div class="text pl-4">
+                                                                                <p><span>{{ session_details.session
+                                                                                        }}</span>
+                                                                                    {{
+                                                                                    session_details.session_description
+                                                                                    }}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div
+                                                                            class="dbox w-100 d-flex align-items-start">
+                                                                            <div
+                                                                                class="icon d-flex align-items-center justify-content-center">
+                                                                                <i class="fa fa-envelope"
+                                                                                    aria-hidden="true"></i>
+                                                                            </div>
+                                                                            <div class="text pl-3">
+                                                                                <p><span>Enquiry Email Address:</span>
+                                                                                    <a
+                                                                                        href="mailto:ciforicrafevents@cifor-icraf.org">ciforicrafevents@cifor-icraf.org</a>
+                                                                                </p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-5">
+                                                                    <div class="contact-wrap w-100 p-md-5 p-4">
+                                                                        <h3 class="mb-4">Registration Form</h3>
+                                                                        <div id="form-message-warning" class="mb-4">
+                                                                        </div>
+                                                                        <div id="form-message-success" class="mb-4">
+                                                                        </div>
+                                                                        <form method="POST" id="contactForm"
+                                                                            name="contactForm">
+                                                                            {{ session_registration_form.hidden_tag() }}
+                                                                            <input type="hidden" name='session_id' id="{{ session_details.id }}" value="{{ session_details.id }}">
+                                                                            <input type="hidden" name='session_uuid' id="{{ session_details.session_uuid }}" value="{{ session_details.session_uuid }}">
+                                                                            <div class="row">
+                                                                                <div class="col-md-12">
+                                                                                    <div class="form-group">
+                                                                                        {{
+                                                                                        session_registration_form.first_name
+                                                                                        }}
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-md-12">
+                                                                                    <div class="form-group">
+                                                                                        {{
+                                                                                        session_registration_form.last_name
+                                                                                        }}
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-md-12">
+                                                                                    <div class="form-group">
+                                                                                        {{
+                                                                                        session_registration_form.email_address
+                                                                                        }}
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-md-12">
+                                                                                    <div class="form-group">
+                                                                                        {{
+                                                                                        session_registration_form.department
+                                                                                        }}
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-md-12">
+                                                                                    <div id="flash_message">
+
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-md-12">
+                                                                                    <br>
+                                                                                    <div class="form-group">
+                                                                                        {{
+                                                                                        session_registration_form.submit
+                                                                                        }}
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    {{ session_registration_form.last_name }}
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    {{ session_registration_form.email_address }}
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    {{ session_registration_form.department }}
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <br>
-                                                <div class="form-group">
-                                                    {{ session_registration_form.submit }}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-{% endblock %}
+                                        </section>
+                                        {% endblock %}

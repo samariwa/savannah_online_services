@@ -64,6 +64,14 @@ def event(event_uuid):
     sessions = fetch_active_sessions(event_uuid)
     sessions_count = get_event_sessions_count(event_uuid)
     event_details = fetch_event_details(event_uuid)
+    events=fetch_active_events()
+    event_venues = fetch_active_event_venues()
+    event_options = [(e['id'], e['event'])
+                                  for e in events]
+    add_session_form.event_name.choices.extend(event_options)
+    event_venue_options = [(v['id'], v['venue'])
+                                  for v in event_venues]
+    add_session_form.session_venue.choices.extend(event_venue_options)
     if event_details is None:
         #response = {'error': 'Error: Event # does not exist'}
         return redirect(url_for('events'))

@@ -37,6 +37,7 @@ import os
 from app.models import User, Account_Verification, Logged_Devices
 from app.models import Staff, Staff_Role, Department, Participant
 from app.models import Event, Event_Venues, Session, Session_Registration
+from app.controllers.read import participant_id_given_email
 from app.response import respond
 from app import app, db, mail, organization, Message
 from flask import render_template, send_file
@@ -290,16 +291,22 @@ def create_participant(**kwargs):
     """
     create_participant(**kwargs)
 
-    A method to create a participant. If it's successful, 
-    it returns the 201 successfully created status code
-    otherwise it prints exception with a message
+    A method to create a participant or retrieve the ID if he/she exists. 
+    If it's successful, it returns the participant id if 
+    the ID is found or participant is created otherwise it prints 
+    exception with a message
     The error msg helps the user create a better query the next time
     """
     try:
-        participant_to_create = Participant(**kwargs)
-        db.session.add(participant_to_create)
-        db.session.commit()
-        return respond('201')
+        participant = participant_id_given_email(kwargs.get('email_address'))
+        if participant is None:
+            participant_to_create = Participant(**kwargs)
+            db.session.add(participant_to_create)
+            db.session.commit()
+            participant_id = participant_to_create.id
+        else:
+            participant_id = participant.id
+        return participant_id
     except Exception as err:
         db.session.rollback()
         expected_args = {
@@ -332,7 +339,7 @@ def create_event(**kwargs):
     except Exception as err:
         db.session.rollback()
         expected_args = {
-            'event_uuid': 'string, not null, length=100',
+            'event_uuid': 'string, not null, length=100, unique',
             'event': 'string, not null, length=20',
             'start_date': 'date, not null',
             'end_date': 'date, not null',
@@ -387,7 +394,7 @@ def create_session(**kwargs):
     except Exception as err:
         db.session.rollback()
         expected_args = {
-            'session_uuid': 'string, not null, length=100',
+            'session_uuid': 'string, not null, length=100, unique',
             'event_id': 'integer, not null',
             'event_venue_id': 'integer, not null',
             'session': 'string, not null, length=20',

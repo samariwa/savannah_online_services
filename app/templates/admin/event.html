@@ -47,9 +47,12 @@
                                     <div class="modal-body text-center">
                                         <p>Add Session</p>
                                     </div>
-                                    <form method="POST" id="form_add_admin">
+                                    <form method="POST" id="form_add_session">
                                         <div class="modal-body">
                                             {{ add_session_form.hidden_tag() }}
+                                            <div class="row">
+                                                {{ add_session_form.event_name }}
+                                            </div><br>
                                             <div class="row">
                                                 {{ add_session_form.session_name }}
                                             </div><br>
@@ -57,7 +60,10 @@
                                                 {{ add_session_form.session_description }}
                                             </div><br>
                                             <div class="row">
-                                                {{ add_session_form.session_date }}
+                                                {{ add_session_form.start_datetime }}
+                                            </div><br>
+                                            <div class="row">
+                                                {{ add_session_form.end_datetime }}
                                             </div><br>
                                             <div class="row">
                                                 {{ add_session_form.session_venue }}

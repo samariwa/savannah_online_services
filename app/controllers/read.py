@@ -630,5 +630,20 @@ def fetch_session_details(session_uuid):
     except Exception as err:
         return None
     
+def participant_id_given_email(participant_email):
+    """
+    participant_id_given_email(participant_email)
+
+    Fetches the id of a participant whose email is passed
+    as a parameter
+    """
+    try:
+        return db.session.execute(
+            db.select(Participant.id)
+            .filter(Participant.email_address == participant_email)
+        ).one()
+    except Exception as err:
+        return None
+    
 
     
