@@ -614,9 +614,9 @@ $(document).on('click', '#registerSession', function (e) {
     // Else handle errors
     else {
       response.text().then(function (data) {
-        // If an unsupported media type has been uploaded (e.g. an image)
-        if (response.status == 415) {
-          $('#flash_message').append(flashMessage('danger', data));
+        // Registration exists
+        if (data == 'Resource Exists') {
+          $('#flash_message').append(flashMessage('warning', 'You are already registered for this session.'));
         }
         // If there was an empty field
         else if (response.status == 422) {

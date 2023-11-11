@@ -1,8 +1,9 @@
-from app import app, db, csrf, organization
-from flask import make_response, json, request, jsonify, abort
+from app import app, db, csrf, organization, mail, Message
+from flask import make_response, json, request, jsonify, abort, render_template
 from app.general_functions import empty_input_fields, get_uuid
 from app.controllers.create import create_admin, create_department, create_event_venue,\
      create_event, create_session, create_session_registration, create_participant
+from app.controllers.read import fetch_session_registration, fetch_session_details
 from app.controllers.update import update_user
 from app.controllers.delete import delete_admin, delete_staff
 from datetime import datetime
@@ -285,19 +286,27 @@ def session_registration_create():
             last_name=request.form['last_name'],
             email_address=request.form['email_address'],
         )
-        # call the create session registration controller
-        query_result = create_session_registration(
-            session_id=request.form['session_id'],
-            participant_id=participant_id,
-        )
-        # If session registration has successfully been created
-        if query_result == respond('201'):
-            response = make_response(respond('201'), 201)
-        # If the session registration already exists
-        elif query_result == respond('SF020')[0]:
-            response = make_response(respond('SF020')[1], 200)
-        # Any other uncaught error
+        # check if registration for this event already exists
+        session_registration = fetch_session_registration(request.form['session_id'], participant_id)
+        if session_registration is None:
+            # call the create session registration controller
+            query_result = create_session_registration(
+                session_id=request.form['session_id'],
+                participant_id=participant_id,
+            )
+            # If session registration has successfully been created
+            if query_result == respond('201'):
+                #send an email nofitying successful session registration
+                 # send email functionality
+                session_details = fetch_session_details(request.form['session_uuid'])
+                msg = Message('CIFOR-ICRAF Events Session Registration', recipients=[
+                request.form['email_address']], html=render_template('mail/successful-registration.html', firstname=request.form['first_name'], event=session_details.event, session=session_details.session, organization=organization))
+                mail.send(msg)
+                response = make_response(respond('201'), 201)
+            # Any other uncaught error
+            else:
+                response = make_response(query_result, 200)
         else:
-            response = make_response(query_result, 200)
+            response = make_response(respond('SF020')[1], 200)
     # request response returned
     return response
