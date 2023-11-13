@@ -50,12 +50,12 @@
                             <p class="mt-2 ml-4 card-title">Session Activity</p>
                             {% if session_details.db_status == "inactive" %}
                             <label class="switch ml-5">
-                                <input type="checkbox" name="session_activity">
+                                <input type="checkbox" name="session_activity" id="session_activity" value="{{ session_details.id }}">
                                 <span class="slider round"></span>
                             </label>
                             {% elif session_details.db_status == "active" %}
                             <label class="switch ml-5">
-                                <input type="checkbox" name="session_activity" checked>
+                                <input type="checkbox" name="session_activity" id="session_activity" value="{{ session_details.id }}" checked>
                                 <span class="slider round"></span>
                             </label>
                             {% endif %}
@@ -70,7 +70,9 @@
                 </div>
                 <div class="text-center">
                         <h3 class="card-title">QR Code</h3>
-                    <img src="{{ url_for('static', filename='img/qrcodes/qrcode.png') }}" width="230px" height="230px">
+                        <a download="{{ session_details.session_uuid }}_qrcode.jpg" href="/static/img/qrcodes/{{ session_details.session_uuid }}_qrcode.png" title="{{ session_details.session }}_qrcode">
+                            <img alt="qrcode" src="/static/img/qrcodes/{{ session_details.session_uuid }}_qrcode.png">
+                        </a>
                 </div>
                 <br>
                 <div class="text-center">
@@ -84,8 +86,17 @@
             <div class="col-md-12">
                 <div class="card strpied-tabled-with-hover">
                     <div class="card-header ">
-                        <h4 class="card-title">Attendees</h4>
-                        <p class="card-category">Attendee Count: {{ participants_count }}</p>
+                        <div class="row">
+                            <div class="col-9">
+                                <h4 class="card-title">Participants</h4>     
+                            </div>
+                            <div class="col-3">
+                                <a class="btn btn-light btn-fill active btn-round" href="/crud/download-participants-sheet/{{ session_details.session_uuid }}">
+                                    <i class="fa fa-file-excel-o" aria-hidden="true"></i>&ensp;Export to Excel
+                                </a>
+                            </div>
+                        </div>
+                        <p class="card-category">Participants Count: {{ participants_count }}</p>
                     </div>
                     <div class="card-body table-full-width table-responsive">
                         <table class="table table-hover table-striped">

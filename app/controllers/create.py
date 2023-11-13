@@ -42,8 +42,7 @@ from app.response import respond
 from app import app, db, mail, organization, Message
 from flask import render_template, send_file
 from app.general_functions import id_generator, datetime, get_uuid, timedelta
-
-
+import segno
 ########################################################################
 #                   STAFF-RELATED CREATE FUNCTIONS                     #
 ########################################################################
@@ -387,6 +386,8 @@ def create_session(**kwargs):
     The error msg helps the user create a better query the next time
     """
     try:
+        qrcode = segno.make('https://a38f-41-90-190-72.ngrok-free.app/session-registration/'+kwargs.get('session_uuid'))
+        qrcode.save("app/static/img/qrcodes/"+kwargs.get('session_uuid')+"_qrcode.png", scale=8, dark='black', light='#00000000')
         session_to_create = Session(**kwargs)
         db.session.add(session_to_create)
         db.session.commit()

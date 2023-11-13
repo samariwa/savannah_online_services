@@ -591,6 +591,18 @@ $(document).on('click', '#addSession', function (e) {
   createRequest(args);
 });
 
+$("#session_activity").change(function () {
+  var values = {}
+  if (this.checked) {
+    values.id = $(this).attr("value");
+    values.db_status = 'active';
+  }
+  else {
+    values.id = $(this).attr("value");
+    values.db_status = 'inactive';
+  }
+  updateRequest('/crud/activate-session', values)
+});
 // Session Registration CRUD /////////////////////////////////////////////////////////////////////
 $(document).on('click', '#registerSession', function (e) {
   e.preventDefault();
@@ -608,7 +620,7 @@ $(document).on('click', '#registerSession', function (e) {
     // First sort successful resource creations
     if (response.status == 201) {
       $('#flash_message').append(flashMessage('success', 'Session Registration Successful'));
-      $(location).prop('href', `${window.origin}` + '/session-registration-success/'+ data.get("session_uuid"));
+      $(location).prop('href', `${window.origin}` + '/session-registration-success/' + data.get("session_uuid"));
       return;
     }
     // Else handle errors
@@ -634,6 +646,40 @@ $(document).on('click', '#registerSession', function (e) {
     }
   });
 });
+
+$(document).on('click', '.sessionInvite', function (e) {
+  e.preventDefault();
+  var values = {
+    session_details: $('#session_details').val(),
+    qrcode: $('#qrcode').val()
+  }
+  fetch(`${window.origin}` + '/crud/open-session-invite', {
+    method: "POST",
+    credentials: "include",
+    body: JSON.stringify(values),
+    cache: "no-cache",
+    headers: new Headers({
+      "content-type": "application/json"
+    })
+  }).then(function (response) {
+    // First sort situation where response not 200
+    if (response.status !== 200) {
+      $('#flash_message').append(flashMessage('warning', 'We were unable to process your request. Please try again later.'));
+      console.log(response.status);
+      return;
+    }
+    response.text().then(function (data) {
+      if (data != 'OK') {
+        console.log(data)
+        $('#flash_message').append(flashMessage('danger', 'Something unexpected happened. Please try again.'));
+      }
+      else if (reload == true) {
+        location.reload(true);
+      }
+    })
+  });
+});
+
 
 // Expense Payment Details CRUD //////////////////////////////////////////////////////
 function addPaymentDetail(params) {
@@ -802,7 +848,7 @@ $('.downloadBackup').click(function () {
     headers: new Headers({
       "content-type": "application/json"
     })
-  }).then(function (response) {});
+  }).then(function (response) { });
 });
 
 $('.deleteBackup').click(function () {
@@ -1374,7 +1420,7 @@ function displayname(input, _this) {
 
 
 // TESTS /////////////////////////////////////////////////////////////////////////////
-category_table =$('#testEditable').DataTable({
+category_table = $('#testEditable').DataTable({
   "processing": true,
   "serverSide": true,
   "paging": true,
@@ -1397,25 +1443,25 @@ category_table =$('#testEditable').DataTable({
       $('#items_count').html(rowCount);
       // Return the data for DataTables to display
       return json.data;
-  },
-    error: function() {
-        $("#testEditable").append('<tbody class="category-grid-error"><tr><th colspan="3">No product category data found</th></tr></tbody>');
+    },
+    error: function () {
+      $("#testEditable").append('<tbody class="category-grid-error"><tr><th colspan="3">No product category data found</th></tr></tbody>');
     }
   },
-  "createdRow": function( row, data, dataIndex ) {
+  "createdRow": function (row, data, dataIndex) {
     $(row).attr('id', 'row-' + data.category_id);
   },
   "columns": [
-    { "data": "id", "width": "10%"},
-    { "data": "category_name", "width": "50%" , "searchable": true},
+    { "data": "id", "width": "10%" },
+    { "data": "category_name", "width": "50%", "searchable": true },
     { "data": "category_status", "width": "40%", "sortable": false },
     {
-        "data": null,
-        "width": "40%",
-        "sortable": false,
-        "render": function (data, type, row, meta) {
-            return '<button id="' + row.id + '" data_id="' + row.id + '" class="btn btn-danger btn-sm active deleteCategory" role="button" aria-pressed="true"><i class="fa fa-trash"></i>&ensp;Delete</button>';
-        }
+      "data": null,
+      "width": "40%",
+      "sortable": false,
+      "render": function (data, type, row, meta) {
+        return '<button id="' + row.id + '" data_id="' + row.id + '" class="btn btn-danger btn-sm active deleteCategory" role="button" aria-pressed="true"><i class="fa fa-trash"></i>&ensp;Delete</button>';
+      }
     }
   ],
 });

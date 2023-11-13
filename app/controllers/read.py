@@ -453,7 +453,7 @@ def fetch_event_details(event_uuid):
     """
     try:
         return db.session.execute(
-            db.select(Event.event_uuid, Event.event, Event.start_date, Event.end_date)
+            db.select(Event.id, Event.event_uuid, Event.event, Event.start_date, Event.end_date)
             .filter(Event.event_uuid == event_uuid)
         ).one()
     except Exception as err:

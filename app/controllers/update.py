@@ -228,7 +228,7 @@ def update_session(**kwargs):
     kwargs must have an id
     """
     try:
-        fields = ['session', 'session_description']
+        fields = ['session', 'session_description', 'db_status']
         session_to_update = db.session.execute(
             db.select(Session).filter_by(id=kwargs['id'])
         ).one()[0]

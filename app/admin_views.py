@@ -13,6 +13,7 @@ from app.controllers.read import fetch_active_departments, fetch_active_event_ve
 from app.general_functions import datetime, datetime_to_time, datetime_to_standard_date
 from app.auth_views import roles_required, login_required_redirect
 from flask_login import current_user
+import segno
 
 @app.route('/admin/dashboard')
 @app.route('/admin/dashboard/')
@@ -64,11 +65,7 @@ def event(event_uuid):
     sessions = fetch_active_sessions(event_uuid)
     sessions_count = get_event_sessions_count(event_uuid)
     event_details = fetch_event_details(event_uuid)
-    events=fetch_active_events()
     event_venues = fetch_active_event_venues()
-    event_options = [(e['id'], e['event'])
-                                  for e in events]
-    add_session_form.event_name.choices.extend(event_options)
     event_venue_options = [(v['id'], v['venue'])
                                   for v in event_venues]
     add_session_form.session_venue.choices.extend(event_venue_options)
@@ -132,11 +129,13 @@ def session(session_uuid):
         #response = [{'error': 'Error: Event # does not exist'}]
         return redirect(url_for('events'))
     else:
+        qrcode = segno.make('https://a38f-41-90-190-72.ngrok-free.app/session-registration/'+session_uuid)
         return render_template('admin/session.html',
                             event_uuid=event_uuid,
                             participants=participants,
                             participants_count=len(participants),
-                            session_details=session_details)
+                            session_details=session_details,
+                            qrcode= qrcode)
 
 @app.route('/admin/registered-staff')
 @app.route('/admin/registered-staff/')

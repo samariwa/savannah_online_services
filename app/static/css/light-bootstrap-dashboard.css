@@ -5564,3 +5564,33 @@ License - nucleoapp.com/license/
   .slider.round:before {
     border-radius: 50%;
   }
+
+  .chart
+{
+	width:1100;
+	height:1400; 
+}
+.dataTables_filter input{
+	border-radius: 50px;
+	border: 1px solid grey;
+	width: 380px;
+	margin-right: 300px;
+    font-family: sans-serif;
+    background: transparent;
+    outline: 0;
+    color: grey;
+}
+.dataTables_length select{
+	font-family: sans-serif;
+	box-shadow: 0 1px 0 1px rgba(0,0,0,.04);
+	color: grey;
+}
+.dataTables_filter label{
+ color: grey;
+ font-family: sans-serif;
+}
+.dataTables_length label{
+	color: grey;
+	font-family: sans-serif;
+}
+

@@ -1,13 +1,15 @@
 from app import app, db, csrf, organization, mail, Message
-from flask import make_response, json, request, jsonify, abort, render_template
+import json
+from flask import make_response, json, request, jsonify, abort, render_template, Response
 from app.general_functions import empty_input_fields, get_uuid
 from app.controllers.create import create_admin, create_department, create_event_venue,\
      create_event, create_session, create_session_registration, create_participant
 from app.controllers.read import fetch_session_registration, fetch_session_details
-from app.controllers.update import update_user
+from app.controllers.update import update_user, update_session
 from app.controllers.delete import delete_admin, delete_staff
 from datetime import datetime
 from app.response import respond
+from app.generate_participants_list import generate_participants_excel
 
 ##########################################################################
 ## Staff #################################################################
@@ -243,7 +245,7 @@ def session_create():
         # call the create session controller
         query_result = create_session(
             session_uuid=get_uuid(),
-            event_id=request.form['event_name'],
+            event_id=request.form['event_id'],
             event_venue_id=request.form['session_venue'],
             session=request.form['session_name'],
             session_description=request.form['session_description'],
@@ -259,6 +261,33 @@ def session_create():
         # Any other uncaught error
         else:
             response = make_response(query_result, 200)
+    # request response returned
+    return response
+
+@app.route('/crud/activate-session', methods=['POST'])
+@csrf.exempt
+def session_update():
+    """
+    This function gets the client update request and passes the values to the
+    update session controller which queries the database for the update.
+    Currently it is passing all attributes and their values regardless
+    of whether they are all being updated or not to the controller.
+    In future only values of attributes being updated should be passed
+    Any errors caught in any of the processes are returned back to the
+    client for standardization to a user friendly output
+    """
+    response = ''
+    # call the update session controller
+    update_result = update_session(**request.get_json())
+    # If update is successful
+    if update_result == respond('200'):
+        response = make_response(respond('200'), 200)
+    # If update causes a duplicate
+    elif update_result == respond('SF020')[0]:
+        response = make_response(respond('SF020')[1], 200)
+    # Any other uncaught error
+    else:
+        response = make_response(update_result, 200)
     # request response returned
     return response
 
@@ -310,3 +339,9 @@ def session_registration_create():
             response = make_response(respond('SF020')[1], 200)
     # request response returned
     return response
+
+########################################################################
+## Analytics ###########################################################
+@app.route('/crud/download-participants-sheet/<session_uuid>')
+def download_participants_sheet(session_uuid):
+    return generate_participants_excel(session_uuid)

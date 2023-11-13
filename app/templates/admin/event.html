@@ -50,8 +50,9 @@
                                     <form method="POST" id="form_add_session">
                                         <div class="modal-body">
                                             {{ add_session_form.hidden_tag() }}
+                                            <input type="hidden" name='event_id' id="{{ event_details.id }}" value="{{ event_details.id }}">
                                             <div class="row">
-                                                {{ add_session_form.event_name }}
+                                                {{ add_session_form.event_name(value=event_details.event ) }}
                                             </div><br>
                                             <div class="row">
                                                 {{ add_session_form.session_name }}
