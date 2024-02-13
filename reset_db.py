@@ -14,12 +14,6 @@ create.create_user(first_name='John', last_name= 'Kimani', user_status='active',
 create.create_user(first_name='John', last_name= 'Beanzzzzz', email_address='samuelmariwa@gmail.com', password='abc123')
 
 # create customer since orders need customers
-customer_kw = {
-    'first_name': 'Unregistered',
-    'last_name': 'Customer',
-    'phone_no': 'N/A',
-}
-create.create_customer(**customer_kw)
 customer_kw1 = {
     'customer_code': get_uuid(),
     'first_name': 'John',
