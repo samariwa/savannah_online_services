@@ -1,0 +1,129 @@
+{% extends 'admin/admin_templates/base_admin_template.html' %}
+
+{% block body %}
+<!-- Begin Page Content -->
+<!-- Begin Page Content -->
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-10">
+                <h4 style="margin-top: -10px">Orders</h4>
+            </div>
+            <div class="col-2">
+                <div class="ml-4">
+                    <h5 style="color:#9A9A9A;">Time: <span id="time"></span></h5>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <a class="btn btn-success btn-fill btn-round btn-wd active ml-5" data-toggle="modal" data-target="#addUserModal">
+                <i class="fa fa-user-plus" aria-hidden="true"></i>&ensp;Add Order
+            </a>
+        </div>
+        <div class="modal fade modal-mini modal-primary" id="addUserModal" tabindex="-1" role="dialog"
+            aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header justify-content-center">
+                        <div class="modal-profile">
+                            <i class="fa fa-user-plus" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <div class="modal-body text-center">
+                        <p>Add Order</p>
+                    </div>
+                    <form method="POST" id="form_add_admin">
+                        <div class="modal-body">
+                            {{ add_admin_form.hidden_tag() }}
+                            <div class="row">
+                                {{ add_admin_form.firstname }}
+                            </div><br>
+                            <div class="row">
+                                {{ add_admin_form.lastname }}
+                            </div><br>
+                            <div class="row">
+                                {{ add_admin_form.phone_number }}
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="row">
+                                <div class="col-6">
+                                    {{ add_admin_form.close }}
+                                </div>
+                                <div class="col-6">
+                                    {{ add_admin_form.submit }}
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="card card-plain table-plain-bg">
+                <div class="card-header ">
+                    <h4 class="card-title">Order Management</h4>
+                    <p class="card-category">Pending Orders</p>
+                </div>
+                <div class="card-body table-full-width table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <th>#</th>
+                            <th>Customer</th>
+                            <th>Amount (Ksh.)</th>
+                            <th>Order Time</th>
+                            <th></th>
+                            <th></th>
+                        </thead>
+                        <tbody>
+                            {% for order in orders %}
+                            <tr>
+                                <td>{{ order.id }}</td> 
+                                <td>{{ order.first_name+' '+order.last_name }}</td>
+                                <td>{{ order.amount }}</td>
+                                <td>{{ order.time }}</td>     
+                                <td>
+                                    <a class="btn btn-warning btn-fill active btn-round" data-toggle="modal" data-target="#adminActionModal{{ order.id }}">
+                                        Action
+                                    </a>
+                                </td>
+                                <td>
+                                    <a class="btn btn-danger btn-fill btn-round active deleteAdmin" id="{{ order.id }}" data_id="{{ order.id }}">
+                                        <i class="fa fa-user-times" aria-hidden="true"></i>&ensp;Delete
+                                    </a>
+                                </td>
+                            </tr>
+                            <div class="modal fade modal-mini modal-primary" id="adminActionModal{{ order.id }}" tabindex="-1" role="dialog"
+                                aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header justify-content-center">
+                                            <div class="modal-profile">
+                                                <i class="fa fa-user-circle" aria-hidden="true"></i>
+                                            </div>
+                                        </div>
+                                        <div class="modal-body text-center">
+                                            <p>Select an action to apply</p>
+                                            <br>
+                                            <div class="row">
+                                                {{ admin_action_form.actions }}
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            {{ admin_action_form.close }}
+                                            {{ admin_action_form.submit(id=order.id ) }}        
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Scroll to Top Button-->
+{% endblock %}

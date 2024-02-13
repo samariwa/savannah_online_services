@@ -24,8 +24,8 @@ def load_user(user_id):
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer(), primary_key=True)
-    staff_id = db.Column(
-        db.Integer(), db.ForeignKey('staff.id'), nullable=True, unique=True)
+    first_name = db.Column(db.String(length=30), nullable=False)
+    last_name = db.Column(db.String(length=30), nullable=False)
     user_status = db.Column(
         db.Enum(
             "active",
@@ -78,51 +78,6 @@ class User(UserMixin, db.Model):
     def check_password_correction(self, attempted_password):
         return bcrypt.check_password_hash(
             self.password_hash, attempted_password)
-
-    def is_superuser(self):
-        """is_admin
-        A method to check if given staff has superuser role rights
-        Return:
-            True or False
-        """
-        if self.staff_id != None:
-            return self.staff.role.role == "SuperUser"
-        return False
-
-
-    def is_admin(self):
-        """is_admin
-        A method to check if given staff has admin role rights
-        Return:
-            True or False
-        """
-        if self.staff_id != None:
-            return self.staff.role.role == "Admin"
-        return False
-
-    def has_role(self, *roles):
-        """
-        Current Roles:
-            Admin
-            Superuser
-
-        A method to determine whether given user has the respective role
-        for all roles, only one has to be confirmed for us to allow access
-        Args:
-            "Role_Name" As stated above
-
-
-        Return:
-            True or False
-        """
-        for role in roles:
-            if self.is_superuser() and role == 'SuperUser':
-                return True
-            elif self.is_admin() and role == 'Admin':
-                return True
-
-        # if none of the roles were confirmed
-        return False
 
 class Account_Verification(db.Model):
     __tablename__ = 'account_verification'
@@ -192,18 +147,20 @@ class Logged_Devices(db.Model):
     )
 
 ########################################################################
-#                STAFF                                                 #
+#                              CUSTOMER                                #
 ########################################################################
-class Staff(db.Model):
-    __tablename__ = 'staff'
+class Customer(db.Model):
+    __tablename__ = 'customers'
     id = db.Column(db.Integer(), primary_key=True)
-    role_id = db.Column(
-        db.Integer(),
-        db.ForeignKey('staff_roles.id'),
-        nullable=False,
-    )
+    customer_code = db.Column(db.String(length=100),  nullable=False, unique=True)
     first_name = db.Column(db.String(length=30), nullable=False)
     last_name = db.Column(db.String(length=30), nullable=False)
+    phone_no = db.Column(
+        db.String(length=30),
+        nullable=False,
+        unique=True,
+        # format
+    )
     db_status = db.Column(
         db.Enum(
             "active",
@@ -221,91 +178,42 @@ class Staff(db.Model):
         db.DateTime(timezone=True),
         onupdate=func.now(),
     )
-    # uselist=False ensures one to one relationship
-    staff = db.relationship('User', backref='staff', uselist=False)
 
     def __repr__(self):
         return f"#{self.id} {self.first_name}: {self.last_name}"
 
-class Staff_Role(db.Model):
+########################################################################
+#                                ORDER                                 #
+########################################################################
+ 
+class Order(db.Model):
+    """Order:
+    A class for the customer orders objects that are to be represented in the
+    database.
+
+    order_status:
+        pending: This has been received but nothing actionable has been done
+            to it.
+        processing: It has been received, maybe is being packaged or delivered
+        fulfilled: This is an order which was fulfilled without any defects
+        returned: An order in which some of the items were returned
+        cancelled: an order in which all the items were returned
     """
-    Here we define the role of a given staff and use this to determine
-    access rights for different users in different pages
 
-    Current Staff Roles Department IDs:
-        Admin: id 1
-
-    checking roles:
-
-    User.staff.department_id == 1 and User.staff.role == "Admin"
-
-    """
-    __tablename__ = 'staff_roles'
+    __tablename__ = "orders"
     id = db.Column(db.Integer(), primary_key=True)
-    department_id = db.Column(
+    customer_id = db.Column(
         db.Integer(),
-        db.ForeignKey('departments.id'),
+        db.ForeignKey("customers.id", ondelete="CASCADE"),
         nullable=False,
     )
-    role = db.Column(db.String(length=20),  nullable=False)
-    db_status = db.Column(
-        db.Enum(
-            "active",
-            "deleted",
-            name="delete_status",
-        ),
+    amount = db.Column(db.Float(), nullable=False)
+    time = db.Column(
+        db.Time(),
         nullable=False,
-        default="active",  # consider default deleted for OTP
+        default=str(datetime.now().strftime("%H:%M:%S")),
     )
-    created_at = db.Column(db.DateTime(timezone=True),
-                           server_default=func.now())
-    updated_at = db.Column(
-        db.DateTime(timezone=True),
-        onupdate=func.now(),
-    )
-    staff = db.relationship('Staff', backref='role')
 
-    def __repr__(self):
-        return f"Role #{self.id} {self.role}"
-
-class Department(db.Model):
-    __tablename__ = 'departments'
-    id = db.Column(db.Integer(), primary_key=True)
-    department = db.Column(db.String(length=20),  nullable=False)
-
-    db_status = db.Column(
-        db.Enum(
-            "active",
-            "deleted",
-            name="delete_status",
-        ),
-        nullable=False,
-        default="active",  # consider default deleted for OTP
-    )
-    created_at = db.Column(db.DateTime(timezone=True),
-                           server_default=func.now())
-    updated_at = db.Column(
-        db.DateTime(timezone=True),
-        onupdate=func.now(),
-    )
-    role = db.relationship('Staff_Role', backref='department')
-    participant = db.relationship('Participant', backref='department')
-
-    def __repr__(self):
-        return f"{self.department} Department_ID#: {self.id} {self.role}"
-    
-class Participant(db.Model):
-    __tablename__ = 'participants'
-    id = db.Column(db.Integer(), primary_key=True)
-    department_id = db.Column(
-        db.Integer(),
-        db.ForeignKey('departments.id'),
-        nullable=False,
-    )
-    first_name = db.Column(db.String(length=30), nullable=False)
-    last_name = db.Column(db.String(length=30), nullable=False)
-    email_address = db.Column(db.String(length=50),
-                              nullable=False, unique=True)
     db_status = db.Column(
         db.Enum(
             "active",
@@ -323,132 +231,6 @@ class Participant(db.Model):
         db.DateTime(timezone=True),
         onupdate=func.now(),
     )
-    # uselist=False ensures one to one relationship
-    session_registration = db.relationship('Session_Registration', backref='participant')
 
     def __repr__(self):
-        return f"#{self.id} {self.first_name}: {self.last_name}"
-
-class Event(db.Model):
-    __tablename__ = 'events'
-    id = db.Column(db.Integer(), primary_key=True)
-    event_uuid = db.Column(db.String(length=100),  nullable=False, unique=True)
-    event = db.Column(db.String(length=70),  nullable=False)
-    start_date = db.Column(db.Date(), default=str(datetime.now().date()), nullable=False)
-    end_date = db.Column(db.Date(), default=str(datetime.now().date()), nullable=False)
-    db_status = db.Column(
-        db.Enum(
-            "active",
-            "deleted",
-            name="delete_status",
-        ),
-        nullable=False,
-        default="active",
-    )
-    created_at = db.Column(db.DateTime(timezone=True),
-                           server_default=func.now())
-    updated_at = db.Column(
-        db.DateTime(timezone=True),
-        onupdate=func.now(),
-    )
-    session = db.relationship('Session', backref='event')
-
-    def __repr__(self):
-        return f"{self.event} Event_ID#: {self.id}"
-    
-class Event_Venues(db.Model):
-    __tablename__ = 'event_venues'
-    id = db.Column(db.Integer(), primary_key=True)
-    venue = db.Column(db.String(length=50),  nullable=False)
-
-    db_status = db.Column(
-        db.Enum(
-            "active",
-            "deleted",
-            name="delete_status",
-        ),
-        nullable=False,
-        default="active",  # consider default deleted for OTP
-    )
-    created_at = db.Column(db.DateTime(timezone=True),
-                           server_default=func.now())
-    updated_at = db.Column(
-        db.DateTime(timezone=True),
-        onupdate=func.now(),
-    )
-    session = db.relationship('Session', backref='event_venue')
-
-    def __repr__(self):
-        return f"{self.department} Event_Venue_ID#: {self.id} {self.role}"
-    
-class Session(db.Model):
-    __tablename__ = 'sessions'
-    id = db.Column(db.Integer(), primary_key=True)
-    session_uuid = db.Column(db.String(length=100),  nullable=False, unique=True)
-    event_id = db.Column(
-        db.Integer(),
-        db.ForeignKey('events.id'),
-        nullable=False,
-    )
-    event_venue_id = db.Column(
-        db.Integer(),
-        db.ForeignKey('event_venues.id'),
-        nullable=False,
-    )
-    session = db.Column(db.String(length=100),  nullable=False)
-    session_description = db.Column(db.String(length=500),  nullable=False)
-    start_timestamp = db.Column(db.DateTime(timezone=True), default=str(datetime.now()), nullable=False)
-    end_timestamp = db.Column(db.DateTime(timezone=True), default=str(datetime.now()), nullable=False)
-    db_status = db.Column(
-        db.Enum(
-            "inactive",
-            "active",
-            "deleted",
-            name="session_delete_status",
-        ),
-        nullable=False,
-        default="inactive",
-    )
-    created_at = db.Column(db.DateTime(timezone=True),
-                           server_default=func.now())
-    updated_at = db.Column(
-        db.DateTime(timezone=True),
-        onupdate=func.now(),
-    )
-    session_registration = db.relationship('Session_Registration', backref='session')
-
-    def __repr__(self):
-        return f"{self.session} Session_ID#: {self.id}"
-    
-class Session_Registration(db.Model):
-    __tablename__ = 'session_registration'
-    id = db.Column(db.Integer(), primary_key=True)
-    session_id = db.Column(
-        db.Integer(),
-        db.ForeignKey('sessions.id'),
-        nullable=False,
-    )
-    participant_id = db.Column(
-        db.Integer(),
-        db.ForeignKey('participants.id'),
-        nullable=False,
-    )
-    db_status = db.Column(
-        db.Enum(
-            "active",
-            "deleted",
-            name="delete_status",
-        ),
-        nullable=False,
-        default="active",
-    )
-    created_at = db.Column(db.DateTime(timezone=True),
-                           server_default=func.now())
-    updated_at = db.Column(
-        db.DateTime(timezone=True),
-        onupdate=func.now(),
-    )
-
-
-    def __repr__(self):
-        return f"{self.session} Session_Registration_ID#: {self.id}"
+        return f"#{self.id} Amt:{self.amount}"

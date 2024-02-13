@@ -1,8 +1,4 @@
-{% if current_user.has_role('SuperUser') %}
-{% extends 'superuser/superuser_templates/base_superuser_template.html' %}
-{% else %}
 {% extends 'admin/admin_templates/base_admin_template.html' %}
-{% endif %}
 {% block body %}
 <div class="content">
   <div class="container-fluid">

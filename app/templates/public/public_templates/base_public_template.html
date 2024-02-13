@@ -2,21 +2,18 @@
 <html lang="en">
 
 <head>
+    
     <link rel="apple-touch-icon" sizes="76x76" href="{{ url_for('static', filename='img/apple-icon.png') }}">
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/favicon.ico') }}">
     <title>CIFOR-ICRAF EVENTS</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
-
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
     <link rel="stylesheet" href="{{ url_for('static', filename='css/public_style.css') }}">
 
 </head>
 {% block body %}{% endblock %}
-
 
 <script src="{{ url_for('static', filename='js/public_js/jquery.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/public_js/popper.js') }}"></script>

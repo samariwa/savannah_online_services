@@ -183,18 +183,15 @@ class AddAdminForm(FlaskForm):
         validators=[DataRequired()]
     )
 
-    email_address = StringField(
-        label="Email Address",
+    phone_number = StringField(
+        label="Phone Number",
         render_kw={
-            "placeholder": "Email Address...",
+            "placeholder": "Phone Number...",
             "class": "form-control col-md-10 ml-3",
-            "id": "email_address",
+            "id": "phone_number",
             "style": "padding:15px"
         },
-        validators=[
-            Email(check_deliverability=True, message=respond('SK010')),
-            DataRequired(message=respond('SJ011'))
-        ]
+        validators=[DataRequired()]
     )
 
     role = SelectField(
@@ -272,7 +269,7 @@ class AddEventForm(FlaskForm):
 
     start_date = DateTimeField(
         label="Start Date",
-        format='%d-%m-%Y %H:%M:%S',
+        format='%Y-%m-%d %H:%M:%S',
         default=datetime.today(),
         render_kw={
             "class": "form-control col-md-10 ml-3",
@@ -284,7 +281,7 @@ class AddEventForm(FlaskForm):
 
     end_date = DateTimeField(
         label="End Date",
-        format='%d-%m-%Y %H:%M:%S',
+        format='%Y-%m-%d %H:%M:%S',
         default=datetime.today(),
         render_kw={
             "class": "form-control col-md-10 ml-3",

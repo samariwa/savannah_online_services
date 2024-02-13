@@ -3,7 +3,7 @@ config_params = ''
 
 service = "postgresql+psycopg2"
 host = "localhost"
-database = "cifor-icraf-qrcode"
+database = "postgres"
 username = ""
 password = ""
 port = "5432"
@@ -18,16 +18,6 @@ mail_usr = 'e32affdcce6399'
 config_params += str(mail_usr)+' '
 mail_pwd = 'dcee4e76a5d5f6'
 config_params += str(mail_pwd)+' '
-
-
-"""
-# cpanel
-mail_usr = 'admin@cifor-icraf.org'
-config_params += str(mail_usr)+' '
-
-mail_pwd = '6F2s#FqG$8RUXa#'
-config_params += str(mail_pwd)+' '
-"""
 
 # heroku app secret key
 public_app_secret =  'Public91ff0af85cff35940ba46adf'
@@ -53,8 +43,8 @@ config_params += str(L_RECAPTCHA_PRIVATE_KEY) + ' '
 # Organization settings
 organization = {
     "mobile": "0711111111",
-    "email": "info@cifor-icraf.org",
-    "location": "Gigiri_UN_Avenue"
+    "email": "info@savannah.com",
+    "location": "This location"
 }
 
 config_params += str(organization.get('mobile')) + ' '

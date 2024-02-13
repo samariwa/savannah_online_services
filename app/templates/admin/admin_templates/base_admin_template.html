@@ -28,11 +28,11 @@
   <div class="preloader">
     <div class="loader">
       <div class="loader__figure"></div>
-      <p class="loader__label">CIFOR-ICRAF EVENTS</p>
+      <p class="loader__label">SAVANNAH ONLINE SERVICE</p>
     </div>
   </div>
   <div class="wrapper">
-    <div class="sidebar" data-image="{{ url_for('static', filename='img/sidebar-5.jpg') }}" data-color="red">
+    <div class="sidebar" data-image="{{ url_for('static', filename='img/sidebar-5.jpg') }}" data-color="purple">
       <!--
         Tip 1: You can change the color of the sidebar using: data-color="azure | purple | blue | green | orange | red"
 
@@ -41,7 +41,7 @@
       <div class="sidebar-wrapper">
         <div class="logo">
           <a href="#" class="simple-text">
-            <img src="{{ url_for('static', filename='img/cifor-icraf-logo.png') }}" width="130px" height="60px">
+            <img src="{{ url_for('static', filename='img/savannah_logo.png') }}" width="180px" height="90px">
           </a>
         </div>
         <ul class="nav">
@@ -52,27 +52,15 @@
             </a>
           </li>
           <li>
-            <a class="nav-link" href="/admin/events">
-              <i class="fa fa-calendar-o" aria-hidden="true"></i>
-              <p>Events</p>
-            </a>
-          </li>
-          <li>
-            <a class="nav-link" href="/admin/event-venues">
-              <i class="fa fa-map-marker" aria-hidden="true"></i>
-              <p>Event Venues</p>
-            </a>
-          </li>
-          <li>
-            <a class="nav-link" href="/admin/departments">
-              <i class="fa fa-sitemap" aria-hidden="true"></i>
-              <p>Departments</p>
-            </a>
-          </li>
-          <li>
-            <a class="nav-link" href="/admin/registered-staff">
+            <a class="nav-link" href="/admin/customers">
               <i class="fa fa-users" aria-hidden="true"></i>
-              <p>Registered Staff</p>
+              <p>Customers</p>
+            </a>
+          </li>
+          <li>
+            <a class="nav-link" href="/admin/orders">
+              <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+              <p>Orders</p>
             </a>
           </li>
           <li>
@@ -109,7 +97,7 @@
                 <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink"
                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   {% if current_user.is_authenticated %}
-                  {{ current_user.staff.first_name+' '+current_user.staff.last_name }}
+                  {{ current_user.first_name+' '+current_user.last_name }}
                   {% else %}
                   User
                   {% endif %}
@@ -150,7 +138,7 @@
           <nav class="mt-3">
             <p class="copyright text-center">
             <p class="text-center" style="color:#9A9A9A;">&copy;
-              <script>document.write(/\d{4}/.exec(Date())[0])</script> | CIFOR-ICRAF. All Rights Reserved.
+              <script>document.write(/\d{4}/.exec(Date())[0])</script> | SAVANNAH ONLINE SERVICES. All Rights Reserved.
             </p>
             </p>
           </nav>

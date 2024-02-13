@@ -66,26 +66,28 @@
                         <p class="card-category">Departments Count: {{ departments_count }}</p>
                     </div>
                     <div class="card-body table-full-width table-responsive">
-                        <table class="table table-hover table-striped">
+                        <table id="departmentEditable" class="table table-hover table-striped">
                             <thead>
+                                <th>#</th>
                                 <th>Name</th>
                                 <th>Registered Staff</th>
                                 <th>Date Registered</th>
-                                <th></th>
-                                <th></th>
+                                <th style="color:white"></th>
+                                <th style="color:white"></th>
                             </thead>
                             <tbody>
                                 {% for department in departments %}
                                 <tr>
-                                    <td>{{ department.department }}</td>
-                                    <td>{{ department.participants_count }}</td>
-                                    <td>{{ department.created_at.strftime("%b %d %Y") }}</td>
-                                    <td>
+                                    <td class="uneditable" id="id{{ loop.index }}">{{ department.id }}</td>
+                                    <td class="editable" id="department{{ loop.index }}">{{ department.department }}</td>
+                                    <td class="uneditable">{{ department.participants_count }}</td>
+                                    <td class="uneditable">{{ department.created_at.strftime("%b %d %Y") }}</td>
+                                    <td class="uneditable">
                                         <a class="btn btn-info btn-fill btn-round active" href="/admin/department/{{ department.id }}">
                                             <i class="fa fa-eye" aria-hidden="true"></i>&ensp;View Details
                                         </a>
                                     </td>
-                                    <td>
+                                    <td class="uneditable">
                                         <a class="btn btn-md btn-danger btn-fill btn-round active deleteDepartment ml-5"
                                             id="{{ department.id }}" data_id="{{ department.id }}">
                                             <i class="fa fa-trash" aria-hidden="true"></i>&ensp;Delete

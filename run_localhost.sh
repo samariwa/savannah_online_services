@@ -1,5 +1,5 @@
 #!/bin/bash
-# a script to set environment variables for symphafresh
+# a script to set environment variables for the app
 # web system requirements
 
 echo "setting env dependencies..."

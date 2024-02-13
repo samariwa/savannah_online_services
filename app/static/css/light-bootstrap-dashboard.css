@@ -5351,7 +5351,7 @@ License - nucleoapp.com/license/
     width: 0;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    border: 0 solid #FB404B;
+    border: 0 solid #6f42c1;
     border-radius: 50%;
     -webkit-animation: loader-figure 1.15s infinite cubic-bezier(0.215, 0.61, 0.355, 1);
     -moz-animation: loader-figure 1.15s infinite cubic-bezier(0.215, 0.61, 0.355, 1);
@@ -5370,7 +5370,7 @@ License - nucleoapp.com/license/
     font-size: 0.875em;
     letter-spacing: 0.1em;
     line-height: 1.5em;
-    color: #FB404B;
+    color: #6f42c1;
     white-space: nowrap;
     -webkit-animation: loader-label 1.15s infinite cubic-bezier(0.215, 0.61, 0.355, 1);
     -moz-animation: loader-label 1.15s infinite cubic-bezier(0.215, 0.61, 0.355, 1);
@@ -5381,11 +5381,11 @@ License - nucleoapp.com/license/
     0% {
       height: 0;
       width: 0;
-      background-color: #FB404B;
+      background-color: #6f42c1;
     }
 
     29% {
-      background-color: #FB404B;
+      background-color: #6f42c1;
     }
 
     30% {
@@ -5409,11 +5409,11 @@ License - nucleoapp.com/license/
     0% {
       height: 0;
       width: 0;
-      background-color: #FB404B;
+      background-color: #6f42c1;
     }
 
     29% {
-      background-color: #FB404B;
+      background-color: #6f42c1;
     }
 
     30% {
@@ -5437,11 +5437,11 @@ License - nucleoapp.com/license/
     0% {
       height: 0;
       width: 0;
-      background-color: #FB404B;
+      background-color: #6f42c1;
     }
 
     29% {
-      background-color: #FB404B;
+      background-color: #6f42c1;
     }
 
     30% {

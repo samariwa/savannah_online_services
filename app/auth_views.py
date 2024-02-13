@@ -11,7 +11,7 @@ from app.forms import RegisterForm, LoginForm, ForgotPasswordForm, ResetPassword
 from app.controllers.create import create_user, create_device_log,\
      create_account_verification_entry
 from app.controllers.update import update_user
-from app.controllers.read import read_user, read_staff
+from app.controllers.read import read_user
 from flask_login import login_user, logout_user, login_required, current_user, login_manager
 from sqlalchemy.orm import sessionmaker
 import urllib.request
@@ -26,24 +26,6 @@ def login_required_redirect(login_url, login_message):
                 flash_response('SF023')
                 logging.info(login_message)
                 return redirect(url_for(login_url))
-            return f(*args, **kwargs)
-        return decorated
-    return decorator
-
-# Define the roles_required decorator
-def roles_required(*roles):
-    """roles_required:
-    args: roles(list) - Roles which are allowed for a given route
-    """
-    def decorator(f):
-        @wraps(f)
-        def decorated(*args, **kwargs):
-            if not current_user.is_authenticated or not current_user.has_role(*roles):
-                flash_response('SF023')
-                logging.warning('---------------------- Access Issue found ----------------------')
-                return abort(403)
-            logging.info('---------------------- Access OKAY ----------------------')
-            logging.info(current_user)
             return f(*args, **kwargs)
         return decorated
     return decorator
@@ -88,8 +70,7 @@ def admin_login():
         # check if the user exists and the hashed passsword match and that the user is active
         if (attempted_user is not None and
             attempted_user.check_password_correction(attempted_password=form.password.data) and
-            attempted_user.user_status == 'active' and
-            attempted_user.staff_id != None):
+            attempted_user.user_status == 'active'):
             login_user(attempted_user)
             login_update =  update_user(
                 id=attempted_user.id,
@@ -111,20 +92,9 @@ def admin_login():
                 )
                 # if device log is created successfully
                 if device_log == respond('201'):
-                    staff= read_staff(id=attempted_user.staff_id)
+                    #######staff= read_staff(id=attempted_user.staff_id)
                     flash_response('SF001')
-                    if attempted_user.is_superuser():
-                        response = redirect(url_for('superuser_dashboard'))
-                    elif attempted_user.is_admin():
-                        response = redirect(url_for('admin_dashboard'))
-                    elif attempted_user.is_delivery():
-                        response = redirect(url_for('delivery_dashboard'))
-                    elif attempted_user.is_cashier():
-                        response = redirect(url_for('cashier_dashboard'))
-                    else:
-                        logging.critical('---------------------------- !SUSPICIOUS ACTIVITY! ---------------------')
-                        logging.critical(f'{attempted_user} tried to access admin login')
-                        response = redirect(url_for('admin_logout_page'))
+                    response = redirect(url_for('admin_dashboard'))
                     """
                     if remember me checkbox has been checked, set the cookie values afresh
                     (regardless of whether they already existed or not) with the age limits
@@ -152,17 +122,17 @@ def admin_login():
         # if user exists but account has not yet been verified
         elif attempted_user and attempted_user.user_status == 'inactive':
             # fetch the customer associated with that user for purposes of retrieving name
-            staff = read_staff(id=attempted_user.staff_id)
+            ####staff = read_staff(id=attempted_user.staff_id)
             """
             Give the user the ability to resend the verification email incase the cannot trace
             the verification email or the token expired. Using a flash message to do so.
-            """
+            
             flash(Markup("Dear user: Your account has not been verified. \
             Please check your mailbox for a verification email.\
             If you did not receive, you can \
             <a href='/auth/admin/verification-mail/login/"+staff.first_name+"/"+form.email_address.data+"' \
             style='color: inherit;'>\
-            <u>resend the email</u></a>"), category="warning")
+            <u>resend the email</u></a>"), category="warning")"""
         elif attempted_user and attempted_user.check_password_correction(attempted_password=form.password.data) and\
              attempted_user.user_status == 'suspended':
             flash_response('SK016')
@@ -231,11 +201,10 @@ def admin_forgot_password():
             )
             # if the reset token is successfully created
             if reset_token == respond('201'):
-                staff = read_staff(id=user_exists.staff_id)
+                #staff = read_staff(id=user_exists.staff_id)
                 # send email functionality
-                msg = Message('CIFOR-ICRAF Events Password Reset Request', recipients=[
-                    user_exists.email_address], html=render_template('mail/admin-password-reset.html', firstname=staff.first_name, verification_code=verification_id, organization=organization))
-                mail.send(msg)
+                #msg = Message('CIFOR-ICRAF Events Password Reset Request', recipients=[
+                    ##mail.send(msg)
                 flash_response('SF007')
         else:
             flash_response('SF012')
@@ -348,10 +317,10 @@ def activate_staff_account():
         """
         # fetch user associated with the expired token and the staff by extension
         user = read_user(id=attempted_token.user_id)
-        staff = read_staff(id=user.staff_id)
+        #staff = read_staff(id=user.staff_id)
         # The user and staff objects are used to retrieve their name and email used in the verification url
         flash(Markup("Dear user: You can \
-            <a href='/auth/admin/verification-mail/login/"+staff.first_name+"/"+user.email_address+"' \
+            <a href='/auth/admin/verification-mail/login/"+"/"+user.email_address+"' \
             style='color: inherit;'>\
             <u>resend the email</u></a> for account verification"), category="warning")
         return render_template('auth/admin-auth-error.html', error="Token Expired", return_page="login")

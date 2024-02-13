@@ -11,8 +11,8 @@ order:
 """
 from app import app
 from app.models import User, Account_Verification, Logged_Devices
-from app.models import Staff, Staff_Role, Department, Participant
-from app.models import Event, Event_Venues, Session, Session_Registration
+from app.models import Customer
+from app.models import Order
 from app.response import respond
 
 from app.general_functions import create_timestamp, datetime
@@ -52,15 +52,18 @@ def update_user(**kwargs):
             "If you called this from the shell, do a db.session.rollback()"
             " before continuing")
         return type(err).__name__
-    
-def update_department(**kwargs):
-    """"
-    update_department(**kwargs)
 
-    A method to update details of a department given a specific department id
+########################################################################
+#                CUSTOMER-RELATED UPDATE FUNCTIONS                     #
+########################################################################
+def update_customer(**kwargs):
+    """"
+    update_customer(**kwargs)
+
+    A method to update details of the customer given a specific customer id
 
     expected use:
-        update_department(id=d_id, department="Finance", ...)
+        update_customer(id=c_id, note="Awesome Customer", ...)
 
     If successful , the function returns the 200(OK) HTTP status code,
     otherwise returns Name of the type of exception
@@ -68,109 +71,17 @@ def update_department(**kwargs):
     kwargs must have an id
     """
     try:
-        fields = ['department']
-        department_to_update = db.session.execute(
-            db.select(Department).filter_by(id=kwargs['id'])
+        fields = [
+            'first_name',
+            'last_name',
+            'phone_no',
+        ]
+        customer_to_update = db.session.execute(
+            db.select(Customer).filter_by(id=kwargs['id'])
         ).one()[0]
         for field in fields:
             if kwargs.get(field):
-                order = f"department_to_update.{field} = kwargs.get('{field}')"
-                exec(order)
-                db.session.commit()
-        return respond('200')
-    except Exception as err:
-        app.logger.error(f"Unexpected {err=}"
-            "Ensure that each call has an id as one of the kwargs.\n"
-            "If you called this from the shell, do a db.session.rollback()"
-            " before continuing")
-        return type(err).__name__
-    
-def update_admin(**kwargs):
-    """"
-    update_admin(**kwargs)
-
-    A method to update details of an admin given a specific admin id
-
-    expected use:
-        update_admin(id=a_id, first_Name="John Doe", ...)
-
-    If successful , the function returns the 200(OK) HTTP status code,
-    otherwise returns Name of the type of exception
-
-    kwargs must have an id
-    """
-    try:
-        fields = ['first_name', 'last_name']
-        admin_to_update = db.session.execute(
-            db.select(Staff).filter_by(id=kwargs['id'])
-        ).one()[0]
-        for field in fields:
-            if kwargs.get(field):
-                order = f"admin_to_update.{field} = kwargs.get('{field}')"
-                exec(order)
-                db.session.commit()
-        return respond('200')
-    except Exception as err:
-        app.logger.error(f"Unexpected {err=}"
-            "Ensure that each call has an id as one of the kwargs.\n"
-            "If you called this from the shell, do a db.session.rollback()"
-            " before continuing")
-        return type(err).__name__ 
-
-def update_participant(**kwargs):
-    """"
-    update_participant(**kwargs)
-
-    A method to update details of a participant given a specific participant id
-
-    expected use:
-        update_participant(id=p_id, first_Name="John Doe", ...)
-
-    If successful , the function returns the 200(OK) HTTP status code,
-    otherwise returns Name of the type of exception
-
-    kwargs must have an id
-    """
-    try:
-        fields = ['first_name', 'last_name']
-        participant_to_update = db.session.execute(
-            db.select(Participant).filter_by(id=kwargs['id'])
-        ).one()[0]
-        for field in fields:
-            if kwargs.get(field):
-                order = f"participant_to_update.{field} = kwargs.get('{field}')"
-                exec(order)
-                db.session.commit()
-        return respond('200')
-    except Exception as err:
-        app.logger.error(f"Unexpected {err=}"
-            "Ensure that each call has an id as one of the kwargs.\n"
-            "If you called this from the shell, do a db.session.rollback()"
-            " before continuing")
-        return type(err).__name__ 
-
-def update_event(**kwargs):
-    """"
-    update_event(**kwargs)
-
-    A method to update details of an event given a specific event id
-
-    expected use:
-        update_event(id=e_id, event="Science Week", ...)
-
-    If successful , the function returns the 200(OK) HTTP status code,
-    otherwise returns Name of the type of exception
-
-    kwargs must have an id
-    """
-    try:
-        fields = ['event']
-        event_to_update = db.session.execute(
-            db.select(Event).filter_by(id=kwargs['id'])
-        ).one()[0]
-        for field in fields:
-            if kwargs.get(field):
-                order = f"event_to_update.{field} = kwargs.get('{field}')"
+                order = f"customer_to_update.{field} = kwargs.get('{field}')"
                 exec(order)
                 db.session.commit()
         return respond('200')
@@ -181,28 +92,46 @@ def update_event(**kwargs):
             " before continuing")
         return type(err).__name__
 
-def update_event_venue(**kwargs):
-    """"
-    update_event_venue(**kwargs)
+########################################################################
+#                      ORDER-RELATED UPDATE FUNCTIONS                  #
+########################################################################
 
-    A method to update details of an event venue given a specific event venue id
+def update_order(**kwargs):
+    """
+    update_order(**kwargs)
+
+    A method to update details of a specific order.
+
+    In general, the function takes in kwargs containing the new values
+    to be updated in the respective fields.
 
     expected use:
-        update_event_venue(id=e_id, event_venue="Main Conference Hall", ...)
+        update_order(id=order_id, amount=2500, ...)
+    * some of these new kwargs might be calculated from order_details, etc
 
     If successful , the function returns the 200(OK) HTTP status code,
     otherwise returns Name of the type of exception
 
+    ** Discuss whethere there are fields that should not be updateable
+
     kwargs must have an id
     """
     try:
-        fields = ['venue']
-        event_venue_to_update = db.session.execute(
-            db.select(Event_Venues).filter_by(id=kwargs['id'])
+        fields = [
+            'customer_id',
+            'amount',
+            'time',
+        ]
+        order_to_update = db.session.execute(
+            db.select(Order).filter_by(id=kwargs['id'])
         ).one()[0]
         for field in fields:
             if kwargs.get(field):
-                order = f"event_venue_to_update.{field} = kwargs.get('{field}')"
+                if field == 'order_cost':
+                    order = f"order_to_update.{field} = str(kwargs.get('{field}'))"
+                else:
+                    order = f"order_to_update.{field} = kwargs.get('{field}')"
+                
                 exec(order)
                 db.session.commit()
         return respond('200')
@@ -212,36 +141,3 @@ def update_event_venue(**kwargs):
             "If you called this from the shell, do a db.session.rollback()"
             " before continuing")
         return type(err).__name__
-
-def update_session(**kwargs):
-    """"
-    update_session(**kwargs)
-
-    A method to update details of a session venue given a specific session id
-
-    expected use:
-        update_session(id=s_id, session="Restoration of Forests in South East Asia", ...)
-
-    If successful , the function returns the 200(OK) HTTP status code,
-    otherwise returns Name of the type of exception
-
-    kwargs must have an id
-    """
-    try:
-        fields = ['session', 'session_description', 'db_status']
-        session_to_update = db.session.execute(
-            db.select(Session).filter_by(id=kwargs['id'])
-        ).one()[0]
-        for field in fields:
-            if kwargs.get(field):
-                order = f"session_to_update.{field} = kwargs.get('{field}')"
-                exec(order)
-                db.session.commit()
-        return respond('200')
-    except Exception as err:
-        app.logger.error(f"Unexpected {err=}"
-            "Ensure that each call has an id as one of the kwargs.\n"
-            "If you called this from the shell, do a db.session.rollback()"
-            " before continuing")
-        return type(err).__name__         
-     
