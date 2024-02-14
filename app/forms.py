@@ -2,7 +2,7 @@ from flask import Markup
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField,SubmitField, BooleanField,\
      SelectField, IntegerField, DateField, DecimalField, FileField,\
-     TextAreaField, HiddenField, RadioField, DateTimeField
+     TextAreaField, HiddenField, RadioField, DateTimeField, TimeField
 from wtforms.validators import Length, EqualTo, Email, DataRequired,\
      ValidationError, Regexp
 from flask_wtf.file import FileRequired
@@ -162,7 +162,7 @@ class LoginForm(FlaskForm):
         label='Sign In'
     )
 
-class AddAdminForm(FlaskForm):
+class AddCustomerForm(FlaskForm):
     firstname = StringField(
         render_kw={
             "placeholder": "First Name...",
@@ -183,27 +183,14 @@ class AddAdminForm(FlaskForm):
         validators=[DataRequired()]
     )
 
-    phone_number = StringField(
+    phonenumber = StringField(
         label="Phone Number",
         render_kw={
             "placeholder": "Phone Number...",
             "class": "form-control col-md-10 ml-3",
-            "id": "phone_number",
+            "id": "phonenumber",
             "style": "padding:15px"
         },
-        validators=[DataRequired()]
-    )
-
-    role = SelectField(
-        choices=[("", "Role...")],
-        render_kw={
-            "class": "form-control col-md-10 ml-3",
-            "id": "role",
-            "onfocus": "this.size=3;",
-            "onblur": "this.size=1;",
-            "onchange": "this.size=1; this.blur();",
-            "style": "padding-right:15px;padding-left:15px"
-            },
         validators=[DataRequired()]
     )
 
@@ -218,12 +205,12 @@ class AddAdminForm(FlaskForm):
     )
 
     submit = SubmitField(
-        label='Add User',
+        label='Add Customer',
 
         render_kw={
             "style": "margin-right: 50px",
             "class": "btn btn-link btn-simple",
-            "id": "addAdmin"
+            "id": "addCustomer"
         }
     )
 
@@ -255,266 +242,6 @@ class AdminActionForm(FlaskForm):
         }
     )
 
-
-class AddEventForm(FlaskForm):
-    event_name = StringField(
-        render_kw={
-            "placeholder": "Event Name...",
-            "class": "form-control col-md-10 ml-3",
-            "id": "eventname",
-            "style": "padding:15px"
-        },
-        validators=[DataRequired()]
-    )
-
-    start_date = DateTimeField(
-        label="Start Date",
-        format='%Y-%m-%d %H:%M:%S',
-        default=datetime.today(),
-        render_kw={
-            "class": "form-control col-md-10 ml-3",
-            "id": "start_date",
-            "style": "padding:15px;margin-left: 60px"
-            },
-        validators=[DataRequired()]
-    )
-
-    end_date = DateTimeField(
-        label="End Date",
-        format='%Y-%m-%d %H:%M:%S',
-        default=datetime.today(),
-        render_kw={
-            "class": "form-control col-md-10 ml-3",
-            "id": "end_date",
-            "style": "padding:15px;margin-left: 60px"
-            },
-        validators=[DataRequired()]
-    )
-
-    close = SubmitField(
-        label='Close',
-
-        render_kw={
-            "style": "margin-right: 50px",
-            "class": "btn btn-link btn-simple",
-            "data-dismiss": "modal"
-        }
-    )
-
-    submit = SubmitField(
-        label='Add Event',
-
-        render_kw={
-            "style": "margin-right: 50px",
-            "class": "btn btn-link btn-simple",
-            "id": "addEvent"
-        }
-    )
-
-class AddDepartmentForm(FlaskForm):
-    department_name = StringField(
-        render_kw={
-            "placeholder": "Department Name...",
-            "class": "form-control col-md-10 ml-3",
-            "id": "eventname",
-            "style": "padding:15px"
-        },
-        validators=[DataRequired()]
-    )
-
-    close = SubmitField(
-        label='Close',
-
-        render_kw={
-            "style": "margin-right: 50px",
-            "class": "btn btn-link btn-simple",
-            "data-dismiss": "modal"
-        }
-    )
-
-    submit = SubmitField(
-        label='Add Department',
-
-        render_kw={
-            "style": "margin-right: 50px",
-            "class": "btn btn-link btn-simple",
-            "id": "addDepartment"
-        }
-    )
-
-class AddEventVenueForm(FlaskForm):
-    event_venue_name = StringField(
-        render_kw={
-            "placeholder": "Event Venue Name...",
-            "class": "form-control col-md-10 ml-3",
-            "id": "eventvenuename",
-            "style": "padding:15px"
-        },
-        validators=[DataRequired()]
-    )
-
-    close = SubmitField(
-        label='Close',
-
-        render_kw={
-            "style": "margin-right: 50px",
-            "class": "btn btn-link btn-simple",
-            "data-dismiss": "modal"
-        }
-    )
-
-    submit = SubmitField(
-        label='Add Event Venue',
-
-        render_kw={
-            "style": "margin-right: 50px",
-            "class": "btn btn-link btn-simple",
-            "id": "addEventVenue"
-        }
-    )
-
-class SessionRegistrationForm(FlaskForm):
-    first_name = StringField(
-        render_kw={
-            "placeholder": "First Name...",
-            "class": "form-control",
-            "id": "firstname"
-        },
-        validators=[DataRequired()]
-    )
-
-    last_name = StringField(
-        render_kw={
-            "placeholder": "Last Name...",
-            "class": "form-control",
-            "id": "lastname"
-        },
-        validators=[DataRequired()]
-    )
-
-    email_address = StringField(
-        label="Email Address",
-        render_kw={
-            "placeholder": "Email Address...",
-            "class": "form-control",
-            "id": "email_address"
-        },
-        validators=[
-            Email(check_deliverability=True, message=respond('SK010')),
-            DataRequired(message=respond('SJ011'))
-        ]
-    )
-
-    department = SelectField(
-        choices=[("", "Department...")],
-        render_kw={
-            "class": "form-control",
-            "id": "department",
-            "onfocus": "this.size=3;",
-            "onblur": "this.size=1;",
-            "onchange": "this.size=1; this.blur();",
-            },
-        validators=[DataRequired()]
-    )
-
-    submit = SubmitField(
-        label='Register',
-
-        render_kw={
-            "value": "Register",
-            "class": "btn btn-primary",
-            "id": "registerSession"
-        }
-    )
-class AddSessionForm(FlaskForm):
-    event_name = StringField(
-        render_kw={
-            "placeholder": "Event...",
-            "class": "form-control col-md-10 ml-3",
-            "id": "venue",
-            "style": "padding:15px",
-            "disabled": "disabled"
-        },
-        validators=[DataRequired()]
-    )
-
-    session_name = StringField(
-        render_kw={
-            "placeholder": "Session Name...",
-            "class": "form-control col-md-10 ml-3",
-            "id": "sessionname",
-            "style": "padding:15px"
-        },
-        validators=[DataRequired()]
-    )
-
-    session_description = TextAreaField(
-        render_kw={
-            "placeholder": "Session Description...",
-            "class": "form-control col-md-10 ml-3",
-            "id": "sessiondescription",
-            "style": "padding:15px;"
-            },
-        validators=[DataRequired(),
-                    Length(max=512)]
-    )
-
-    start_datetime = DateTimeField(
-        label="Start Date time...",
-        format='%Y-%m-%d %H:%M:%S',
-        default=datetime.today(),
-        render_kw={
-            "class": "form-control col-md-10 ml-3",
-            "id": "session_date",
-            "style": "padding:15px;margin-left: 60px"
-            },
-        validators=[DataRequired()]
-    )
-
-    end_datetime = DateTimeField(
-        label="Start Date time...",
-        format='%Y-%m-%d %H:%M:%S',
-        default=datetime.today(),
-        render_kw={
-            "class": "form-control col-md-10 ml-3",
-            "id": "session_date",
-            "style": "padding:15px;margin-left: 60px"
-            },
-        validators=[DataRequired()]
-    )
-
-    session_venue = SelectField(
-        choices=[("", "Venue...")],
-        render_kw={
-            "class": "form-control col-md-10 ml-3",
-            "id": "venue",
-            "onfocus": "this.size=3;",
-            "onblur": "this.size=1;",
-            "onchange": "this.size=1; this.blur();",
-            "style": "padding-right:15px;padding-left:15px"
-            },
-        validators=[DataRequired()]
-    )
-
-    close = SubmitField(
-        label='Close',
-
-        render_kw={
-            "style": "margin-right: 50px",
-            "class": "btn btn-link btn-simple",
-            "data-dismiss": "modal"
-        }
-    )
-
-    submit = SubmitField(
-        label='Add Session',
-
-        render_kw={
-            "style": "margin-right: 50px",
-            "class": "btn btn-link btn-simple",
-            "id": "addSession"
-        }
-    )
 class ForgotPasswordForm(FlaskForm):
     csrf_token = HiddenField()
     email_address = StringField(
@@ -546,91 +273,48 @@ class ResetPasswordForm(FlaskForm):
     )
 
 
-class AddCategoryForm(FlaskForm):
-    category_name = StringField(
+class AddOrderForm(FlaskForm):
+    order_cost = DecimalField(
         render_kw={
-            "placeholder": "Category Name...",
-            "class": "form-control col-md-9",
-            "id": "category",
-            "style": "padding:15px;margin-left: 60px"
-        },
+            "placeholder": "Order Cost...",
+            "class": "form-control col-md-10 ml-3",
+            "id": "amount",
+            "style": "padding:15px;margin-left: 60px",
+            "min": "0.01",
+            "step": "0.01"
+            },
         validators=[DataRequired()]
     )
 
-    category_image = FileField(
-        label='Upload category image:',
+    delivery_time = TimeField(
+        label="Delivery Time...",
+        format='%Y-%m-%d %H:%M:%S',
+        default=datetime.today(),
         render_kw={
-            "id": "upload",
-            "style": "padding:15px;margin-left: 50px",
-            "onchange": "displayname(this,$(this))"
+            "class": "form-control col-md-10 ml-3",
+            "id": "session_date",
+            "style": "padding:15px;margin-left: 60px"
             },
-        validators=[
-            FileRequired(message='File required')
-        ]
+        validators=[DataRequired()]
     )
 
-    submit = SubmitField(
-        label='Add Category',
+    close = SubmitField(
+        label='Close',
 
         render_kw={
             "style": "margin-right: 50px",
-            "class": "btn btn-primary",
-            "id": "addCategory"
+            "class": "btn btn-link btn-simple",
+            "data-dismiss": "modal"
         }
     )
 
-
-class AddCustomerForm(FlaskForm):
-    first_name = StringField(
-        render_kw={
-            "placeholder": "First Name...",
-            "class": "form-control col-md-9",
-            "id": "name",
-            "style": "padding:15px;margin-left: 60px"
-        },
-        validators=[DataRequired()]
-    )
-
-    last_name = StringField(
-        render_kw={
-            "placeholder": "Last Name...",
-            "class": "form-control col-md-9",
-            "id": "name",
-            "style": "padding:15px;margin-left: 60px"
-        },
-        validators=[DataRequired()]
-    )
-
-    location = StringField(
-        render_kw={
-            "placeholder": "Location...",
-            "class": "form-control col-md-9",
-            "id": "location",
-            "style": "padding:15px;margin-left: 60px"
-        },
-        validators=[DataRequired()]
-    )
-
-    contact = StringField(
-        render_kw={
-            "placeholder": "Phone Number...",
-            "class": "form-control col-md-9",
-            "id": "number",
-            "style": "padding:15px;margin-left: 60px"
-        },
-        validators=[DataRequired(),
-        Length(min=10, max=14),
-        Regexp('^(0|\+)?\d{3}(-|\s)?\d{3}(-|\s)?\d{3}(-|\s)?\d{0,3}$',
-                   message="Invalid Mobile Number")]
-    )
-
     submit = SubmitField(
-        label='Add Customer',
+        label='Add Order',
 
         render_kw={
             "style": "margin-right: 50px",
-            "class": "btn btn-primary",
-            "id": "addCustomer"
+            "class": "btn btn-link btn-simple",
+            "id": "addOrder"
         }
     )
 

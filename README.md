@@ -37,7 +37,7 @@ A PostgreSQL database server is required either on the same server or on a remot
 To run the application,  a makefile in the root directory of the application needs to be executed using as illustrated below.
 ```sh
 root@pc:/home/savannah_online_services# ls
-app/ env/ requirements.txt run_flask_shell.sh* reset_db.py* run.py server_config.sh* make*
+app/ env/ requirements.txt run_flask_shell.sh reset_db.py run.py server_config.sh make makefile run_flask_shell.sh __pycache__
 root@pc:/home/savannah_online_services# make
 starting build...
 setting up virtual environment...

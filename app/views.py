@@ -1,7 +1,6 @@
 from app import app, db, organization, csrf
 from flask import render_template, request
 from app.response import flash_response
-from app.forms import SessionRegistrationForm
 import json
 import random
 

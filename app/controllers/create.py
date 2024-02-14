@@ -155,6 +155,7 @@ def create_customer(**kwargs):
             'customer_code': 'string, not null, length=100, unique',
             'first_name': 'string, not null, length=30',
             'last_name': 'string, not null, length=30',
+            'phone_no': 'string, not null, length=30, unique',
         }
         app.logger.error(f"Unexpected {err=}\n"
             "To avoid incorrect format, use the following:\n"

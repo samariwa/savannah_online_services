@@ -1,6 +1,6 @@
 from app import app
 from flask import render_template
-from app.forms import AddAdminForm, AdminActionForm
+from app.forms import AdminActionForm
 from app.controllers.read import fetch_all_users
 from app.auth_views import login_required_redirect
 from flask_login import current_user
@@ -24,7 +24,5 @@ def superuser_dashboard():
     login_message="Please log in to access this page"
 )
 def users():
-    add_admin_form=AddAdminForm()
     return render_template('superuser/users.html',
-                           add_admin_form=add_admin_form,
                            admin_action_form=AdminActionForm())
