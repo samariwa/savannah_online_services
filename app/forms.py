@@ -274,6 +274,19 @@ class ResetPasswordForm(FlaskForm):
 
 
 class AddOrderForm(FlaskForm):
+    customer = SelectField(
+        choices=[("", "Customer...")],
+        render_kw={
+            "class": "form-control col-md-10 ml-3",
+            "id": "customer",
+            "onfocus": "this.size=5;",
+            "onblur": "this.size=1;",
+            "onchange": "this.size=1; this.blur();",
+            "style": "padding-left:15px;margin-left: 60px"
+            },
+        validators=[DataRequired()]
+    )
+
     order_cost = DecimalField(
         render_kw={
             "placeholder": "Order Cost...",

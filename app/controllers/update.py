@@ -118,16 +118,17 @@ def update_order(**kwargs):
     """
     try:
         fields = [
-            'customer_id',
             'amount',
             'time',
         ]
+        print("xxxxxxxxx")
+        print(kwargs['id'])
         order_to_update = db.session.execute(
             db.select(Order).filter_by(id=kwargs['id'])
         ).one()[0]
         for field in fields:
             if kwargs.get(field):
-                if field == 'order_cost':
+                if field == 'amount':
                     order = f"order_to_update.{field} = str(kwargs.get('{field}'))"
                 else:
                     order = f"order_to_update.{field} = kwargs.get('{field}')"

@@ -37,6 +37,9 @@
                         <div class="modal-body">
                             {{ add_order_form.hidden_tag() }}
                             <div class="row">
+                                {{ add_order_form.customer }}
+                            </div><br>
+                            <div class="row">
                                 {{ add_order_form.order_cost }}
                             </div><br>
                             <div class="row">
@@ -64,7 +67,7 @@
                     <p class="card-category">Pending Orders</p>
                 </div>
                 <div class="card-body table-full-width table-responsive">
-                    <table class="table table-hover">
+                    <table id="ordersEditable" class="table table-hover">
                         <thead>
                             <th>#</th>
                             <th>Customer</th>
@@ -76,16 +79,16 @@
                         <tbody>
                             {% for order in orders %}
                             <tr>
-                                <td>{{ order.id }}</td> 
-                                <td>{{ order.first_name+' '+order.last_name }}</td>
-                                <td>{{ order.amount }}</td>
-                                <td>{{ order.time }}</td>     
-                                <td>
+                                <td class="uneditable id{{ loop.index }}" id="{{ order.id }}">{{ order.id }}</td> 
+                                <td class="uneditable">{{ order.first_name+' '+order.last_name }}</td>
+                                <td class="editable amount{{ loop.index }}" id="{{ order.id }}">{{ order.amount }}</td>
+                                <td class="editable time{{ loop.index }}" id="{{ order.id }}">{{ order.time }}</td>     
+                                <td class="uneditable">
                                     <a class="btn btn-warning btn-fill active btn-round" data-toggle="modal" data-target="#adminActionModal{{ order.id }}">
                                         Action
                                     </a>
                                 </td>
-                                <td>
+                                <td class="uneditable">
                                     <a class="btn btn-danger btn-fill btn-round active deleteOrder" id="{{ order.id }}" data_id="{{ order.id }}">
                                         <i class="fa fa-user-times" aria-hidden="true"></i>&ensp;Delete
                                     </a>

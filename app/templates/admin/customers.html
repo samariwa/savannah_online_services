@@ -67,7 +67,7 @@
                     <p class="card-category">Registered Customers</p>
                 </div>
                 <div class="card-body table-full-width table-responsive">
-                    <table class="table table-hover">
+                    <table id="customersEditable" class="table table-hover">
                         <thead>
                             <th>#</th>
                             <th>Customer Code</th>
@@ -78,10 +78,10 @@
                         <tbody>
                             {% for customer in customers %}
                             <tr>
-                                <td>{{ customer.id }}</td>
-                                <td>{{ customer.customer_code }}</td>
-                                <td>{{ customer.first_name+' '+customer.last_name }}</td>
-                                <td>{{ customer.phone_no }}</td>     
+                                <td class="uneditable id{{ customer.id }}" id="{{ customer.id }}">{{ customer.id }}</td>
+                                <td class="uneditable">{{ customer.customer_code }}</td>
+                                <td class="uneditable">{{ customer.first_name+' '+customer.last_name }}</td>
+                                <td class="editable phone_number{{ customer.id }}" id="{{ customer.id }}">{{ customer.phone_no }}</td>     
                                 <td>
                                     <a class="btn btn-danger btn-fill btn-round active deleteCustomer" id="{{ customer.id }}" data_id="{{ customer.id }}">
                                         <i class="fa fa-user-times" aria-hidden="true"></i>&ensp;Delete

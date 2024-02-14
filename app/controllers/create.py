@@ -181,7 +181,7 @@ def create_order(**kwargs):
         # include a  check for quantity requested vs available
         db.session.add(order_to_create)
         db.session.commit()
-        return order_to_create.id
+        return respond('201')
     except Exception as err:
         db.session.rollback()
         expected_args = {

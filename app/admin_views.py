@@ -37,10 +37,14 @@ def customers():
     login_message="Please log in to access this page"
 )
 def orders():
+    add_order_form = AddOrderForm()
+    customers = fetch_active_customers()
+    customer_options = [(customer.id, customer.first_name+' '+customer.last_name) for customer in customers]
+    add_order_form.customer.choices.extend(customer_options)
     return render_template('admin/orders.html',
                            orders=fetch_active_orders(),
                            orders_count=len(fetch_active_orders()),
-                           add_order_form=AddOrderForm())
+                           add_order_form=add_order_form)
 
 @app.route('/admin/profile')
 @app.route('/admin/profile/')
