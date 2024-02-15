@@ -23,8 +23,6 @@ __pycache__/
 venv3-11/
 */config.py 
 config.py
-make_request.py
-mpesa_tests/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
