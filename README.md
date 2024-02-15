@@ -52,7 +52,6 @@ This file carries the apps security credentials that are required for initializa
 ```sh
 config_params = ''
 #Localhost PostgreSQL credentials
-
 service = "postgresql+psycopg2"
 host = "localhost"
 database = "******"
@@ -73,14 +72,6 @@ config_params += str(mail_pwd)+' '
 # localhost app secret key
 local_app_secret =  '******'
 config_params += str(local_app_secret) + ' '
-
-"""
-# heroku google recaptcha
-H_RECAPTCHA_PUBLIC_KEY = '******'
-config_params += str(H_RECAPTCHA_PUBLIC_KEY) + ' '
-H_RECAPTCHA_PRIVATE_KEY = '******'
-config_params += str(H_RECAPTCHA_PRIVATE_KEY) + ' '
-"""
 
 # recaptcha For localhost
 L_RECAPTCHA_PUBLIC_KEY = '******'
