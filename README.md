@@ -41,9 +41,77 @@ This file contains some general functions that can be used through out the appli
 This page utilizes Flask WTForms in creating standard forms that are used throughout the application.
 ##### views.py
 This file contains the routes pointing to the public views (public webpages).
+##### \_\_init\_\_.py
+This file is used to initialize and start up the various services being used by the Flask application. Some of the services need API keys and/or credentials for authentication. These credentials are stored in as ENV variables that were created in the secret config.py file that we will discuss shortly. Example of services initialized here include, SQLAlchemy, Flask, Africastalking among others.
+##### requirements.txt
+Like all standard Python applications, this file is crucial in listing all app dependencies and their specific versions for a successful build of the app. The dependencies can be installed using the command in `pip install -r requirements.txt` any environment.
+##### run.py
+This is the file that contains the main function that runs the up once all the dependencies are set up.
+##### config.py (gitignored file)
+This file carries the apps security credentials that are required for initialization of the various services. Examples, include, PostgreSQL database(both localhost and live), Mailtrap (email sandbox for testing), Africastalking (for SMS API), among others. This file is read during the makefile executing process and the variables output in the shell from which the ENV variables are set. The structure of the file is as follows:
+```sh
+config_params = ''
+#Localhost PostgreSQL credentials
+
+service = "postgresql+psycopg2"
+host = "localhost"
+database = "******"
+username = “******”
+password = “******”
+port = "5432"
+
+# Connection
+conn_string = f"{service}://{username}:{password}@{host}:{port}/{database}"
+config_params += str(conn_string) + ' '
+
+# MAILTRAP
+mail_usr = '******'
+config_params += str(mail_usr)+' '
+mail_pwd = '******'
+config_params += str(mail_pwd)+' '
+
+# localhost app secret key
+local_app_secret =  '******'
+config_params += str(local_app_secret) + ' '
+
+"""
+# heroku google recaptcha
+H_RECAPTCHA_PUBLIC_KEY = '******'
+config_params += str(H_RECAPTCHA_PUBLIC_KEY) + ' '
+H_RECAPTCHA_PRIVATE_KEY = '******'
+config_params += str(H_RECAPTCHA_PRIVATE_KEY) + ' '
+"""
+
+# recaptcha For localhost
+L_RECAPTCHA_PUBLIC_KEY = '******'
+config_params += str(L_RECAPTCHA_PUBLIC_KEY) + ' '
+L_RECAPTCHA_PRIVATE_KEY = '******'
+config_params += str(L_RECAPTCHA_PRIVATE_KEY) + ' '
+
+# Organization settings
+organization = {
+    "mobile": "0711111111",
+    "email": "info@savannah.com",
+    "location": "This location"
+}
+
+config_params += str(organization.get('mobile')) + ' '
+config_params += str(organization.get('email')) + ' '
+config_params += str(organization.get('location'))
+
+print(config_params)
+```
+Copy the snippet above and paste it in your config.py file and change the credentials denoted by the asterisk (*) symbol to your credentials. You will need to have a mailtrap, africastalking and google recaptcha account to obtain your personal credentials.
 ## Application setup
 As mentioned earlier, this application was built to run on Linux environments. The Linux OS (Operating System) requires the following dependencies to be installed
-##### _***<List all dependencies from requirements.txt>***_
+|  |  |  |  |
+| ------ | ------ | ------ | ------ |
+| Flask==2.2.5 | Flask-Bcrypt==1.0.1 | SQLAlchemy==2.0.15 | anyio==3.7.0
+| Flask-Login==0.6.2 | Flask-Mail==0.9.1 | Werkzeug==2.2.3 | appnope==0.1.3
+| Flask-Mobility==1.1.0 | Flask-SQLAlchemy==3.0.3 | WTForms==3.0.1 | bleach==6.0.0
+| Flask-WTF==1.1.1 | ipykernel==6.23.1 | Flask-pymysql==0.2.3 | blinker==1.6.2
+| ipython==8.13.2 | Jinja2==3.1.2 | click==8.1.3 | cryptography==40.0.2
+| MarkupSafe==2.1.2 | psycopg2-binary==2.9.6 | alembic==1.11.1 | email-validator==2.0.0
 A PostgreSQL database server is required either on the same server or on a remote server. The DB (database) server credentials should be entered on the `.config` file which is found on the root directory of the app. For security purposes, I have not uploaded the `.config` file on this public GitHub repository since it contains highly confidential credentials. However, I shall give the structure of the `.config` file in a later part of this documentation.
 ### Running the application
 To run the application,  a makefile in the root directory of the application needs to be executed using as illustrated below.
@@ -67,7 +135,5 @@ database initialization complete...
 build successful...
 ```
 The `make` command as illustrated in the above runs a series of shell scripts which are purposed to fully build the application environment by setting up the virtual environment, installing application package dependencies, initializing ENV(environment) variables, connecting to the database, populating the database with some initial dummy data (when in the test environment), activating debugger (in the test environment) and running the application.
-
 ### Application Testing
-
 
