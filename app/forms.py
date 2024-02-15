@@ -7,7 +7,6 @@ from wtforms.validators import Length, EqualTo, Email, DataRequired,\
      ValidationError, Regexp
 from flask_wtf.file import FileRequired
 from app.models import User
-from app.recaptcha3 import Recaptcha3Field
 from app.general_functions import datetime
 from app.response import respond
 

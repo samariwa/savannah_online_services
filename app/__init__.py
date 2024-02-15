@@ -8,7 +8,6 @@ from datetime import timedelta
 from flask_wtf.csrf import CSRFProtect
 from flask_mobility import Mobility
 import os
-from apscheduler.schedulers.background import BackgroundScheduler
 
 secret = ''
 recaptcha_pub_key = ''
@@ -88,9 +87,6 @@ bcrypt = Bcrypt(app)
 
 # csrf protection initializaton
 csrf = CSRFProtect(app)
-
-#APScheduler initialization
-scheduler = BackgroundScheduler()
 
 # Login management setup
 login_manager = LoginManager(app)

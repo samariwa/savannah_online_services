@@ -20,7 +20,7 @@ This system is a web application that is used by Savannah Limited's staff to pla
 ## Application Structure
 
 The web application uses the general MVC (Model, View, Controller) convention provided by modern frameworks such as Flask and Django. The app structure is illustrated in the diagram below.
-##### _***<Application structure diagram>***_
+![Alt](https://github.com/samariwa/savannah_online_services/blob/main/app_structure.png?raw=true)
 ### Models
 
 ### Views

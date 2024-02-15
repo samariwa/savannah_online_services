@@ -4,7 +4,6 @@ from app.forms import AdminActionForm
 from app.controllers.read import fetch_all_users
 from app.auth_views import login_required_redirect
 from flask_login import current_user
-from app.aws.s3.fetch_backups import fetch_backups_list
 
 @app.route('/superuser/dashboard')
 @app.route('/superuser/dashboard/')
