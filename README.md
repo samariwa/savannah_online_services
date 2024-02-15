@@ -106,12 +106,12 @@ Copy the snippet above and paste it in your config.py file and change the creden
 As mentioned earlier, this application was built to run on Linux environments. The Linux OS (Operating System) requires the following dependencies to be installed
 |  |  |  |  |
 | ------ | ------ | ------ | ------ |
-| Flask==2.2.5 | Flask-Bcrypt==1.0.1 | SQLAlchemy==2.0.15 | anyio==3.7.0
-| Flask-Login==0.6.2 | Flask-Mail==0.9.1 | Werkzeug==2.2.3 | appnope==0.1.3
-| Flask-Mobility==1.1.0 | Flask-SQLAlchemy==3.0.3 | WTForms==3.0.1 | bleach==6.0.0
-| Flask-WTF==1.1.1 | ipykernel==6.23.1 | Flask-pymysql==0.2.3 | blinker==1.6.2
-| ipython==8.13.2 | Jinja2==3.1.2 | click==8.1.3 | cryptography==40.0.2
-| MarkupSafe==2.1.2 | psycopg2-binary==2.9.6 | alembic==1.11.1 | email-validator==2.0.0
+| Flask==2.2.5 | Flask-Bcrypt==1.0.1 | SQLAlchemy==2.0.15 | anyio==3.7.0 |
+| Flask-Login==0.6.2 | Flask-Mail==0.9.1 | Werkzeug==2.2.3 | appnope==0.1.3 |
+| Flask-Mobility==1.1.0 | Flask-SQLAlchemy==3.0.3 | WTForms==3.0.1 | bleach==6.0.0 |
+| Flask-WTF==1.1.1 | ipykernel==6.23.1 | Flask-pymysql==0.2.3 | blinker==1.6.2 |
+| ipython==8.13.2 | Jinja2==3.1.2 | click==8.1.3 | cryptography==40.0.2 |
+| MarkupSafe==2.1.2 | psycopg2-binary==2.9.6 | alembic==1.11.1 | email-validator==2.0.0 |
 A PostgreSQL database server is required either on the same server or on a remote server. The DB (database) server credentials should be entered on the `.config` file which is found on the root directory of the app. For security purposes, I have not uploaded the `.config` file on this public GitHub repository since it contains highly confidential credentials. However, I shall give the structure of the `.config` file in a later part of this documentation.
 ### Running the application
 To run the application,  a makefile in the root directory of the application needs to be executed using as illustrated below.
