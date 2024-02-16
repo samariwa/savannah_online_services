@@ -1,11 +1,10 @@
-from app import app, db, csrf, organization, mail, Message
+from app import app, csrf
 import json
-from flask import make_response, json, request, jsonify, abort, render_template, Response
+from flask import make_response, json, request
 from app.controllers.create import create_customer, create_order
 from app.controllers.update import update_customer, update_order
 from app.controllers.delete import delete_customer, delete_order
-from app.general_functions import empty_input_fields, get_uuid
-from datetime import datetime
+from app.general_functions import empty_input_fields, get_uuid, generate_random_string
 from app.response import respond
 
 ## Customers ##########################################################################
@@ -112,6 +111,7 @@ def orders_create():
         # call the create order controller
         query_result = create_order(
             customer_id=request.form['customer'],
+            order_ref=generate_random_string(8),
             amount=request.form['order_cost'],
             time=request.form['delivery_time'],
         )

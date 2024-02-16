@@ -150,6 +150,10 @@ class Logged_Devices(db.Model):
 #                              CUSTOMER                                #
 ########################################################################
 class Customer(db.Model):
+    """Customer:
+    A class for the customer objects that are to be represented in the
+    database.
+    """
     __tablename__ = 'customers'
     id = db.Column(db.Integer(), primary_key=True)
     customer_code = db.Column(db.String(length=100),  nullable=False, unique=True)
@@ -188,20 +192,13 @@ class Customer(db.Model):
  
 class Order(db.Model):
     """Order:
-    A class for the customer orders objects that are to be represented in the
+    A class for the order objects that are to be represented in the
     database.
-
-    order_status:
-        pending: This has been received but nothing actionable has been done
-            to it.
-        processing: It has been received, maybe is being packaged or delivered
-        fulfilled: This is an order which was fulfilled without any defects
-        returned: An order in which some of the items were returned
-        cancelled: an order in which all the items were returned
     """
 
     __tablename__ = "orders"
     id = db.Column(db.Integer(), primary_key=True)
+    order_ref = db.Column(db.String(length=100),  nullable=False, unique=True)
     customer_id = db.Column(
         db.Integer(),
         db.ForeignKey("customers.id", ondelete="CASCADE"),
@@ -213,7 +210,6 @@ class Order(db.Model):
         nullable=False,
         default=str(datetime.now().strftime("%H:%M:%S")),
     )
-
     db_status = db.Column(
         db.Enum(
             "active",
@@ -234,3 +230,55 @@ class Order(db.Model):
 
     def __repr__(self):
         return f"#{self.id} Amt:{self.amount}"
+    
+########################################################################
+#                              SMS LOGS                                #
+########################################################################
+ 
+class SMS_LOG(db.Model):
+    """SMS_LOG:
+    A class for the sms log objects that are to be represented in the
+    database.
+    """
+
+    __tablename__ = "sms_logs"
+    id = db.Column(db.Integer(), primary_key=True)
+    order_ref_id = db.Column(
+        db.String(length=100),
+        db.ForeignKey("orders.order_ref", ondelete="CASCADE"),
+        nullable=False,
+        unique=True,
+    )
+    sms_info = db.Column(
+        db.Enum(
+            "order_creation",
+            "order_update",
+            name="sms_information",
+        ),
+        nullable=False,
+        default="order_creation",
+    )
+    log_message_id = db.Column(db.String(length=100),  nullable=False, unique=True)
+    log_message = db.Column(db.String(length=100),  nullable=False)
+    customer_code = db.Column(db.String(length=100), nullable=False)
+    status = db.Column(db.String(length=30), nullable=False)
+    db_status = db.Column(
+        db.Enum(
+            "active",
+            "deleted",
+            name="delete_status",
+        ),
+        nullable=False,
+        default="active",
+    )
+    created_at = db.Column(
+        db.DateTime(timezone=True),
+        server_default=func.now(),
+    )
+    updated_at = db.Column(
+        db.DateTime(timezone=True),
+        onupdate=func.now(),
+    )
+
+    def __repr__(self):
+        return f"#{self.id} Amt:{self.status}"

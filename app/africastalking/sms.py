@@ -17,7 +17,7 @@ class send_sms():
         sender = "SAVANNAH"
         try:
             response = sms.send(message, recipients, sender)
-            app.logger.info (response)
+            return response
         except Exception as err:
             app.logger.error(f"Unexpected {err=}")
             return type(err).__name__

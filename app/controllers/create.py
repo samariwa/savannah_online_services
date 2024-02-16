@@ -26,12 +26,11 @@ However, if the create function called returns an object, then respond with 201
 import os
 from app.models import User, Account_Verification, Logged_Devices
 from app.models import Customer
-from app.models import Order
+from app.models import Order, SMS_LOG
 from app.controllers.read import fetch_customer
 from app.response import respond
-from app import app, db, mail, organization, Message
-from flask import render_template, send_file
-from app.general_functions import id_generator, datetime, get_uuid, timedelta
+from app import app, db
+from app.general_functions import datetime
 from app.africastalking.sms import send_sms
 ########################################################################
 #                    USER-RELATED CREATE FUNCTIONS                     #
@@ -190,9 +189,16 @@ def create_order(**kwargs):
         formatted_time = delivery_time_object.strftime("%H:%M %p")
         sms_message = "Dear " + customer.first_name + ","\
                       " Your order has been received and is "\
-                      "being processed. Estimated delivery time is " + formatted_time + "."\
+                      "being processed. The order reference # is "+ kwargs['order_ref']+"."\
+                      "Estimated delivery time is " + formatted_time + "."\
                       "Thank you for choosing us."
-        sms.send(MSISDN=customer.phone_no, message=sms_message)
+        sms_response = sms.send(MSISDN=customer.phone_no, message=sms_message)
+        create_sms_log(**{'order_ref_id':kwargs['order_ref'],
+                          'log_message_id':sms_response['SMSMessageData']['Recipients'][0]['messageId'],
+                          'log_message':sms_response['SMSMessageData']['Message'],
+                          'customer_code':customer.customer_code,
+                          'status':sms_response['SMSMessageData']['Recipients'][0]['status']
+                          })
         return respond('201')
     except Exception as err:
         db.session.rollback()
@@ -204,6 +210,39 @@ def create_order(**kwargs):
         app.logger.error(f"Unexpected {err=}\n"
             "To avoid incorrect format, use the following:\n"
             f"create_order({expected_args})\n"
+            "If you called this from the shell, "
+            "do a db.session.rollback() before continuing")
+        return type(err).__name__
+    
+########################################################################
+#                          SMS CREATE FUNCTIONS                        #
+########################################################################
+def create_sms_log(**kwargs):
+    """
+    create_sms_log(**kwargs)
+
+    A method to create a sms log. If it's successful, 
+    it returns the 201 successfully created status code
+    otherwise it prints exception with a message
+    The error msg helps the user create a better query the next time
+    """
+    try:
+        log_to_create = SMS_LOG(**kwargs)
+        db.session.add(log_to_create)
+        db.session.commit()
+        return respond('201')
+    except Exception as err:
+        db.session.rollback()
+        expected_args = {
+            'order_ref_id': 'string, not null, length=100, unique',
+            'log_message_id': 'string, not null, length=100',
+            'log_message': 'string, not null, length=100',
+            'customer_msisdn': 'string, not null, length=30',
+            'status': 'string, not null, length=30',
+        }
+        app.logger.error(f"Unexpected {err=}\n"
+            "To avoid incorrect format, use the following:\n"
+            f"create_customer({expected_args})\n"
             "If you called this from the shell, "
             "do a db.session.rollback() before continuing")
         return type(err).__name__

@@ -15,6 +15,7 @@ from app.models import Customer
 from app.models import Order
 from app.response import respond
 from app.controllers.read import fetch_customer, fetch_order
+from app.controllers.create import create_sms_log
 from app.africastalking.sms import send_sms
 from app.general_functions import create_timestamp, datetime
 from app import db
@@ -137,10 +138,18 @@ def update_order(**kwargs):
                     #Time format representation change to 12hr format
                     formatted_time = delivery_time_object.strftime("%H:%M %p")
                     sms_message = "Dear " + customer.first_name + ","\
-                      "Your order delivery time has been updated to " + formatted_time + "."\
+                      "Your order of reference # "+ kwargs['order_ref'] +"'s"\
+                      "delivery time has been updated to " + formatted_time + "."\
                       "We thank you for your continued patience."\
                       "Thank you for choosing us."
-                    sms.send(MSISDN=customer.phone_no, message=sms_message)
+                    sms_response = sms.send(MSISDN=customer.phone_no, message=sms_message)
+                    create_sms_log(**{'order_ref_id':kwargs['order_ref'],
+                          'sms_info':'order_update',
+                          'log_message_id':sms_response['SMSMessageData']['Recipients'][0]['messageId'],
+                          'log_message':sms_response['SMSMessageData']['Message'],
+                          'customer_code':customer.customer_code,
+                          'status':sms_response['SMSMessageData']['Recipients'][0]['status']
+                          })
                     order = f"order_to_update.{field} = str(kwargs.get('{field}'))"
                 else:
                     order = f"order_to_update.{field} = kwargs.get('{field}')"

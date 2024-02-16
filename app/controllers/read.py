@@ -138,7 +138,7 @@ def fetch_active_orders():
     Fetch all active orders that have been made
     """
     all_Orders = db.session.execute(
-        db.select(Order.id, Customer.first_name, Customer.last_name, Order.amount, Order.time)
+        db.select(Order.id, Order.order_ref, Customer.first_name, Customer.last_name, Order.amount, Order.time)
         .filter(
             Order.db_status != 'deleted'
         )
