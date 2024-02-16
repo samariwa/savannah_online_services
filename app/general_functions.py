@@ -39,10 +39,20 @@ def datetime_to_time(date_time):
 
 # Function to convert datetime to time
 def stringify_datetime_object(date_time):
-    return date_time.strftime('%Y-%m-%d %H:%M:%S')
+    try:
+        return date_time.strftime('%Y-%m-%d %H:%M:%S')
+    except Exception as err:
+        app.logger.error(f"Unexpected {type(err).__name__} - {err}")
+        raise
 
 def timestamp_to_standard_format(timestamp_str):
-    return timestamp_str.strftime('%d/%m %H:%M')
+    try:
+        datetime_object = datetime.strptime( timestamp_str, '%Y-%m-%d %H:%M:%S')
+        #Time format representation change back to string
+        return datetime_object.strftime('%d/%m %H:%M')
+    except Exception as err:
+        app.logger.error(f"Unexpected {type(err).__name__} - {err}")
+        raise
 
 def is_datetime_object(value):
     return isinstance(value, datetime)
@@ -71,4 +81,8 @@ def generate_random_string(length):
     """
     This function generates a random string of specified length
     """
-    return ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for _ in range(length))
+    try:
+        return ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for _ in range(int(length)))
+    except Exception as err:
+        app.logger.error(f"Unexpected {err}")
+        return type(err).__name__
