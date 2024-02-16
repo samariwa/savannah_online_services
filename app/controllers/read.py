@@ -109,6 +109,26 @@ def fetch_active_customers():
 
     return customers
 
+def fetch_customer(customer_id):
+    """"
+    fetch_customer(customer_id)
+
+    A method to get details of one customer given a specific customer id
+    If found, the funciton returns the customer as an object, otherwise None
+
+    * note the .one() and [0]
+    """
+    try:
+        customer_to_get = db.session.execute(
+            db.select(Customer).filter_by(id=customer_id)).one()
+        if customer_to_get is None:
+            return None
+        else:
+            return customer_to_get[0]
+    except Exception as err:
+        app.logger.error(f"Unexpected {err=}")
+        return None
+
 ########################################################################
 #                    ORDER-RELATED READ FUNCTIONS                      #
 ########################################################################
@@ -126,6 +146,26 @@ def fetch_active_orders():
         .order_by(Order.id.asc())
     ).all()
     return all_Orders
+
+def fetch_order(order_id):
+    """"
+    fetch_order(order_id)
+
+    A method to get details of an order given a specific order id
+    If found, the funciton returns the order as an object, otherwise None
+
+    * note the .one() and [0]
+    """
+    try:
+        order_to_get = db.session.execute(
+            db.select(Order).filter_by(id=order_id)).one()
+        if order_to_get is None:
+            return None
+        else:
+            return order_to_get[0]
+    except Exception as err:
+        app.logger.error(f"Unexpected {err=}")
+        return None
     
 
     

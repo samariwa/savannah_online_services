@@ -3,7 +3,6 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_mail import Mail, Message
-# from sqlalchemy import func
 from datetime import timedelta
 from flask_wtf.csrf import CSRFProtect
 from flask_mobility import Mobility
@@ -21,6 +20,9 @@ recaptcha_priv_key = os.environ.get('L_RECAPTCHA_PRIVATE_KEY')
 conn_string = os.environ.get('CONN_STR')
 mail_usr = os.environ.get('MAIL_USERNAME')
 mail_pwd = os.environ.get('MAIL_PASSWORD')
+africastalking_username = os.environ.get('AFRICASTALKING_USERNAME')
+africastalking_api_key= os.environ.get('AFRICASTALKING_API_KEY')
+
 organization = {
     "mobile": os.environ.get('MOBILE'),
     "email": os.environ.get('EMAIL'),
@@ -73,9 +75,12 @@ app.config['DELIVERY_TIME_LIMIT'] = 25
 # define remember me cookie lifetime
 global REMEMBER_ME_COOKIE_TIMEOUT
 REMEMBER_ME_COOKIE_TIMEOUT = 60 * 60 * 24 * 7  # 1 week
-
+# africastalking API credentials
+app.config['AFRICASTALKING_USERNAME'] = africastalking_username
+app.config['AFRICASTALKING_API_KEY'] = africastalking_api_key
 # disable json key sorting by the jsonify function
 app.config['JSON_SORT_KEYS'] = False
+
 # setup mail
 mail = Mail(app)
 

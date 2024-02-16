@@ -27,10 +27,12 @@ import os
 from app.models import User, Account_Verification, Logged_Devices
 from app.models import Customer
 from app.models import Order
+from app.controllers.read import fetch_customer
 from app.response import respond
 from app import app, db, mail, organization, Message
 from flask import render_template, send_file
 from app.general_functions import id_generator, datetime, get_uuid, timedelta
+from app.africastalking.sms import send_sms
 ########################################################################
 #                    USER-RELATED CREATE FUNCTIONS                     #
 ########################################################################
@@ -181,6 +183,16 @@ def create_order(**kwargs):
         # include a  check for quantity requested vs available
         db.session.add(order_to_create)
         db.session.commit()
+        customer = fetch_customer(kwargs['customer_id'])
+        sms=send_sms()
+        delivery_time_object = datetime.strptime( kwargs['time'], '%H:%M')
+        #Time format representation change to 12hr format
+        formatted_time = delivery_time_object.strftime("%H:%M %p")
+        sms_message = "Dear " + customer.first_name + ","\
+                      " Your order has been received and is "\
+                      "being processed. Estimated delivery time is " + formatted_time + "."\
+                      "Thank you for choosing us."
+        sms.send(MSISDN=customer.phone_no, message=sms_message)
         return respond('201')
     except Exception as err:
         db.session.rollback()

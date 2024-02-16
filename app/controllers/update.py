@@ -14,7 +14,8 @@ from app.models import User, Account_Verification, Logged_Devices
 from app.models import Customer
 from app.models import Order
 from app.response import respond
-
+from app.controllers.read import fetch_customer, fetch_order
+from app.africastalking.sms import send_sms
 from app.general_functions import create_timestamp, datetime
 from app import db
 from sqlalchemy import or_
@@ -121,14 +122,25 @@ def update_order(**kwargs):
             'amount',
             'time',
         ]
-        print("xxxxxxxxx")
-        print(kwargs['id'])
         order_to_update = db.session.execute(
             db.select(Order).filter_by(id=kwargs['id'])
         ).one()[0]
         for field in fields:
             if kwargs.get(field):
                 if field == 'amount':
+                    order = f"order_to_update.{field} = str(kwargs.get('{field}'))"
+                elif field == 'time':
+                    order = fetch_order(kwargs['id'])
+                    customer = fetch_customer(order.customer_id)
+                    sms=send_sms()
+                    delivery_time_object = datetime.strptime( kwargs['time'], '%H:%M:%S')
+                    #Time format representation change to 12hr format
+                    formatted_time = delivery_time_object.strftime("%H:%M %p")
+                    sms_message = "Dear " + customer.first_name + ","\
+                      "Your order delivery time has been updated to " + formatted_time + "."\
+                      "We thank you for your continued patience."\
+                      "Thank you for choosing us."
+                    sms.send(MSISDN=customer.phone_no, message=sms_message)
                     order = f"order_to_update.{field} = str(kwargs.get('{field}'))"
                 else:
                     order = f"order_to_update.{field} = kwargs.get('{field}')"
