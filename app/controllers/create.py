@@ -43,7 +43,7 @@ def create_user(**kwargs):
     A function to create a user of our system
     E.g: create staff user
 
-    create_user(staff_id=staff_id, email_address='test@sympha.com', password='abc123')
+    create_user(staff_id=staff_id, email_address='test@savannah.com', password='abc123')
     If it's successful, 
     it returns the 201 successfully created status code
     Once the user is created, a unique password is set and an email
@@ -204,6 +204,7 @@ def create_order(**kwargs):
         db.session.rollback()
         expected_args = {
             'customer_id': 'integer, not null',
+            'order_ref': 'string, not null, length=100, unique',
             'amount': 'float, not null',
             'time': 'time, not null',
         }

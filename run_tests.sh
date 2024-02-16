@@ -91,5 +91,11 @@ else
     LOCATION=${CONFIG_ARGS[10]}
     echo "LOCATION updated successfully"
 fi 
-
+echo "starting server..."
+echo "initializing database..."
+python reset_db.py
+echo "database initialization complete..."
+echo "beginning unit tests..."
 python -m unittest app/tests/test_*
+echo "----------------------------------------"
+echo "unit tests completed"
