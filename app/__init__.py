@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_mail import Mail, Message
+from flask_oidc import OpenIDConnect
 from datetime import timedelta
 from flask_wtf.csrf import CSRFProtect
 from flask_mobility import Mobility
@@ -95,6 +96,9 @@ csrf = CSRFProtect(app)
 
 # Login management setup
 login_manager = LoginManager(app)
+
+# OpenID Connect setup
+oidc = OpenIDConnect(app)
 
 # flask mobility (checks if device is a mobile phone)
 mobility = Mobility(app)

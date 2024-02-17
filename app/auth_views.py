@@ -2,7 +2,7 @@ from app import app, organization, db, mail, csrf, Message, timedelta,\
      REMEMBER_ME_COOKIE_TIMEOUT
 from app.response import respond, flash_response
 from flask import render_template, redirect, url_for, flash, request, Markup,\
-    abort
+    abort, session
 from functools import wraps
 from flask_wtf.csrf import generate_csrf
 from app.models import User, Account_Verification, Logged_Devices
@@ -43,13 +43,51 @@ def connect(host='http://google.com'):
 
 ##########################################################################################################
 ## Admin Auth ###########################################################################################
+@app.route('/auth/admin/registration', methods=['GET', 'POST'])
+@app.route('/auth/admin/registration/', methods=['GET', 'POST'])
+@app.route('/auth/admin/register', methods=['GET', 'POST'])
+@app.route('/auth/admin/register/', methods=['GET', 'POST'])
+def registration():
+    """
+    This route is for the admin registration page. 
+    Thats is when someone is creating a local account
+    """
+    if not connect():
+        # check if there is no internet connection and let user know
+        flash_response('SL009')
+    form = RegisterForm()
+    if form.validate_on_submit():
+        user_to_create = create_user(
+            first_name=form.first_name.data,
+            last_name=form.last_name.data,
+            email_address=form.email_address.data,
+            login_status=0,
+            password=form.password1.data
+        )
+        if user_to_create == respond('201'):
+            # send a verification email to activate the account
+            return redirect(url_for('send_admin_verification_email',
+                                    page='login',
+                                    user_firstname=form.first_name.data,
+                                    email=form.email_address.data))
+
+    if form.errors != {}:
+        # in this case, the form was submitted and there were errors
+        for err_msg in form.errors.values():
+            # Show error messages that have not been raised. E.g. recaptcha challenge fail
+            flash(
+                f"Dear user: {', '.join(err_msg)}",
+                category="warning"
+            )
+    return render_template('auth/admin/registration.html', form=form)
+
 @app.route('/auth/admin/login', methods=['GET', 'POST'])
 @app.route('/auth/admin/login/', methods=['GET', 'POST'])
 @app.route('/auth/admin/signin', methods=['GET', 'POST'])
 @app.route('/auth/admin/signin/', methods=['GET', 'POST'])
 def admin_login():
     """
-    expect some changes then reflect controller changes
+    This route is for the admin login page. Thats is when someone uses a local account
     """
     if not connect():
         # check if there is no internet connection and let user know
@@ -126,13 +164,13 @@ def admin_login():
             """
             Give the user the ability to resend the verification email incase the cannot trace
             the verification email or the token expired. Using a flash message to do so.
-            
+            """
             flash(Markup("Dear user: Your account has not been verified. \
             Please check your mailbox for a verification email.\
             If you did not receive, you can \
-            <a href='/auth/admin/verification-mail/login/"+staff.first_name+"/"+form.email_address.data+"' \
+            <a href='/auth/admin/verification-mail/login/"+attempted_user.first_name+"/"+form.email_address.data+"' \
             style='color: inherit;'>\
-            <u>resend the email</u></a>"), category="warning")"""
+            <u>resend the email</u></a>"), category="warning")
         elif attempted_user and attempted_user.check_password_correction(attempted_password=form.password.data) and\
              attempted_user.user_status == 'suspended':
             flash_response('SK016')
@@ -171,6 +209,7 @@ def admin_logout_page():
         logout_user()
         logging.info('---------------------- Admin Logout ----------------------')
         logging.info(f"{current_user} logged out")
+        session.pop('_flashes', None)
     flash_response('SF002')
     return redirect(url_for('admin_login'))
 
@@ -186,7 +225,7 @@ def admin_forgot_password():
     if form.validate_on_submit():
         # check if email address exists in the database
         user_exists = read_user(email_address=form.email_address.data)
-        if user_exists and user_exists.staff_id != None:
+        if user_exists:
             # generate a token that will be used to verify if the user owns that email address
             verification_id = id_generator(10)
             # get the expiry datetime for the token
@@ -201,10 +240,18 @@ def admin_forgot_password():
             )
             # if the reset token is successfully created
             if reset_token == respond('201'):
-                #staff = read_staff(id=user_exists.staff_id)
                 # send email functionality
-                #msg = Message('CIFOR-ICRAF Events Password Reset Request', recipients=[
-                    ##mail.send(msg)
+                msg = Message('Savannah Online Services Password Reset Request', recipients=[
+                user_exists.email_address],
+                    html=render_template(
+                        'mail/admin-password-reset.html',
+                        sender = ('Admin Savannah','admin@savannah.com'),
+                        firstname=user_exists.first_name,
+                        verification_code=verification_id,
+                        organization=organization
+                    )
+                )
+                mail.send(msg)
                 flash_response('SF007')
         else:
             flash_response('SF012')
@@ -295,8 +342,8 @@ def activate_staff_account():
             id=attempted_token.user_id,
             user_status='active')
         if change_status == respond('200'):
-            flash_response('SF008')
-        return redirect('/auth/admin/reset-password?verification_code='+token)
+            flash_response('SF004')
+        return redirect(url_for('admin_login'))
     # If token is invalid or expired, redirect to the error page
     elif token_result == "invalid":
         """
@@ -320,7 +367,7 @@ def activate_staff_account():
         #staff = read_staff(id=user.staff_id)
         # The user and staff objects are used to retrieve their name and email used in the verification url
         flash(Markup("Dear user: You can \
-            <a href='/auth/admin/verification-mail/login/"+"/"+user.email_address+"' \
+            <a href='/auth/admin/verification-mail/login/"+user.email_address+"' \
             style='color: inherit;'>\
             <u>resend the email</u></a> for account verification"), category="warning")
         return render_template('auth/admin-auth-error.html', error="Token Expired", return_page="login")
@@ -353,7 +400,7 @@ def send_admin_verification_email(page, user_firstname, email):
     )
     # send email functionality if token is successfully stored
     if verification_token == respond('201'):
-        msg = Message('CIFOR-ICRAF Events Admin Account Verification', recipients=[
+        msg = Message('Savannah Online Services Admin Account Verification', recipients=[
             fetch_user.email_address],
             html=render_template('mail/admin-account-activation.html',
             firstname=user_firstname,

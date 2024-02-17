@@ -22,13 +22,6 @@ class RegisterForm(FlaskForm):
             raise ValidationError(
                 "Email Address already exists. Login or Recover Password")
 
-    def validate_phone_number(self, phone_no_to_check):
-        phone_no = User.query.filter_by(
-            phone_no=phone_no_to_check.data).first()
-        if phone_no:
-            raise ValidationError(
-                "Phone number exists, Login or Recover Account")
-
     first_name = StringField(
         label="First Name",
         render_kw={
@@ -53,18 +46,6 @@ class RegisterForm(FlaskForm):
         ]
     )
 
-    address = StringField(
-        label="Physical Address",
-        render_kw={
-            "placeholder": "&#xf041; Lang'ata, Nairobi, Kenya",
-            "class": "input100"
-        },
-        validators=[
-            Length(min=2, max=80, message=respond('SK013')),
-            DataRequired(message=respond('SJ010'))
-        ]
-    )
-
     email_address = StringField(
         label="Email Address",
         render_kw={
@@ -75,21 +56,6 @@ class RegisterForm(FlaskForm):
         validators=[
             Email(check_deliverability=True, message=respond('SK010')),
             DataRequired(message=respond('SJ011'))
-        ]
-    )
-
-    phone_no = StringField(
-        label="Mobile Number",
-        render_kw={
-            "placeholder": "&#xf095; format:0700123123",
-            "class": "input100",
-            "style": "font-family:Arial,FontAwesome"
-        },
-        validators=[
-            Length(min=10, max=16, message=respond('SK011')),
-            Regexp('^(0|\+)?\d{3}(-|\s)?\d{3}(-|\s)?\d{3}(-|\s)?\d{0,3}$',
-                   message=respond('SK011')),
-            DataRequired(message=respond('SJ012'))
         ]
     )
 
