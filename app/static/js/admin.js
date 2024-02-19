@@ -220,6 +220,7 @@ $('#ordersEditable td.editable').on('change', function (evt, newValue) {
   rowx = $(this).attr("id");
   var values = {
     id: $(`.id${rowx}`).text(),
+    order_ref: $(`.order_ref${rowx}`).text(),
     amount: $(`.amount${rowx}`).text(),
     time: $(`.time${rowx}`).text()
   };

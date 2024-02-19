@@ -81,7 +81,7 @@
                             {% for order in orders %}
                             <tr>
                                 <td class="uneditable id{{ loop.index }}" id="{{ order.id }}">{{ order.id }}</td> 
-                                <td class="uneditable">{{ order.order_ref }}</td> 
+                                <td class="uneditable order_ref{{ loop.index }}">{{ order.order_ref }}</td> 
                                 <td class="uneditable">{{ order.first_name+' '+order.last_name }}</td>
                                 <td class="editable amount{{ loop.index }}" id="{{ order.id }}">{{ order.amount }}</td>
                                 <td class="editable time{{ loop.index }}" id="{{ order.id }}">{{ order.time }}</td>     
