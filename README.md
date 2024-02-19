@@ -29,6 +29,10 @@ The controllers contain app logic. In my case, I subdivided them into 4 files ba
 - `update.py`: controller for performing all data creation transactions. These are simply database `UPDATE` statements pertaining to any model.
 - `delete.py`: controller for performing all data deletion transactions. In this applications, we leveraged on soft deletes for purposes of data consistency since this is a relational database and deleting would cause cascading effect. This further helps with data auditing for the organization. Instead of using `DELETE` statements, we toggle between statuses, for example, the `deleted` status signifies that the data is deleted and will not be visible in whatever view that calls data from the database.
 ### Other significant files
+##### Unittest Files
+These are files contain unit test modules that test the various functions throughout the application. The modules and methods in them are named using a convention that the unittest library will understand for seamless testing. The tests can be executed using a script that will be discussed in the testing part of this documentation.
+##### /africastalking/sms.py
+This file contains Africastalking SMS API gateway. This gateway is used to send SMSs of conformation to the customers who make orders or information for those whose orders have an updated state. This gateway interacts with Africastalking using authentication credentials which are environment variables stored in the config file.
 ##### admin_views.py
 This file contains the routes pointing to the admin views (admin webpages).
 ##### auth_views.py
@@ -95,14 +99,14 @@ print(config_params)
 Copy the snippet above and paste it in your config.py file and change the credentials denoted by the asterisk (*) symbol to your credentials. You will need to have a mailtrap, africastalking and google recaptcha account to obtain your personal credentials.
 ## Application setup
 As mentioned earlier, this application was built to run on Linux environments. The Linux OS (Operating System) requires the following dependencies to be installed
-|  |  |  |  |
-| ------ | ------ | ------ | ------ |
-| Flask==2.2.5 | Flask-Bcrypt==1.0.1 | SQLAlchemy==2.0.15 | anyio==3.7.0 |
-| Flask-Login==0.6.2 | Flask-Mail==0.9.1 | Werkzeug==2.2.3 | appnope==0.1.3 |
-| Flask-Mobility==1.1.0 | Flask-SQLAlchemy==3.0.3 | WTForms==3.0.1 | bleach==6.0.0 |
-| Flask-WTF==1.1.1 | ipykernel==6.23.1 | Flask-pymysql==0.2.3 | blinker==1.6.2 |
-| ipython==8.13.2 | Jinja2==3.1.2 | click==8.1.3 | cryptography==40.0.2 |
-| MarkupSafe==2.1.2 | psycopg2-binary==2.9.6 | alembic==1.11.1 | email-validator==2.0.0 |
+|  |  |  |  |  | 
+| ------ | ------ | ------ | ------ | ------ |
+| Flask==2.2.5 | Flask-Bcrypt==1.0.1 | SQLAlchemy==2.0.15 | anyio==3.7.0 | africastalking==1.2.7 |
+| Flask-Login==0.6.2 | Flask-Mail==0.9.1 | Werkzeug==2.2.3 | appnope==0.1.3 | decorator==5.1.1 |
+| Flask-Mobility==1.1.0 | Flask-SQLAlchemy==3.0.3 | WTForms==3.0.1 | bleach==6.0.0 | oauthlib==3.0.1 |
+| Flask-WTF==1.1.1 | ipykernel==6.23.1 | Flask-pymysql==0.2.3 | blinker==1.6.2 | urllib3==1.26.16 |
+| ipython==8.13.2 | Jinja2==3.1.2 | click==8.1.3 | cryptography==40.0.2 | termimado=0.17.1 |
+| MarkupSafe==2.1.2 | psycopg2-binary==2.9.6 | alembic==1.11.1 | email-validator==2.0.0 | pyzmq==25.0.2 |
 
 
 A PostgreSQL database server is required either on the same server or on a remote server. The DB (database) server credentials should be entered on the `.config` file which is found on the root directory of the app. For security purposes, I have not uploaded the `.config` file on this public GitHub repository since it contains highly confidential credentials. However, I shall give the structure of the `.config` file in a later part of this documentation.
@@ -129,4 +133,34 @@ build successful...
 ```
 The `make` command as illustrated in the above runs a series of shell scripts which are purposed to fully build the application environment by setting up the virtual environment, installing application package dependencies, initializing ENV(environment) variables, connecting to the database, populating the database with some initial dummy data (when in the test environment), activating debugger (in the test environment) and running the application.
 ### Application Testing
+As mentioned earlier, testing is one of the major sections of this project. It falls under the `/tests` directory. There some unit tests are written with the help of the library `unittest`. Some of the test modules include:
+- `test_create_controller.py`: This unit test module tests the various insert functions(and the database contraints) that are found in the `create.py` controller. All functions that create objects and commit to the database are tested here.
+- `test_delete_controller.py`: Tests the various delete functions that are found in the `delete.py` controller. All delete functions are tested.
+- `test_general_funcs.py`: This tests the general functions found in the `general_functions.py` module that contains functions used throughout the application.
+- `test_models.py`: This module tests the SQLAlchemy model classes, how the objects are created and manipulated before being committed to the database.
+- `test_update_controller.py`: Tests the various update functions(and the database contraints) that are found in the `update.py` controller. All functions that update database objects are tested in this module.
+With the testing modules in place, an all rounded test of all modules can be done at once using the `run_tests.sh` script that is found in the root of the repository. The command is as follows:
+```sh
+root@pc:/home/savannah_online_services#./run_tests.sh
+setting env dependencies...
+CONN_STR set successfully
+MAIL_USERNAME set successfully
+MAIL_PASSWORD set successfully
+LOCAL_APP_SECRET set successfully
+AFRICASTALKING_USERNAME set successfully
+.
+.
+.
+----------------------------------------------------------------------
+Ran 19 tests in 1.458s
+
+OK
+----------------------------------------
+unit tests completed
+```
+The above command starts by setting ENV variables such as the database connection string which are required for the tests. This is followed by resetting of the database. The reason the database is reset, is to avoid errors related to database contraints that may come up when database related tests are being done. For example, when, running the test twice consecutively, you are likely to get duplicate data error for fields like 'email' in the users creation controller test. This is followed by the test commant which takes into consideration all the tests in the tests directory. The command used is as follows:
+```sh
+root@pc:/home/savannah_online_services#python -m unittest app/tests/test_*
+```
+The wildcard * instructs the shell to run all the modules beginning with the word 'test_' in the naming. This is also a standard naming convention required by the unittest module. If the test succeeds, we get the 'OK', status at the end of the test, otherwise we get a 'Failed' status at the end of the test, a brief description of the failed test in the preceding lines.
 
