@@ -58,32 +58,19 @@ def registration():
         flash_response('SL009')
     form = RegisterForm()
     if form.validate_on_submit():
-        user_exists = fetch_google_account_user(email_address=form.email_address.data)
-        if user_exists:
-            user_to_update = update_user(
-                    id=user_exists.id,
-                    first_name=form.first_name.data,
-                    last_name=form.last_name.data,
-                    profile_picture=None,
-                    login_status=0,
-                    account_source='local',
-                    user_status='inactive',
-                    password=form.password1.data
-            )
-        else:
-            user_to_create = create_user(
-                first_name=form.first_name.data,
-                last_name=form.last_name.data,
-                email_address=form.email_address.data,
-                login_status=0,
-                password=form.password1.data
-            )
-            if user_to_create == respond('201') or user_to_update == respond('200'):
-                # send a verification email to activate the account
-                return redirect(url_for('send_admin_verification_email',
-                                        page='login',
-                                        user_firstname=form.first_name.data,
-                                        email=form.email_address.data))
+        user_to_create = create_user(
+            first_name=form.first_name.data,
+            last_name=form.last_name.data,
+            email_address=form.email_address.data,
+            login_status=0,
+            password=form.password1.data
+        )
+        if user_to_create == respond('201'):
+            # send a verification email to activate the account
+            return redirect(url_for('send_admin_verification_email',
+                                    page='login',
+                                    user_firstname=form.first_name.data,
+                                    email=form.email_address.data))
 
     if form.errors != {}:
         # in this case, the form was submitted and there were errors
@@ -339,6 +326,7 @@ def admin_reset_password():
             else:
                 change_password = update_user(
                     id=attempted_token.user_id,
+                    account_source='local',
                     password=form.password1.data
                 )
                 if change_password == respond('200'):
