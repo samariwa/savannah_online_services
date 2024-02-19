@@ -10,7 +10,7 @@
 >This system is a web application that is used by Savannah Limited's staff to place customer orders. It is built using Python's Flask framework which leverages on HTML, CSS, JavaScript and Python as the major programming languages. PostgreSQL was used as the database and it was manipulated by SQLAlchemy ORM (Object Relational Mapper) on the application side. The software has been built to run on a Linux environment that has a number of dependencies installed. These prerequisites shall be discussed at a later part of this documentation.
 
 ## Features
-- User authentication with both locally created credentials and OpenID Connect + OAuth2 data authorization
+- User authentication with both locally created credentials and OpenID Connect + OAuth2.0 data authorization
 - Customer management (CRUD [create, read, update, delete]) using REST APIs
 - Order placement with CRUD operations using REST APIs
 - Customer SMS alerts once their order has been placed
