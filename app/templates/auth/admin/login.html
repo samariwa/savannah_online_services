@@ -50,7 +50,11 @@ Sign In
             style="color: inherit;text-decoration: underline;">Register</a></p>
 </div>
 <div style="margin-top: 20px">
-    <!-- Display validation errors -->
-
+    <div class="flex items-center justify-center h-screen dark:bg-gray-800">
+        <a href="/auth/admin/google-login" class="px-4 py-2 border flex gap-2 border-slate-200 dark:border-slate-700 rounded-lg text-slate-700 dark:text-slate-200 hover:border-slate-400 dark:hover:border-slate-500 hover:text-slate-900 dark:hover:text-slate-300 hover:shadow transition duration-150" style="text-decoration: none; color: inherit;">
+            <img class="w-6 h-6" src="https://www.svgrepo.com/show/475656/google-color.svg" width="20px"loading="lazy" alt="google logo">
+            <span class="ml-2">Login with Google</span>
+        </a>
+    </div>
 </div>
 {% endblock %}

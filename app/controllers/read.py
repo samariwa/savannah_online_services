@@ -42,6 +42,48 @@ def read_user(**kwargs):
         app.logger.error(f"Unexpected {err=}")
         return None
     
+def fetch_local_account_user(**kwargs):
+    """"
+    fetch_local_account_user(**kwargs)
+
+    Gets details of one user with a local account given any unique attribute
+
+    If found, the function returns the user as an object, otherwise None
+    """
+    try:
+        user_to_get = User.query.filter_by(**kwargs).filter(
+            User.db_status != 'deleted',
+            User.account_source == 'local'
+        ).first()
+        if user_to_get is None:
+            return None
+        else:
+            return user_to_get
+    except Exception as err:
+        app.logger.error(f"Unexpected {err=}")
+        return None
+    
+def fetch_google_account_user(**kwargs):
+    """"
+    fetch_google_account_user(**kwargs)
+
+    Gets details of one user with a google account given any unique attribute
+
+    If found, the function returns the user as an object, otherwise None
+    """
+    try:
+        user_to_get = User.query.filter_by(**kwargs).filter(
+            User.db_status != 'deleted',
+            User.account_source == 'google'
+        ).first()
+        if user_to_get is None:
+            return None
+        else:
+            return user_to_get
+    except Exception as err:
+        app.logger.error(f"Unexpected {err=}")
+        return None
+    
 def fetch_all_users():
     """
     fetch_all_users()

@@ -68,29 +68,45 @@ else
     echo "GRECAPTCHA_PRIVATE_KEY updated successfully"
 fi
 
+if [[ ! -z GOOGLE_OAUTH_CLIENT_ID ]]; then
+    export GOOGLE_OAUTH_CLIENT_ID=${CONFIG_ARGS[8]}
+    echo "GOOGLE_OAUTH_CLIENT_ID set successfully"
+else
+    GOOGLE_OAUTH_CLIENT_ID=${CONFIG_ARGS[8]}
+    echo "GOOGLE_OAUTH_CLIENT_ID updated successfully"
+fi
+
+if [[ ! -z GOOGLE_OAUTH_CLIENT_SECRET ]]; then
+    export GOOGLE_OAUTH_CLIENT_SECRET=${CONFIG_ARGS[9]}
+    echo "GOOGLE_OAUTH_CLIENT_SECRET set successfully"
+else
+    GOOGLE_OAUTH_CLIENT_SECRET=${CONFIG_ARGS[9]}
+    echo "GOOGLE_OAUTH_CLIENT_SECRET updated successfully"
+fi
+
 if [[ ! -z MOBILE ]]; then
-    export MOBILE=${CONFIG_ARGS[8]}
+    export MOBILE=${CONFIG_ARGS[10]}
     echo "MOBILE set successfully"
 else
-    MOBILE=${CONFIG_ARGS[8]}
+    MOBILE=${CONFIG_ARGS[10]}
     echo "MOBILE updated successfully"
 fi
 
 if [[ ! -z EMAIL ]]; then
-    export EMAIL=${CONFIG_ARGS[9]}
+    export EMAIL=${CONFIG_ARGS[11]}
     echo "EMAIL set successfully"
 else
-    EMAIL=${CONFIG_ARGS[9]}
+    EMAIL=${CONFIG_ARGS[11]}
     echo "EMAIL updated successfully"
 fi
 
 if [[ ! -z LOCATION ]]; then
-    export LOCATION=${CONFIG_ARGS[10]}
+    export LOCATION=${CONFIG_ARGS[12]}
     echo "LOCATION set successfully"
 else
-    LOCATION=${CONFIG_ARGS[10]}
+    LOCATION=${CONFIG_ARGS[12]}
     echo "LOCATION updated successfully"
-fi  
+fi   
 
 #RUN SHELL
 flask --app=run.py --debug shell

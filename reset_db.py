@@ -10,21 +10,21 @@ db.drop_all()
 db.create_all()
 
 
-create.create_user(first_name='John', last_name= 'Kimani', user_status='active', email_address='superuser@savannah.com', password='3opf@mAxuU$eCujQRZQXGk#8S')
-create.create_user(first_name='John', last_name= 'Beanzzzzz', email_address='samuelmariwa@gmail.com', password='abc123')
+create.create_user(first_name='Mary', last_name= 'Kimani', user_status='active', email_address='superuser@savannah.com', password='3opf@mAxuU$eCujQRZQXGk#8S')
+create.create_user(first_name='John', last_name= 'Bean', email_address='johnbean@gmail.com', password='abc123')
 
 # create customer since orders need customers
 customer_kw1 = {
     'customer_code': get_uuid(),
-    'first_name': 'John',
-    'last_name': 'Kimani',
+    'first_name': 'Martin',
+    'last_name': 'Musau',
     'phone_no': '+254798989898',
 }
 create.create_customer(**customer_kw1)
 # create credit_customers
 customer_kw2 = {
     'customer_code': get_uuid(),
-    'first_name': 'Mrs',
+    'first_name': 'Titus',
     'last_name': 'Kimani',
     'phone_no': '+254798989333',
 }
@@ -32,8 +32,8 @@ create.create_customer(**customer_kw2)
 
 customer_kw3 = {
     'customer_code': get_uuid(),
-    'first_name': 'Mr',
-    'last_name': 'Beanzzzzz',
+    'first_name': 'Rebecca',
+    'last_name': 'Were',
     'phone_no': '+254798989533',
 }
 create.create_customer(**customer_kw3)

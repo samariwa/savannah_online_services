@@ -1,5 +1,4 @@
-from app import app, admin_views, auth_views, views, superuser_views, crud_functions, error_views
-import os
+from app import app, admin_views, auth_views, views, crud_functions, error_views
 
 if __name__ == "__main__":
     debugger = True

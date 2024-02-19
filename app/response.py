@@ -17,7 +17,7 @@ response_dictionary = {
     'SF006': ['Dear user: We have just sent you a verification email to your mailbox. To proceed, please verify your account', 'info'],
     'SF007': ['Dear user: Please check your mailbox for a password reset link. The link expires in ' + str(app.config['TOKEN_LIFETIME']) + ' minutes', 'success'],
     'SF008': ['Dear user: Your account has successfully been activated. Please reset your password to proceed', 'info'],
-    'SJ001': ['',''],
+    'SJ001': ['Dear User: Your account has not been verified by Google.','warning'],
     # Authentication errors
     # Code points to array containing message and flash message category (for flash color output)
     'SF009': ['Dear user: Invalid login, Try again', 'danger'],

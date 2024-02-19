@@ -30,52 +30,83 @@ else
 fi
 
 if [[ ! -z LOCAL_APP_SCRT ]]; then
-    export LOCAL_APP_SCRT=${CONFIG_ARGS[4]}
+    export LOCAL_APP_SCRT=${CONFIG_ARGS[3]}
+    echo "LOCAL_APP_SECRET set successfully"
 else
-    LOCAL_APP_SCRT=${CONFIG_ARGS[4]}
+    LOCAL_APP_SCRT=${CONFIG_ARGS[3]}
+    echo "LOCAL_APP_SECRET updated successfully"
+fi
+
+if [[ ! -z AFRICASTALKING_USERNAME ]]; then
+    export AFRICASTALKING_USERNAME=${CONFIG_ARGS[4]}
+    echo "AFRICASTALKING_USERNAME set successfully"
+else
+    AFRICASTALKING_USERNAME=${CONFIG_ARGS[4]}
+    echo "AFRICASTALKING_USERNAME updated successfully"
+fi
+
+if [[ ! -z AFRICASTALKING_API_KEY ]]; then
+    export AFRICASTALKING_API_KEY=${CONFIG_ARGS[5]}
+    echo "AFRICASTALKING_API_KEY set successfully"
+else
+    AFRICASTALKING_API_KEY=${CONFIG_ARGS[5]}
+    echo "AFRICASTALKING_API_KEY updated successfully"
 fi
 
 if [[ ! -z L_RECAPTCHA_PUBLIC_KEY ]]; then
-    export L_RECAPTCHA_PUBLIC_KEY=${CONFIG_ARGS[7]}
+    export L_RECAPTCHA_PUBLIC_KEY=${CONFIG_ARGS[6]}
+    echo "GRECAPTCHA_PUBLIC_KEY set successfully"
 else
-    L_RECAPTCHA_PUBLIC_KEY=${CONFIG_ARGS[7]}
+    L_RECAPTCHA_PUBLIC_KEY=${CONFIG_ARGS[6]}
+    echo "GRECAPTCHA_PUBLIC_KEY updated successfully"
 fi
 
 if [[ ! -z L_RECAPTCHA_PRIVATE_KEY ]]; then
-    export L_RECAPTCHA_PRIVATE_KEY=${CONFIG_ARGS[8]}
+    export L_RECAPTCHA_PRIVATE_KEY=${CONFIG_ARGS[7]}
+    echo "GRECAPTCHA_PRIVATE_KEY set successfully"
 else
-    L_RECAPTCHA_PRIVATE_KEY=${CONFIG_ARGS[8]}
+    L_RECAPTCHA_PRIVATE_KEY=${CONFIG_ARGS[7]}
+    echo "GRECAPTCHA_PRIVATE_KEY updated successfully"
 fi
 
-
-if [[ ! -z AWS_ACCESS_KEY ]]; then
-    export AWS_ACCESS_KEY=${CONFIG_ARGS[9]}
+if [[ ! -z GOOGLE_OAUTH_CLIENT_ID ]]; then
+    export GOOGLE_OAUTH_CLIENT_ID=${CONFIG_ARGS[8]}
+    echo "GOOGLE_OAUTH_CLIENT_ID set successfully"
 else
-    AWS_ACCESS_KEY=${CONFIG_ARGS[9]}
+    GOOGLE_OAUTH_CLIENT_ID=${CONFIG_ARGS[8]}
+    echo "GOOGLE_OAUTH_CLIENT_ID updated successfully"
 fi
 
-if [[ ! -z AWS_SECRET_KEY ]]; then
-    export AWS_SECRET_KEY=${CONFIG_ARGS[10]}
+if [[ ! -z GOOGLE_OAUTH_CLIENT_SECRET ]]; then
+    export GOOGLE_OAUTH_CLIENT_SECRET=${CONFIG_ARGS[9]}
+    echo "GOOGLE_OAUTH_CLIENT_SECRET set successfully"
 else
-    AWS_SECRET_KEY=${CONFIG_ARGS[10]}
+    GOOGLE_OAUTH_CLIENT_SECRET=${CONFIG_ARGS[9]}
+    echo "GOOGLE_OAUTH_CLIENT_SECRET updated successfully"
 fi
 
 if [[ ! -z MOBILE ]]; then
-    export MOBILE=${CONFIG_ARGS[11]}
+    export MOBILE=${CONFIG_ARGS[10]}
+    echo "MOBILE set successfully"
 else
-    MOBILE=${CONFIG_ARGS[11]}
+    MOBILE=${CONFIG_ARGS[10]}
+    echo "MOBILE updated successfully"
 fi
 
 if [[ ! -z EMAIL ]]; then
-    export EMAIL=${CONFIG_ARGS[12]}
+    export EMAIL=${CONFIG_ARGS[11]}
+    echo "EMAIL set successfully"
 else
-    EMAIL=${CONFIG_ARGS[12]}
+    EMAIL=${CONFIG_ARGS[11]}
+    echo "EMAIL updated successfully"
 fi
 
 if [[ ! -z LOCATION ]]; then
-    export LOCATION=${CONFIG_ARGS[13]}
+    export LOCATION=${CONFIG_ARGS[12]}
+    echo "LOCATION set successfully"
 else
-    LOCATION=${CONFIG_ARGS[13]}
+    LOCATION=${CONFIG_ARGS[12]}
+    echo "LOCATION updated successfully"
 fi    
 
 # run gunicorn

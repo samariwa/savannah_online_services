@@ -38,7 +38,7 @@ def update_user(**kwargs):
     kwargs must have an id
     """
     try:
-        fields = ['password', 'user_status', 'login_status', 'login_attempts',]
+        fields = ['first_name', 'last_name', 'profile_picture','password', 'user_status', 'login_status', 'login_attempts', 'account_source']
         user_to_update = db.session.execute(
             db.select(User).filter_by(id=kwargs['id'])
         ).one()[0]

@@ -28,7 +28,7 @@
   <div class="preloader">
     <div class="loader">
       <div class="loader__figure"></div>
-      <p class="loader__label">SAVANNAH ONLINE SERVICE</p>
+      <p class="loader__label">SAVANNAH ONLINE SERVICES</p>
     </div>
   </div>
   <div class="wrapper">
@@ -101,8 +101,11 @@
                   {% else %}
                   User
                   {% endif %}
+                  {% if current_user.profile_picture %}
+                  &ensp;<img src="{{ current_user.profile_picture }}" style="border-radius: 50%;" width="35px" height="35px">&ensp;
+                  {% else %}
                   &ensp;<i class="fa fa-user"></i>&ensp;
-
+                  {% endif %}  
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                   <a class="dropdown-item" href="/admin/profile">Profile</a>

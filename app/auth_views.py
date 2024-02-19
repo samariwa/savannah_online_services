@@ -1,5 +1,6 @@
 from app import app, organization, db, mail, csrf, Message, timedelta,\
-     REMEMBER_ME_COOKIE_TIMEOUT
+     REMEMBER_ME_COOKIE_TIMEOUT, oauth
+from oauthlib.oauth2 import WebApplicationClient
 from app.response import respond, flash_response
 from flask import render_template, redirect, url_for, flash, request, Markup,\
     abort, session
@@ -11,7 +12,7 @@ from app.forms import RegisterForm, LoginForm, ForgotPasswordForm, ResetPassword
 from app.controllers.create import create_user, create_device_log,\
      create_account_verification_entry
 from app.controllers.update import update_user
-from app.controllers.read import read_user
+from app.controllers.read import read_user, fetch_local_account_user, fetch_google_account_user
 from flask_login import login_user, logout_user, login_required, current_user, login_manager
 from sqlalchemy.orm import sessionmaker
 import urllib.request
@@ -57,19 +58,32 @@ def registration():
         flash_response('SL009')
     form = RegisterForm()
     if form.validate_on_submit():
-        user_to_create = create_user(
-            first_name=form.first_name.data,
-            last_name=form.last_name.data,
-            email_address=form.email_address.data,
-            login_status=0,
-            password=form.password1.data
-        )
-        if user_to_create == respond('201'):
-            # send a verification email to activate the account
-            return redirect(url_for('send_admin_verification_email',
-                                    page='login',
-                                    user_firstname=form.first_name.data,
-                                    email=form.email_address.data))
+        user_exists = fetch_google_account_user(email_address=form.email_address.data)
+        if user_exists:
+            user_to_update = update_user(
+                    id=user_exists.id,
+                    first_name=form.first_name.data,
+                    last_name=form.last_name.data,
+                    profile_picture=None,
+                    login_status=0,
+                    account_source='local',
+                    user_status='inactive',
+                    password=form.password1.data
+            )
+        else:
+            user_to_create = create_user(
+                first_name=form.first_name.data,
+                last_name=form.last_name.data,
+                email_address=form.email_address.data,
+                login_status=0,
+                password=form.password1.data
+            )
+            if user_to_create == respond('201') or user_to_update == respond('200'):
+                # send a verification email to activate the account
+                return redirect(url_for('send_admin_verification_email',
+                                        page='login',
+                                        user_firstname=form.first_name.data,
+                                        email=form.email_address.data))
 
     if form.errors != {}:
         # in this case, the form was submitted and there were errors
@@ -102,7 +116,7 @@ def admin_login():
     """ form validation on submit as in the line below takes care of recaptcha\
     verification and proceeds if the challenge has beeen passed """
     if form.validate_on_submit():
-        attempted_user = read_user(email_address=form.email_address.data)
+        attempted_user = fetch_local_account_user(email_address=form.email_address.data)
         # Here, check for login attempts and lock the account
 
         # check if the user exists and the hashed passsword match and that the user is active
@@ -193,6 +207,43 @@ def admin_login():
             )
     # what happens when the form has not yet been submitted
     return render_template('auth/admin/login.html', form=form)
+
+@app.route('/auth/admin/google-login')
+@app.route('/auth/admin/google_login')
+@app.route('/auth/admin/google-login/')
+@app.route('/auth/admin/google_login/')
+def admin_google_login():
+    return oauth.SavannahOnlineServices.authorize_redirect(redirect_uri=url_for('admin_google_callback', _external=True))
+
+@app.route('/auth/admin/google-login/callback')
+def admin_google_callback():
+    token = oauth.SavannahOnlineServices.authorize_access_token()
+    user = read_user(email_address=token['userinfo']['email'])
+    email_verified = token['userinfo']['email_verified']
+    if user and email_verified:
+        login_user(user)
+        user.login_status = 1
+        user.last_activity = create_timestamp()
+        db.session.commit()
+        flash_response('SF001')
+    elif email_verified:
+        user_to_create = create_user(
+            first_name=token['userinfo']['given_name'],
+            last_name=token['userinfo']['family_name'],
+            email_address=token['userinfo']['email'],
+            profile_picture=token['userinfo']['picture'],
+            account_source='google',
+            user_status='active',
+            login_status=1
+        )
+        user = read_user(email_address=token['userinfo']['email'])
+        if user_to_create == respond('201'):
+            login_user(user)
+            flash_response('SF001')
+    else:
+        flash_response('SJ001')
+        return redirect(url_for('admin_login'))
+    return redirect(url_for('admin_dashboard'))
 
 @app.route('/auth/admin/logout')
 @app.route('/auth/admin/signout')

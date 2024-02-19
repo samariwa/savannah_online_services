@@ -39,11 +39,20 @@ class User(UserMixin, db.Model):
     )
     email_address = db.Column(db.String(length=50),
                               nullable=False, unique=True)
+    profile_picture = db.Column(db.String(length=200))
     login_status = db.Column(db.Integer(), default=0)
     last_activity = db.Column(db.DateTime(
         timezone=True), default=func.now())
     login_attempts = db.Column(db.Integer(), default=0)
-
+    account_source = db.Column(
+        db.Enum(
+            "local",
+            "google",
+            name="password_source",
+        ),
+        nullable=False,
+        default="local",
+    )
     db_status = db.Column(
         db.Enum(
             "active",
@@ -57,7 +66,7 @@ class User(UserMixin, db.Model):
                            server_default=func.now())
     updated_at = db.Column(
         db.DateTime(timezone=True), onupdate=func.now())
-    password_hash = db.Column(db.String(length=60), nullable=False)
+    password_hash = db.Column(db.String(length=60))
     account_verification = db.relationship(
         'Account_Verification', backref='reset_token')
     logged_devices = db.relationship(

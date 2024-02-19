@@ -3,8 +3,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_mail import Mail, Message
-from flask_oidc import OpenIDConnect
 from datetime import timedelta
+from authlib.integrations.flask_client import OAuth
 from flask_wtf.csrf import CSRFProtect
 from flask_mobility import Mobility
 import os
@@ -23,13 +23,16 @@ mail_usr = os.environ.get('MAIL_USERNAME')
 mail_pwd = os.environ.get('MAIL_PASSWORD')
 africastalking_username = os.environ.get('AFRICASTALKING_USERNAME')
 africastalking_api_key= os.environ.get('AFRICASTALKING_API_KEY')
+# Google OAuth 2.0 credentials fetched from env
+google_oauth_client_id = os.environ.get("GOOGLE_OAUTH_CLIENT_ID")
+google_oauth_client_secret = os.environ.get("GOOGLE_OAUTH_CLIENT_SECRET")
+google_oauth_discovery_url =  "https://accounts.google.com/.well-known/openid-configuration"
 
 organization = {
     "mobile": os.environ.get('MOBILE'),
     "email": os.environ.get('EMAIL'),
     "location": os.environ.get('LOCATION'),
 }
-
 
 # config app and connect DB to app
 app = Flask(__name__)
@@ -52,13 +55,6 @@ app.config['MAIL_PORT'] = 2525
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USE_SSL'] = False
 
-# Live mail
-"""
-app.config['MAIL_SERVER'] = 'mail.symphafresh.com'
-app.config['MAIL_PORT'] = 465
-app.config['MAIL_USE_TLS'] = False
-app.config['MAIL_USE_SSL'] = True
-"""
 # app.config['MAIL_DEBUG'] =  True #Set to true for development purposes
 app.config['MAIL_USERNAME'] = mail_usr
 app.config['MAIL_PASSWORD'] = mail_pwd
@@ -97,8 +93,15 @@ csrf = CSRFProtect(app)
 # Login management setup
 login_manager = LoginManager(app)
 
-# OpenID Connect setup
-oidc = OpenIDConnect(app)
+# OAuth setup
+oauth = OAuth(app)
+oauth.register(
+    "SavannahOnlineServices",
+    client_id=google_oauth_client_id,
+    client_secret=google_oauth_client_secret,
+    server_metadata_url=google_oauth_discovery_url,
+    client_kwargs={"scope": "openid email profile"},
+)
 
 # flask mobility (checks if device is a mobile phone)
 mobility = Mobility(app)
