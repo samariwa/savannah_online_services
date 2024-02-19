@@ -320,8 +320,8 @@ def admin_reset_password():
     if token_result == "valid":
         form = ResetPasswordForm()
         if form.validate_on_submit():
-            user = read_user(id=attempted_token.user_id)
-            if user.check_password_correction(attempted_password=form.password1.data):
+            local_account_user = fetch_local_account_user(id=attempted_token.user_id)
+            if local_account_user and local_account_user.check_password_correction(attempted_password=form.password1.data):
                 flash_response('SF013')
             else:
                 change_password = update_user(
