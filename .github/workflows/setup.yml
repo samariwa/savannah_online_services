@@ -1,0 +1,10 @@
+name: Setup
+on: push
+
+jobs:
+  pre-config:
+     runs-on: ubuntu-latest
+
+     steps:
+     - name: begin_config
+       run: echo "Beginning configuration"
