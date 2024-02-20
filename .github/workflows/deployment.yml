@@ -16,4 +16,5 @@ jobs:
         port: 22
         script: |
           cd savannah_online_services
+          source env/bin/activate
           git pull
