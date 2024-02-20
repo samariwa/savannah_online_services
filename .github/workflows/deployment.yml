@@ -7,9 +7,9 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - name: SSH to Linode Server
-        env:
-          HOST: ${{ secrets.HOST }}
-          USER: ${{ secrets.NANODE_USER }}
-          KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-        run: echo "Hey"
+      - name: SSH to Linode
+        run: 
+          echo "${{ secrets.SSH_PRIVATE_KEY }} > private_key && chmod 600 private_key
+          ssh -o StrictHostKeyChecking=no -i private_key ${{ secrets.NANODE_USER }}@${{ secrets.HOST }} "
+          ls &&
+          cd savannah_online_services
