@@ -12,15 +12,5 @@ jobs:
           HOST: ${{ secrets.HOST }}
           USER: ${{ secrets.NANODE_USER }}
           KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-        uses: fifsky/ssh-action@master
-        with:
-          command: |
-            ls -a
-          host: $HOST
-          user: $USER
-          key: $KEY
-
-
-      
-      
-    
+        if: "${{ env.HOST != '' }}"
+        run: echo "::set-output name=defined::true"
