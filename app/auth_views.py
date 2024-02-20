@@ -200,7 +200,7 @@ def admin_login():
 @app.route('/auth/admin/google-login/')
 @app.route('/auth/admin/google_login/')
 def admin_google_login():
-    return oauth.SavannahOnlineServices.authorize_redirect(redirect_uri=url_for('admin_google_callback', _external=True))
+    return oauth.SavannahOnlineServices.authorize_redirect(redirect_uri='https://redirectmeto.com/http://savannahservices.servehttp.com:8000/auth/admin/google-login/callback')
 
 @app.route('/auth/admin/google-login/callback')
 def admin_google_callback():

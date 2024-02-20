@@ -123,3 +123,4 @@ echo "build successful..."
 
 #to run app using the default flask server
 python run.py
+#gunicorn --bind 172.232.220.217:8000 wsgi:app
