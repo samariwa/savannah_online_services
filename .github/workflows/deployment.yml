@@ -8,13 +8,15 @@ jobs:
     
     steps:
       - name: SSH to Linode
-        run: 
-          echo "${{ secrets.SSH_PRIVATE_KEY }} > private_key && chmod 600 private_key
-          ssh -o StrictHostKeyChecking=no -i private_key ${{ secrets.NANODE_USER }}@${{ secrets.HOST }} "
-          ls &&
-          cd savannah_online_services &&
-          ls &&
-          git pull
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.NANODE_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script:
+            ls
+
       
       
     
