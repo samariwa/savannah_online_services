@@ -14,4 +14,6 @@ jobs:
         username: ${{ secrets.NANODE_USER }}
         password: ${{ secrets.SSH_PASSWORD }}
         port: 22
-        script: whoami
+        script: |
+          echo "Hello"
+          ls -al
