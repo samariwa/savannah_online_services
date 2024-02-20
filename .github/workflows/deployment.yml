@@ -14,4 +14,4 @@ jobs:
           ls -a
         host: ${{ secrets.HOST }}
         user: ${{ secrets.NANODE_USER }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
