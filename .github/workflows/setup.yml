@@ -9,6 +9,9 @@ jobs:
      - name: Begin Configuration
        run: echo "Beginning configuration..."
 
+     - name: Clone repo
+       uses: actions/checkout@v3
+
      - name: Setup Python
        uses: actions/setup-python@v4
        with:
