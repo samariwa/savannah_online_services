@@ -11,7 +11,8 @@ jobs:
         run: 
           echo "${{ secrets.SSH_PRIVATE_KEY }} > private_key && chmod 600 private_key
           ssh -o StrictHostKeyChecking=no -i private_key ${{ secrets.NANODE_USER }}@${{ secrets.HOST }} "
-          cd savannah_online_services
+          cd savannah_online_services &&
+          git pull
       
       
     
