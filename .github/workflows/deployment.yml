@@ -1,0 +1,16 @@
+name: Deployment
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  pre-config:
+    name: Deploy to Linode
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: SSH to Linode
+        run: ssh -o StrictHostKeyChecking=no -i $SSH_PRIVATE_KEY ${ NANODE_USER }@${ HOST }
+      
+      
+    
