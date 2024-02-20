@@ -1,4 +1,4 @@
-ername: Deployment
+name: Deployment
 on: push
 
 jobs:
