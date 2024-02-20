@@ -8,7 +8,7 @@ jobs:
     
     steps:
       - name: SSH to Linode
-        run: ssh -o StrictHostKeyChecking=no -i $SSH_PRIVATE_KEY ${ NANODE_USER }@${ HOST }
+        run: ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} ${{ secrets.NANODE_USER }}@${{ secrets.HOST }}
       
       
     
