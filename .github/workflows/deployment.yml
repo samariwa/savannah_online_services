@@ -1,0 +1,16 @@
+name: Deployment
+on: push
+
+jobs:
+  pre-config:
+    name: Deploy to Linode
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: SSH to Linode
+        run: 
+          echo "${{ secrets.SSH_PRIVATE_KEY }} > private_key && chmod 600 private_key
+          ssh -o StrictHostKeyChecking=no -i private_key ${{ secrets.NANODE_USER }}@${{ secrets.HOST }} "
+      
+      
+    
