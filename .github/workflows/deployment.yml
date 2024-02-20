@@ -8,13 +8,17 @@ jobs:
     
     steps:
       - name: SSH to Linode Server
+        env:
+          HOST: ${{ secrets.HOST }}
+          USER: ${{ secrets.NANODE_USER }}
+          KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         uses: fifsky/ssh-action@master
         with:
           command: |
             ls -a
-          host: ${{ secrets.HOST }}
-          user: ${{ secrets.NANODE_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          host: $HOST
+          user: $USER
+          key: $KEY
 
 
       
