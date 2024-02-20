@@ -1,4 +1,4 @@
-name: Deployment
+ername: Deployment
 on: push
 
 jobs:
@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - name: SSH to Linode
+      - name: SSH to Linode Server
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.HOST }}
