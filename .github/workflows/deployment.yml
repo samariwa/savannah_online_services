@@ -8,10 +8,10 @@ jobs:
     
     steps:
     - name: SSH to Linode
-      uses: appleboy/ssh-action@v1.0.3
+      uses: fifsky/ssh-action@master
       with:
+        command: |
+          ls -a
         host: ${{ secrets.HOST }}
-        username: ${{ secrets.NANODE_USER }}
+        user: ${{ secrets.NANODE_USER }}
         key: ${{ secrets.SSH_PRIVATE_KEY }
-        port: 22
-        script: whoami
