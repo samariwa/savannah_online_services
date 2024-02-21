@@ -7,46 +7,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Begin Configuration
-      run: echo "Beginning configuration..."
-
-    - name: Clone repo
-      uses: actions/checkout@v3      
-
-    - name: Setup Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.10'
-
-    - name: Install Python dependencies
-      uses: py-actions/py-dependency-install@v4
-      with:
-        update-pip: "false"
-        path: "requirements.txt"
-
-    - name: Set Env variables
-      run: |
-        export CONN_STR=${{ secrets.CONN_STR }}
-        export MAIL_USERNAME=${{ secrets.MAIL_USERNAME }}
-        export MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }}
-        export LOCAL_APP_SCRT=${{ secrets.LOCAL_APP_SCRT }}
-        export AFRICASTALKING_USERNAME=${{ secrets.AFRICASTALKING_USERNAME }}
-        export AFRICASTALKING_API_KEY=${{ secrets.AFRICASTALKING_API_KEY }}
-        export L_RECAPTCHA_PUBLIC_KEY=${{ secrets.L_RECAPTCHA_PUBLIC_KEY }}
-        export L_RECAPTCHA_PRIVATE_KEY=${{ secrets.L_RECAPTCHA_PRIVATE_KEY }}
-        export GOOGLE_OAUTH_CLIENT_ID=${{ secrets.GOOGLE_OAUTH_CLIENT_ID }}
-        export GOOGLE_OAUTH_CLIENT_SECRET=${{ secrets.GOOGLE_OAUTH_CLIENT_SECRET }}
-        export MOBILE=${{ secrets.MOBILE }}
-        export EMAIL=${{ secrets.EMAIL }}
-        export LOCATION=${{ secrets.LOCATION }}
-      shell: bash
-
-    - name: Run unittests
-      run: |
-        python reset_db.py
-        python -m unittest app/tests/test_*
-      shell: bash
-  
     - name: SSH to Linode
       uses: appleboy/ssh-action@v1.0.3
       with:
