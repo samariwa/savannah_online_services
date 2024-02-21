@@ -39,8 +39,12 @@ jobs:
         export MOBILE=${{ secrets.MOBILE }}
         export EMAIL=${{ secrets.EMAIL }}
         export LOCATION=${{ secrets.LOCATION }}
-        echo "xxxxxxxx"
-        echo $L_RECAPTCHA_PRIVATE_KEY
+      shell: bash
+
+    - name: Run unittests
+      run: |
+        python reset_db.py
+        python -m unittest app/tests/test_*
       shell: bash
   
     - name: SSH to Linode
