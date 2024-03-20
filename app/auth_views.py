@@ -286,7 +286,8 @@ def admin_forgot_password():
                         sender = ('Admin Savannah','admin@savannah.com'),
                         firstname=user_exists.first_name,
                         verification_code=verification_id,
-                        organization=organization
+                        organization=organization,
+                        ip_address_domain=app.config['SERVER_IP_DOMAIN']
                     )
                 )
                 mail.send(msg)
@@ -444,7 +445,9 @@ def send_admin_verification_email(page, user_firstname, email):
             html=render_template('mail/admin-account-activation.html',
             firstname=user_firstname,
             verification_code=verification_id,
-            organization=organization))
+            organization=organization,
+            ip_address_domain=app.config['SERVER_IP_DOMAIN']
+            ))
     # recepients can accomodate a list of many recepients
     mail.send(msg)
     # if page was 'login'

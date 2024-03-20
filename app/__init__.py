@@ -17,6 +17,8 @@ secret = os.environ.get('LOCAL_APP_SCRT')
 recaptcha_pub_key = os.environ.get('L_RECAPTCHA_PUBLIC_KEY')
 recaptcha_priv_key = os.environ.get('L_RECAPTCHA_PRIVATE_KEY')
 
+server_ip_address_domain = os.environ.get('IP_ADDRESS')
+
 # Get important values from env
 conn_string = os.environ.get('CONN_STR')
 mail_usr = os.environ.get('MAIL_USERNAME')
@@ -48,8 +50,10 @@ app.config['SECRET_KEY'] = secret
 app.config['RECAPTCHA3_PUBLIC_KEY'] = recaptcha_pub_key
 app.config['RECAPTCHA3_PRIVATE_KEY'] = recaptcha_priv_key
 
-#Mailtrap
+# server ip address/domain
+app.config['SERVER_IP_DOMAIN'] = server_ip_address_domain
 
+#Mailtrap
 app.config['MAIL_SERVER'] = 'sandbox.smtp.mailtrap.io'
 app.config['MAIL_PORT'] = 2525
 app.config['MAIL_USE_TLS'] = True
@@ -58,7 +62,7 @@ app.config['MAIL_USE_SSL'] = False
 # app.config['MAIL_DEBUG'] =  True #Set to true for development purposes
 app.config['MAIL_USERNAME'] = mail_usr
 app.config['MAIL_PASSWORD'] = mail_pwd
-app.config['MAIL_DEFAULT_SENDER'] = ('CIFOR-ICRAF', mail_usr)
+app.config['MAIL_DEFAULT_SENDER'] = ('SAVANNAH INFORMATICS', mail_usr)
 app.config['MAIL_MAX_EMAILS'] = None  # Prevents many emails are sent out
 # app.config['MAIL_SUPPRESS_SEND'] = False
 app.config['MAIL_ASCII_ATTACHMENTS'] = False
