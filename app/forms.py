@@ -10,7 +10,6 @@ from app.models import User
 from app.general_functions import datetime
 from app.response import respond
 
-
 class RegisterForm(FlaskForm):
     # each function name below matters
     # function name is used for automatic validation
