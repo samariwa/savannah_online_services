@@ -20,3 +20,4 @@ jobs:
           git add .
           git commit -m "pycached changes"
           git pull
+          service savannah restart
